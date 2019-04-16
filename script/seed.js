@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Review, Product} = require('../server/db/models')
 const faker = require('faker')
 
 function usersInfo() {
@@ -16,7 +16,7 @@ function usersInfo() {
   //generate password
   //generate usertype
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 600; i++) {
     let email = faker.internet.email()
     while (emailArr.includes(email)) {
       email = faker.internet.email()
@@ -26,10 +26,44 @@ function usersInfo() {
 
     usersArr.push({email, password, userType: 'user'})
   }
-  usersArr[0].usertype = 'admin'
+  usersArr[0].userType = 'admin'
   //  usersArr.push(User.create({username: faker.lorem.word(), email: faker.internet.email()}))
 
   return usersArr
+}
+
+
+
+
+
+function getRandomInteger(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+
+
+function reviewsInfo () {
+  let reviewsArr = []
+  for (let i = 0; i < 100; i++) {
+    let reviewTitle = faker.hacker.adjective() + ' ' + faker.hacker.noun()
+    let reviewBody = faker.hacker.phrase()
+    let stars = getRandomInteger(5) + 1
+    let productId = getRandomInteger(100) + 1
+    let userId = getRandomInteger(100) + 1
+    reviewsArr.push({title: reviewTitle, body: reviewBody, stars, productId, userId})
+  }
+  return reviewsArr
+}
+
+function productsInfo () {
+  let productsArr = []
+  for (let i = 0; i < 100; i++) {
+    let title = faker.hacker.adjective() + ' ' + faker.hacker.noun()
+    let description = faker.hacker.phrase()
+    let price = getRandomInteger(10)
+    productsArr.push({title, description, price})
+  }
+  return productsArr
 }
 
 async function seed() {
@@ -37,6 +71,9 @@ async function seed() {
   console.log('db synced!')
 
   const users = await User.bulkCreate(usersInfo())
+  await Product.bulkCreate(productsInfo())
+  await Review.bulkCreate(reviewsInfo())
+
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
