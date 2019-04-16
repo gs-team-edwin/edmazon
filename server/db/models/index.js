@@ -20,7 +20,10 @@ User.hasMany(Session)
 Review.belongsTo(User)
 User.hasMany(Order)
 Category.hasMany(Product)
-Product.hasMany(Category)
+Product.belongsToMany(Category, {through: 'productCategory',
+  as: 'Category',
+  foreignKey: 'productId'}
+)
 Order.belongsToMany(Product, {through: OrdersProducts})
 Product.belongsToMany(Order, {through: OrdersProducts})
 // Product.hasMany(Photo)

@@ -11,7 +11,7 @@ const OrdersProducts = db.define('ordersProducts', {
     allowNull: false
   },
   quantity: {
-    type: Sequelize.INTENGER,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   purchasePrice: {
