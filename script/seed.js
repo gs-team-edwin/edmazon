@@ -2,15 +2,41 @@
 
 const db = require('../server/db')
 const {User} = require('../server/db/models')
+const faker = require('faker')
+
+function usersInfo() {
+  let usersArr = []
+  let emailArr = []
+  //{email: asdfasdf, password, googleId, usertype, etc.}
+  //loop n times
+  //generate email
+  //make email
+  //check if email is already in usersArr
+  //if so, go back to step 1
+  //generate password
+  //generate usertype
+
+  for (let i = 0; i < 20; i++) {
+    let email = faker.internet.email()
+    while (emailArr.includes(email)) {
+      email = faker.internet.email()
+    }
+    emailArr.push(email)
+    let password = faker.internet.password()
+
+    usersArr.push({email, password, userType: 'user'})
+  }
+  usersArr[0].usertype = 'admin'
+  //  usersArr.push(User.create({username: faker.lorem.word(), email: faker.internet.email()}))
+
+  return usersArr
+}
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123', username: "cody"}),
-    User.create({email: 'murphy@email.com', password: '123', username: "murphy"})
-  ])
+  const users = await User.bulkCreate(usersInfo())
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
