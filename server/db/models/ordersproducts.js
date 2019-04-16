@@ -15,7 +15,8 @@ const OrdersProducts = db.define('ordersProducts', {
     allowNull: false
   },
   purchasePrice: {
-    type: Sequelize.FLOAT
+    type: Sequelize.INTEGER,
+    defaultValue: null,
   },
 })
 

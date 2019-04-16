@@ -15,14 +15,14 @@ const Session = require('./session')
  *    BlogPost.belongsTo(User)
  */
 
-Session.hasOne(Order)
+Order.belongsTo(Session)
 User.hasMany(Session)
-User.hasMany(Review)
+Review.belongsTo(User)
 User.hasMany(Order)
-Order.hasMany(OrdersProducts)
-OrdersProducts.hasOne(Product)
 Category.hasMany(Product)
 Product.hasMany(Category)
+Order.belongsToMany(Product, {through: OrdersProducts})
+Product.belongsToMany(Order, {through: OrdersProducts})
 // Product.hasMany(Photo)
 Product.hasMany(Review)
 /**

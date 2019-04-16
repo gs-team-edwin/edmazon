@@ -6,10 +6,11 @@ const Order = db.define('order', {
     type: Sequelize.INTEGER,
   },
   sessionId: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: false
   },
   status: {
-    type: Sequelize.ENUM
+    type: Sequelize.ENUM(['cart', 'created', 'processing', 'cancelled', 'completed'])
   },
   tracking: {
     type: Sequelize.STRING
