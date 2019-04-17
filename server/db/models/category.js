@@ -5,10 +5,8 @@ const Category = db.define('category', {
   name: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false,
-  },
+    allowNull: false
+  }
 })
 
 module.exports = Category
-
-

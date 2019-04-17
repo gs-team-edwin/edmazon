@@ -16,10 +16,8 @@ const OrdersProducts = db.define('ordersProducts', {
   },
   purchasePrice: {
     type: Sequelize.INTEGER,
-    defaultValue: null,
-  },
+    defaultValue: null
+  }
 })
 
 module.exports = OrdersProducts
-
-
