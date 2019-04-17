@@ -5,9 +5,9 @@ module.exports = router
 
 
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:offset', async (req, res, next) => {
   try {
-    let offset = parseInt(req.params.id)
+    let offset = parseInt(req.params.offset)
     const products = await Product.findAll({
       where: {
         id: {
