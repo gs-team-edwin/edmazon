@@ -259,7 +259,7 @@ async function ordersProductsFactory(N) {
 }
 
 // give every product at least one photo
-function photosProductsFacotry(N, PHOTO_COUNT) {
+function photosProductsFactory(N, PHOTO_COUNT) {
   const photosProductsArr = []
   let photoId = 1
   for (let i = 0; i < N; i += 1) {
@@ -312,7 +312,7 @@ async function seed() {
   console.log(`seeded ${ordersProducts.length} ordersProducts rows`)
 
   const photosProducts = await PhotosProducts.bulkCreate(
-    await photosProductsFacotry(N, PHOTO_COUNT)
+    await photosProductsFactory(N, PHOTO_COUNT)
   )
   console.log(`seeded ${photosProducts.length} photosProducts rows`)
 
