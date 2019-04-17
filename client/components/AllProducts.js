@@ -1,14 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getAllProducts} from '../store/productspage'
+import {getAllProducts} from '../store/'
 
 class AllProducts extends Component {
   componentDidMount() {
     this.props.loadNewData(this.props.match.params.id)
   }
   render() {
-    const products = this.props.productspage
+    const products = this.props.products
+    console.log('*** products: ', products)
+
     return (
       <div>
         <div>
@@ -46,7 +48,7 @@ class AllProducts extends Component {
 }
 const mapStateToProps = state => {
   return {
-    productspage: state.productspage
+    products: state.products
   }
 }
 
