@@ -8,6 +8,7 @@ const {
   Category,
   Order,
   Photo,
+  PhotosProducts,
   ProductsCategories,
   OrdersProducts
 } = require('../server/db/models')
@@ -60,14 +61,81 @@ describe('the seed script', () => {
         idArray2.push(nullPriceProducts[i].dataValues.orderId)
       }
     }
+    idArray.sort()
+    idArray2.sort()
     expect(idArray).to.deep.equal(idArray2)
   })
 
-  it('gives every product at least one category', async () => {})
+  it('gives every product at least one category', async () => {
+    const products = await Product.findAll()
+    const assignedProducts = await ProductsCategories.findAll()
+    let idArray = []
+    for (let i = 0; i < products.length; i++) {
+      idArray.push(products[i].dataValues.id)
+    }
+    let idArray2 = []
+    for (let i = 0; i < assignedProducts.length; i++) {
+      if (!idArray2.includes(assignedProducts[i].dataValues.productId)) {
+        idArray2.push(assignedProducts[i].dataValues.productId)
+      }
+    }
+    idArray.sort()
+    idArray2.sort()
+    expect(idArray).to.deep.equal(idArray2)
+  })
+  
 
-  it('gives every cateogry at least one product', async () => {})
+  it('gives every category at least one product', async () => {
+    const categories = await Category.findAll()
+    const assignedCategories = await ProductsCategories.findAll()
+    let idArray = []
+    for (let i = 0; i < categories.length; i++) {
+      idArray.push(categories[i].dataValues.id)
+    }
+    let idArray2 = []
+    for (let i = 0; i < assignedCategories.length; i++) {
+      if (!idArray2.includes(assignedCategories[i].dataValues.categoryId)) {
+        idArray2.push(assignedCategories[i].dataValues.categoryId)
+      }
+    }
+    idArray.sort()
+    idArray2.sort()
+    expect(idArray).to.deep.equal(idArray2)
+  })
 
-  it('gives every product at least one photo', async () => {})
+  it('gives every product at least one photo', async () => {
+    const products = await Product.findAll()
+    const assignedPhoto = await PhotosProducts.findAll()
+    let idArray = []
+    for (let i = 0; i < products.length; i++) {
+      idArray.push(products[i].dataValues.id)
+    }
+    let idArray2 = []
+    for (let i = 0; i < assignedPhoto.length; i++) {
+      if (!idArray2.includes(assignedPhoto[i].dataValues.productId)) {
+        idArray2.push(assignedPhoto[i].dataValues.productId)
+      }
+    }
+    idArray.sort()
+    idArray2.sort()
+    expect(idArray).to.deep.equal(idArray2)
+  })
 
-  it('gives every photo at least one photo', async () => {})
+  it('gives every photo at least one product', async () => {
+    const photos = await Photo.findAll()
+    const assignedProducts = await PhotosProducts.findAll()
+    let idArray = []
+    for (let i = 0; i < photos.length; i++) {
+      idArray.push(photos[i].dataValues.id)
+    }
+    let idArray2 = []
+    for (let i = 0; i < assignedProducts.length; i++) {
+      if (!idArray2.includes(assignedProducts[i].dataValues.photoId)) {
+        idArray2.push(assignedProducts[i].dataValues.photoId)
+      }
+    }
+    idArray.sort()
+    idArray2.sort()
+    expect(idArray).to.deep.equal(idArray2)
+  })
 })

@@ -263,7 +263,7 @@ function photosProductsFactory(N, PHOTO_COUNT) {
   const photosProductsArr = []
   let photoId = 1
   for (let i = 0; i < N; i += 1) {
-    let numExtraPhotosToAdd = getRandomInteger(3)
+    let numExtraPhotosToAdd = getRandomInteger(3) + 1
     for (let x = 0; x < numExtraPhotosToAdd; x += 1) {
       const productId = i + 1
       photoId = (photoId + 1) % PHOTO_COUNT + 1
