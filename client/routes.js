@@ -19,18 +19,12 @@ class Routes extends Component {
 
     return (
       <Switch>
-<<<<<<< HEAD
         {/* Routes placed here are available to all visitors */}
         <Route path="/productspage/:id" component={AllProducts} />
         <Route path="/product/:id" component={SingleProduct} />
         <Redirect from="/" to="/productspage/0" />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-=======
-        <Route path="/products/:id" component={AllProducts} />
-        <Redirect from="/" to="/products/0" />
-
->>>>>>> 5f494376eecb2ab6d74fbe2be437fafe8169469d
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
