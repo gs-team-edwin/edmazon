@@ -8,21 +8,18 @@ const Product = db.define('product', {
     allowNull: false
   },
   description: {
-    type: Sequelize.TEXT,
+    type: Sequelize.TEXT
   },
   price: {
     type: Sequelize.INTEGER,
     allowNull: false
   },
   quantityOnHand: {
-    type: Sequelize.INTEGER,
-  },
-  date: {
-    type: Sequelize.DATE
+    type: Sequelize.INTEGER
   },
   photoUrl: {
     type: Sequelize.STRING,
-    defaultValue: "default.png"
+    defaultValue: 'default.png'
   }
 })
 
@@ -34,12 +31,8 @@ const Product = db.define('product', {
 //   else {
 //     Photo.create({photoUrl: "default.png",
 //                   productId: product.id})
-//   } 
+//   }
 // }
 // Product.afterCreate(makePic)
 
-
-
 module.exports = Product
-
-
