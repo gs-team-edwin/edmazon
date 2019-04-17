@@ -1,5 +1,4 @@
 'use strict'
-/* global describe beforeEach it */
 const {expect} = require('chai')
 const seed = require('./seed')
 const {
@@ -63,4 +62,12 @@ describe('the seed script', () => {
     }
     expect(idArray).to.deep.equal(idArray2)
   })
+
+  it('gives every product at least one category', async () => {})
+
+  it('gives every cateogry at least one product', async () => {})
+
+  it('gives every product at least one photo', async () => {})
+
+  it('gives every photo at least one photo', async () => {})
 })
