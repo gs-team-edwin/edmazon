@@ -7,7 +7,7 @@ const Product = require('./product')
 const Review = require('./review')
 const Session = require('./session')
 const ProductsCategories = require('./ProductsCategories')
-const PhotosProducts = require('./photosproducts')
+const PhotosProducts = require('./PhotosProducts')
 /**
  * NOTES!
  * Photos is unfinished
