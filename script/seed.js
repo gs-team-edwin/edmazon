@@ -9,7 +9,8 @@ const {
   Category,
   Order,
   ProductsCategories,
-  OrdersProducts
+  OrdersProducts,
+  PhotosProducts
 } = require('../server/db/models')
 const faker = require('faker')
 
@@ -122,14 +123,11 @@ function productInfoFactory(N) {
       faker.hacker.phrase()
     const price = getRandomInteger(1000)
     const quantityOnHand = getRandomInteger(100)
-    const photoNumber = getRandomInteger(PHOTO_COUNT) + 1
-    const photoUrl = `/images/${photoNumber}.jpg`
     productsArr.push({
       title,
       description,
       price,
-      quantityOnHand,
-      photoUrl
+      quantityOnHand
     })
   }
   return productsArr
@@ -209,13 +207,10 @@ function productCategoryFactory(N, CATEGORY_COUNT) {
     productCategoryArr.push({productId, categoryId})
 
     // randomly add 1 more category to some products
-    let chance = getRandomInteger(11)
-    if (chance < 5) {
-      const numberToAdd = getRandomInteger(3) + 1
-      for (let x = 0; x < numberToAdd; x++) {
-        categoryId = (categoryId + 1) % CATEGORY_COUNT + 1
-        productCategoryArr.push({productId, categoryId})
-      }
+    const numberToAdd = getRandomInteger(3)
+    for (let x = 0; x < numberToAdd; x++) {
+      categoryId = (categoryId + 1) % CATEGORY_COUNT + 1
+      productCategoryArr.push({productId, categoryId})
     }
   }
   return productCategoryArr
@@ -263,6 +258,21 @@ async function ordersProductsFactory(N) {
   return ordersProductsArr
 }
 
+// give every product at least one photo
+function photosProductsFacotry(N, PHOTO_COUNT) {
+  const photosProductsArr = []
+  let photoId = 1
+  for (let i = 0; i < N; i += 1) {
+    let numExtraPhotosToAdd = getRandomInteger(3)
+    for (let x = 0; x < numExtraPhotosToAdd; x += 1) {
+      const productId = i + 1
+      photoId = (photoId + 1) % PHOTO_COUNT + 1
+      photosProductsArr.push({photoId, productId})
+    }
+  }
+  return photosProductsArr
+}
+
 /*************************************
  *         SEEDING FUNCTIONS
  *************************************/
@@ -301,7 +311,16 @@ async function seed() {
   )
   console.log(`seeded ${ordersProducts.length} ordersProducts rows`)
 
+  const photosProducts = await PhotosProducts.bulkCreate(
+    await photosProductsFacotry(N, PHOTO_COUNT)
+  )
+  console.log(`seeded ${photosProducts.length} photosProducts rows`)
+
   console.log(`seeded successfully`)
+
+  // temp code to test photos
+  let results = await Product.findByPk(1, {include: [{model: Photo}]})
+  console.log('results', results.photos)
 }
 
 // We've separated the `seed` function from the `runSeed` function.

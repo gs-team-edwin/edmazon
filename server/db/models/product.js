@@ -16,23 +16,7 @@ const Product = db.define('product', {
   },
   quantityOnHand: {
     type: Sequelize.INTEGER
-  },
-  photoUrl: {
-    type: Sequelize.STRING,
-    defaultValue: '/images/1.jpg'
   }
 })
-
-// const makePic = product => {
-//   if (product.hasOwnProperty('photo')) {
-//     Photo.create({photoUrl: product.photo,
-//                   productId: product.id})
-//   }
-//   else {
-//     Photo.create({photoUrl: "default.png",
-//                   productId: product.id})
-//   }
-// }
-// Product.afterCreate(makePic)
 
 module.exports = Product
