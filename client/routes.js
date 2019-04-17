@@ -4,7 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, AllProducts, SingleProduct} from './components'
 import {me} from './store'
-import {Redirect} from 'react-router'
+import {Redirect} from 'react-router' //Todo fix backbutton bug.
 
 /**
  * COMPONENT
