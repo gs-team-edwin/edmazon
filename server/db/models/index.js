@@ -1,13 +1,13 @@
-const User = require('./User')
-const Category = require('./Category')
-const OrdersProducts = require('./OrdersProducts')
-const Order = require('./Order')
-const Photo = require('./Photo')
-const Product = require('./Product')
-const Review = require('./Review')
-const Session = require('./Session')
-const ProductsCategories = require('./ProductsCategories')
-const PhotosProducts = require('./PhotosProducts')
+const User = require('./user')
+const Category = require('./category')
+const OrdersProducts = require('./ordersproducts')
+const Order = require('./order')
+const Photo = require('./photo')
+const Product = require('./product')
+const Review = require('./review')
+const Session = require('./session')
+const ProductsCategories = require('./productscategories')
+const PhotosProducts = require('./photosproducts')
 /**
  * NOTES!
  * Photos is unfinished

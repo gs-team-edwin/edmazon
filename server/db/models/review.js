@@ -3,10 +3,10 @@ const db = require('../db')
 
 const Review = db.define('review', {
   title: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   body: {
-    type: Sequelize.TEXT,
+    type: Sequelize.TEXT
   },
   stars: {
     type: Sequelize.INTEGER,
@@ -23,5 +23,3 @@ const Review = db.define('review', {
 })
 
 module.exports = Review
-
-
