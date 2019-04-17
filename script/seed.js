@@ -166,7 +166,7 @@ function orderFactory(N) {
       'cancelled',
       'completed'
     ]
-    const status = statusChoices[getRandomInteger(4)]
+    const status = statusChoices[getRandomInteger(5)]
     const tracking = faker.random.uuid()
     const checkoutDate = randomDate()
     orders.push({
@@ -195,9 +195,9 @@ function productCategoryFactory(N, CATEGORY_COUNT) {
     productCategoryArr.push({productId, categoryId})
 
     // randomly add 1 more category to some products
-    let chance = getRandomInteger(100)
-    if (chance < 50) {
-      const numberToAdd = getRandomInteger(3)
+    let chance = getRandomInteger(11)
+    if (chance < 5) {
+      const numberToAdd = getRandomInteger(3) + 1
       for (let x = 0; x < numberToAdd; x++) {
         categoryId = (categoryId + 1) % CATEGORY_COUNT + 1
         productCategoryArr.push({productId, categoryId})
@@ -217,13 +217,13 @@ async function ordersProductsFactory(N) {
     const numberOfProducts = getRandomInteger(4) + 1
 
     // set the first product id
-    let productId = getRandomInteger(100) + 1
+    let productId = getRandomInteger(N) + 1
 
     // each loop adds a product
     for (let x = 0; x < numberOfProducts; x++) {
       // set up the easy stuff
       const orderId = i + 1
-      productId = (productId + 1) % 100 + 1 // make sure we don't duplicate products
+      productId = (productId + 1) % N + 1 // make sure we don't duplicate products
       const quantity = getRandomInteger(4) + 1
 
       // get the purchased status for this order
@@ -235,8 +235,8 @@ async function ordersProductsFactory(N) {
       if (orderStatus === 'cart') {
         purchasePrice = null
       } else {
-        let priceChangeChance = getRandomInteger(100)
-        if (priceChangeChance < 50) {
+        let priceChangeChance = getRandomInteger(11)
+        if (priceChangeChance < 5) {
           const productObject = await Product.findByPk(productId)
           purchasePrice = productObject.dataValues.price
         } else {
