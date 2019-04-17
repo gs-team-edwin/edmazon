@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import {logout, setPopup} from '../store'
 import {SearchBar} from './index'
 
 class Navbar extends React.Component {
@@ -11,7 +11,12 @@ class Navbar extends React.Component {
   }
 
   render() {
-    const {handleClick, isLoggedIn} = this.props
+    const {
+      handleClick,
+      isLoggedIn,
+      openLoginPopup,
+      openSignupPopup
+    } = this.props
     return (
       <div className="navbar">
         <h1 className="navbar-title">EDMAZON</h1>
@@ -19,16 +24,25 @@ class Navbar extends React.Component {
           {isLoggedIn ? (
             <span className="navbar-link-container">
               {/* The navbar will show these links after you log in */}
-              <Link to="/home">Home</Link>
-              <a href="#" onClick={handleClick}>
+              <button type="button">Home</button>
+              <button type="button" onClick={handleClick}>
                 Logout
-              </a>
+              </button>
             </span>
           ) : (
             <span className="navbar-link-container">
               {/* The navbar will show these links before you log in */}
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
+              <button type="button" onClick={() => openLoginPopup()}>
+                Login
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  openSignupPopup()
+                }}
+              >
+                Sign Up
+              </button>
             </span>
           )}
           <SearchBar />
@@ -51,6 +65,12 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
+    },
+    openLoginPopup() {
+      dispatch(setPopup('login'))
+    },
+    openSignupPopup() {
+      dispatch(setPopup('signup'))
     }
   }
 }
