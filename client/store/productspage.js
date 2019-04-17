@@ -15,13 +15,12 @@ const getProduct = product => ({type: GET_PRODUCT, product})
 //const removeProduct = () => ({type: REMOVE_PRODUCT})
 
 //THUNK CREATORS
-export const getAllProducts = (offset) => async dispatch => {
+export const getAllProducts = offset => async dispatch => {
   try {
-      const res = await axios.get(`/api/products/${offset}`)
-      dispatch(getProduct(res.data))
-      history.push(`/products/${offset}`)
-    }
-  catch (err) {
+    const res = await axios.get(`/api/productspage/${offset}`)
+    dispatch(getProduct(res.data))
+    history.push(`/productspage/${offset}`)
+  } catch (err) {
     console.error(err)
   }
 }
