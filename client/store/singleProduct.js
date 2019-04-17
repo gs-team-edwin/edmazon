@@ -4,24 +4,22 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_PRODUCT = 'GET_PRODUCT'
+const SINGLE_PRODUCT = 'SINGLE_PRODUCT'
 //const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
 
 // INITIAL STATE
-const defaultProducts = []
+const defaultProducts = {}
 
 //ACTION CREATORS
-const getProduct = product => ({type: GET_PRODUCT, product})
+const singleProduct = product => ({type: SINGLE_PRODUCT, product})
 //const removeProduct = () => ({type: REMOVE_PRODUCT})
 
 //THUNK CREATORS
-export const getAllProducts = (offset) => async dispatch => {
+export const getSingleProduct = productId => async dispatch => {
   try {
-      const res = await axios.get(`/api/products/${offset}`)
-      dispatch(getProduct(res.data))
-      history.push(`/products/${offset}`)
-    }
-  catch (err) {
+    const res = await axios.get(`/api/product/${productId}`)
+    dispatch(singleProduct(res.data))
+  } catch (err) {
     console.error(err)
   }
 }
@@ -29,7 +27,7 @@ export const getAllProducts = (offset) => async dispatch => {
 //reducer
 export default function(state = defaultProducts, action) {
   switch (action.type) {
-    case GET_PRODUCT:
+    case SINGLE_PRODUCT:
       return action.product
     default:
       return state
