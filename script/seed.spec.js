@@ -31,8 +31,18 @@ describe('the seed script', () => {
 
   it('sets the price to null in ordersProducts for all cart orders', async () => {
     const cartOrders = await Order.findAll({where: {status: 'cart'}})
-    console.log('cart orders------------------', cartOrders[0].dataValues) 
-    expect(cartOrders).to.have.lengthOf.at.least(1)
+    const nullPriceProducts = await OrdersProducts.findAll({where: {purchasePrice: null}})
+    let idArray = []
+    for (let i = 0; i < cartOrders.length; i++) {
+      idArray.push(cartOrders[i].dataValues.id)
+    }
+    let idArray2 = []
+    for (let i = 0; i < nullPriceProducts.length; i++) {
+      if(!idArray2.includes(nullPriceProducts[i].dataValues.orderId)){
+        idArray2.push(nullPriceProducts[i].dataValues.orderId)
+      }
+    }
+    expect(idArray).to.deep.equal(idArray2)
   })
 
   // productsOrders test ideas
