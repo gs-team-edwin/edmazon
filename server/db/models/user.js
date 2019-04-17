@@ -32,7 +32,7 @@ const User = db.define('user', {
   },
   userType: {
     type: Sequelize.ENUM('admin', 'user'),
-    allowNull: true,
+    allowNull: true
   }
 })
 

@@ -17,8 +17,8 @@ const OrdersProducts = db.define('ordersProducts', {
   },
   purchasePrice: {
     type: Sequelize.INTEGER,
-    defaultValue: null,
-  },
+    defaultValue: null
+  }
 })
 OrdersProducts.prototype.getTotalPrice = async function() {
   let thisPrice = this.purchasePrice
@@ -31,5 +31,3 @@ OrdersProducts.prototype.getTotalPrice = async function() {
   }
 }
 module.exports = OrdersProducts
-
-

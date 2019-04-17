@@ -1,33 +1,35 @@
-const User = require('./user')
-const Category = require('./category')
-const OrdersProducts = require('./ordersproducts')
-const Order = require('./order')
-// const Photo = require('./photo')
-const Product = require('./product')
-const Review = require('./review')
-const Session = require('./session')
-
-
+const User = require('./User')
+const Category = require('./Category')
+const OrdersProducts = require('./OrdersProducts')
+const Order = require('./Order')
+const Photo = require('./Photo')
+const Product = require('./Product')
+const Review = require('./Review')
+const Session = require('./Session')
+const ProductsCategories = require('./ProductsCategories')
+const PhotosProducts = require('./PhotosProducts')
 /**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
+ * NOTES!
+ * Photos is unfinished
  *
- *    BlogPost.belongsTo(User)
  */
 
 Order.belongsTo(Session)
 User.hasMany(Session)
 Review.belongsTo(User)
 User.hasMany(Order)
-Category.hasMany(Product)
-Product.belongsToMany(Category, {through: 'productCategory',
-  as: 'Category',
-  foreignKey: 'productId'}
-)
+Category.belongsToMany(Product, {
+  through: ProductsCategories
+})
+Product.belongsToMany(Category, {
+  through: ProductsCategories
+})
 Order.belongsToMany(Product, {through: OrdersProducts})
 Product.belongsToMany(Order, {through: OrdersProducts})
-// Product.hasMany(Photo)
+Product.belongsToMany(Photo, {through: PhotosProducts})
+Photo.belongsToMany(Product, {through: PhotosProducts})
 Product.hasMany(Review)
+
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
@@ -39,8 +41,10 @@ module.exports = {
   Category,
   OrdersProducts,
   Order,
-  // Photo,
+  Photo,
   Product,
   Review,
-  Session
+  Session,
+  ProductsCategories,
+  PhotosProducts
 }

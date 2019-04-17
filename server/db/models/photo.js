@@ -1,12 +1,10 @@
-// const Sequelize = require('sequelize')
-// const db = require('../db')
+const Sequelize = require('sequelize')
+const db = require('../db')
 
-// const Photo = db.define('photo', {
-//   photoUrl: {
-//     type: Sequelize.STRING,
-//   },
-// })
+const Photo = db.define('photo', {
+  photoUrl: {
+    type: Sequelize.STRING
+  }
+})
 
-// module.exports = Photo
-
-
+module.exports = Photo
