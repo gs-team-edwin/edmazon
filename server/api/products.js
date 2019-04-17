@@ -1,10 +1,21 @@
 const router = require('express').Router()
 const {Product} = require('../db/models')
+const {Op} = require(`Sequelize`)
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+
+
+router.get('/:id', async (req, res, next) => {
   try {
-    const products = await Product.findAll()
+    let offset = parseInt(req.params.id)
+    const products = await Product.findAll({
+      where: {
+        id: {
+          [Op.gte]: 1+20*offset,
+          [Op.lte]: 20+20*offset
+        },
+      }
+    })
     res.json(products)
   } catch (err) {
     next(err)

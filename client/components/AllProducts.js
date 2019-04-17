@@ -1,20 +1,25 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
 import {getAllProducts} from '../store/product'
 
 class AllProducts extends Component {
+
   componentDidMount() {
-    this.props.loadInitialData()
+      this.props.loadNewData(this.props.match.params.id)
   }
   render() {
     const products = this.props.products
     console.log(products)
     return (
       <div>
-        {products.map(product => <li key={product.id}>{product.title}</li>)}
+        <div>
+          {products.map(product => <li key={product.id}>{product.title}</li>)}
+        </div>
+        <div>
+          <button type='Button' onClick={()=>this.props.loadNewData(parseInt(this.props.match.params.id, 10)+1)}>Next</button>
+          <button type='Button' onClick={()=>this.props.loadNewData(parseInt(this.props.match.params.id, 10)-1)}>Previous</button>
+        </div>
       </div>
     )
   }
@@ -25,12 +30,10 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    loadInitialData() {
-      dispatch(getAllProducts())
-    }
+    loadNewData: input => dispatch(getAllProducts(input)) 
   }
 }
 
-export default connect(mapStateToProps, mapDispatch)(AllProducts)
+export default connect(mapStateToProps, mapDispatch)(AllProducts);
