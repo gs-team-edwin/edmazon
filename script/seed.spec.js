@@ -12,6 +12,8 @@ const {
   OrdersProducts
 } = require('../server/db/models')
 
+
+
 describe('the seed script', () => {
   beforeEach(seed) // don't run before every one
 
@@ -20,11 +22,21 @@ describe('the seed script', () => {
     expect(users).to.have.lengthOf.at.least(1)
   })
 
-  it('populates the category table with at least one entry', async () => {
-    const categories = await Category.findAll()
+
+
+  it('assigns a category to every product', async () => {
+    const categories = await Product.findAll()
     expect(categories).to.have.lengthOf.at.least(1)
+  })
+
+  it('sets the price to null in ordersProducts for all cart orders', async () => {
+    const cartOrders = await Order.findAll({where: {status: 'cart'}})
+    console.log('cart orders------------------', cartOrders[0].dataValues) 
+    expect(cartOrders).to.have.lengthOf.at.least(1)
   })
 
   // productsOrders test ideas
   // if an order is in cart, all entries for it in the ordersProducts have price null
 })
+
+
