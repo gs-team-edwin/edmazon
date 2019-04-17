@@ -3,30 +3,40 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {SearchBar} from './index'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>EDMAZON</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
-)
+class Navbar extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    const {handleClick, isLoggedIn} = this.props
+    return (
+      <div className="navbar">
+        <h1 className="navbar-title">EDMAZON</h1>
+        <nav className="navbar-right-box">
+          {isLoggedIn ? (
+            <span className="navbar-link-container">
+              {/* The navbar will show these links after you log in */}
+              <Link to="/home">Home</Link>
+              <a href="#" onClick={handleClick}>
+                Logout
+              </a>
+            </span>
+          ) : (
+            <span className="navbar-link-container">
+              {/* The navbar will show these links before you log in */}
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Sign Up</Link>
+            </span>
+          )}
+          <SearchBar />
+        </nav>
+      </div>
+    )
+  }
+}
 
 /**
  * CONTAINER
