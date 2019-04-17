@@ -26,6 +26,11 @@ const Product = db.define('product', {
   }
 })
 
+// Product.prototype.getPrice = function() {
+//   let thisPrice = this.price
+//   return thisPrice * 0.01
+// }
+
 // const makePic = product => {
 //   if (product.hasOwnProperty('photo')) {
 //     Photo.create({photoUrl: product.photo,
