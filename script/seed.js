@@ -318,9 +318,10 @@ async function seed() {
 
   console.log(`seeded successfully`)
 
-  // temp code to test photos
-  let results = await Product.findByPk(1, {include: [{model: Photo}]})
-  console.log('results', results.photos)
+  // TODO
+  // HOW TO DO EAGER LOADING
+  // let results = await Product.findByPk(1, {include: [{model: Photo}]})
+  // console.log('results', results)
 }
 
 // We've separated the `seed` function from the `runSeed` function.
