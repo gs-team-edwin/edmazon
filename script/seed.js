@@ -5,6 +5,7 @@ const {
   User,
   Review,
   Product,
+  Photo,
   Category,
   Order,
   ProductsCategories,
@@ -12,14 +13,17 @@ const {
 } = require('../server/db/models')
 const faker = require('faker')
 
-// global constants
+/***********************************
+ *      GLOBAL CONSTANTS
+ ***********************************/
+
 const N = 100
 const PHOTO_COUNT = 13
 const CATEGORY_COUNT = 5
 
-/**
- * UTILITY FUNCTIONS
- */
+/***********************************
+ *      UTILITY FUNCTIONS
+ ***********************************/
 
 // includes 0 to max - 1
 function getRandomInteger(max) {
@@ -55,9 +59,9 @@ function randomDate(start = new Date(2016, 0, 1), end = new Date()) {
   return randDate.getTime()
 }
 
-/**
+/*************************************
  * FACTORY FUNCTIONS FOR BASE MODELS
- */
+ *************************************/
 
 // build users array
 function userInfoFactory(N) {
@@ -180,9 +184,19 @@ function orderFactory(N) {
   return orders
 }
 
-/**
+// build photos array
+function photoFactory(PHOTO_COUNT) {
+  const photos = []
+  for (let i = 0; i < PHOTO_COUNT; i++) {
+    const photoUrl = `/images/${i + 1}.jpg`
+    photos.push({photoUrl})
+  }
+  return photos
+}
+
+/********************************************
  * FACTORY FUNCTIONS FOR MANY-TO-MANY TABLES
- */
+ ********************************************/
 
 // assign all products to a category
 // and give some products multiple categories
@@ -249,9 +263,9 @@ async function ordersProductsFactory(N) {
   return ordersProductsArr
 }
 
-/**
- * SEEDING FUNCTIONS
- */
+/*************************************
+ *         SEEDING FUNCTIONS
+ *************************************/
 
 // call everything and do the seeding
 async function seed() {
@@ -278,6 +292,9 @@ async function seed() {
 
   const orders = await Order.bulkCreate(orderFactory(N))
   console.log(`seeded ${orders.length} orders`)
+
+  const photos = await Photo.bulkCreate(photoFactory(PHOTO_COUNT))
+  console.log(`seeded ${photos.length} reviews`)
 
   const ordersProducts = await OrdersProducts.bulkCreate(
     await ordersProductsFactory(N)

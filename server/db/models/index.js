@@ -2,11 +2,12 @@ const User = require('./User')
 const Category = require('./Category')
 const OrdersProducts = require('./OrdersProducts')
 const Order = require('./Order')
-// const Photo = require('./Photo')
+const Photo = require('./Photo')
 const Product = require('./Product')
 const Review = require('./Review')
 const Session = require('./Session')
 const ProductsCategories = require('./ProductsCategories')
+const PhotosProducts = require('./PhotosProducts')
 /**
  * NOTES!
  * Photos is unfinished
@@ -25,7 +26,8 @@ Product.belongsToMany(Category, {
 })
 Order.belongsToMany(Product, {through: OrdersProducts})
 Product.belongsToMany(Order, {through: OrdersProducts})
-// Product.hasMany(Photo)
+Product.belongsToMany(Photo, {through: PhotosProducts})
+Photo.belongsToMany(Product, {through: PhotosProducts})
 Product.hasMany(Review)
 
 /**
@@ -39,9 +41,10 @@ module.exports = {
   Category,
   OrdersProducts,
   Order,
-  // Photo,
+  Photo,
   Product,
   Review,
   Session,
-  ProductsCategories
+  ProductsCategories,
+  PhotosProducts
 }
