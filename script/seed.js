@@ -259,11 +259,11 @@ async function ordersProductsFactory(N) {
 }
 
 // give every product at least one photo
-function photosProductsFacotry(N, PHOTO_COUNT) {
+function photosProductsFactory(N, PHOTO_COUNT) {
   const photosProductsArr = []
   let photoId = 1
   for (let i = 0; i < N; i += 1) {
-    let numExtraPhotosToAdd = getRandomInteger(3)
+    let numExtraPhotosToAdd = getRandomInteger(3) + 1
     for (let x = 0; x < numExtraPhotosToAdd; x += 1) {
       const productId = i + 1
       photoId = (photoId + 1) % PHOTO_COUNT + 1
@@ -312,7 +312,7 @@ async function seed() {
   console.log(`seeded ${ordersProducts.length} ordersProducts rows`)
 
   const photosProducts = await PhotosProducts.bulkCreate(
-    await photosProductsFacotry(N, PHOTO_COUNT)
+    await photosProductsFactory(N, PHOTO_COUNT)
   )
   console.log(`seeded ${photosProducts.length} photosProducts rows`)
 
