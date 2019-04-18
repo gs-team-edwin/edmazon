@@ -28,6 +28,12 @@ class Navbar extends React.Component {
                   Admin
                 </button>
               )}
+              <button
+                type="button"
+                onClick={() => history.push('/user/orders')}
+              >
+                My Orders
+              </button>
               <button type="button" onClick={handleClick}>
                 Logout
               </button>
