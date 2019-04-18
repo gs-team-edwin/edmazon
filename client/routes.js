@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {UserHome, AllProducts, SingleProduct, OrderHistory} from './components'
+import {UserHome, AllProducts, SingleProduct, OrderHistory, AdminMenu} from './components'
 import {me} from './store'
 import {Redirect} from 'react-router' //TODO fix back button bug.
 

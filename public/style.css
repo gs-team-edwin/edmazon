@@ -152,3 +152,32 @@ body {
   font-size: 14pt;
   margin-top: 10px;
 }
+
+/* admin menu */
+
+.admin-button {
+  color: var(--dark-color);
+  margin: 5px;
+  padding: 8px;
+  text-decoration: none;
+  background-color: var(--light-accent-color);
+  border-radius: 4px;
+  font-size: 12pt;
+  border: none;
+  width: 180px;
+  margin: 10px;
+}
+
+.admin-button-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  font-size: 25pt;
+}

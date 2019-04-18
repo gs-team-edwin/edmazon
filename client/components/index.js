@@ -9,3 +9,5 @@ export {LoginPopup, SignupPopup} from './LoginSignupPopups'
 export {SearchBar} from './searchbar'
 export {default as SingleProduct} from './SingleProduct'
 export {default as OrderHistory} from './OrderHistory'
+export {default as AdminMenu} from './AdminMenu'
+
