@@ -14,6 +14,7 @@ class CategoryProducts extends Component {
         <ul type="none">
           {products.map(product => (
             <li key={product.id}>
+              <img src={`${product.photos[0].photoUrl}`}/>
               <Link to={`/product/${product.id}`}> {product.title}</Link>
               <div>${product.price}</div>
             </li>
