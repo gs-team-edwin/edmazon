@@ -13,7 +13,8 @@ class Navbar extends React.Component {
       isLoggedIn,
       openLoginPopup,
       openSignupPopup,
-      userType
+      userType,
+      userId
     } = this.props
     return (
       <div className="navbar">
@@ -30,7 +31,7 @@ class Navbar extends React.Component {
               )}
               <button
                 type="button"
-                onClick={() => history.push('/user/orders')}
+                onClick={() => history.push(`/user/${userId}/orders/page/0`)}
               >
                 My Orders
               </button>
@@ -66,7 +67,8 @@ class Navbar extends React.Component {
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    userType: state.user.userType
+    userType: state.user.userType,
+    userId: state.user.id
   }
 }
 

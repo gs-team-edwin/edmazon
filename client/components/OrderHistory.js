@@ -1,21 +1,48 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {} from '../store'
-import history from '../history'
+import {getUserOrders, me} from '../store'
+
+const SingleOrderRow = ({order}) => {
+  return (
+    <div className="order-row">
+      Order #{order.id}; status: {order.status}
+    </div>
+  )
+}
 
 class OrderHistory extends React.Component {
+  async componentDidMount() {
+    const {getOrders, user} = this.props
+    await getOrders(user.id, 0)
+  }
   render() {
-    return <div>My Orders!</div>
+    const {orders, user} = this.props
+    console.log('RENDERING', this.props)
+    return (
+      <div>
+        <div className="page-subhead">{user.email}'s orders</div>
+        <div className="orders-block">
+          {console.log('ORDERS', orders)}
+          {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
+        </div>
+      </div>
+    )
   }
 }
 
 const mapState = state => {
-  return {}
+  return {
+    orders: state.userOrders,
+    user: state.user
+  }
 }
 
-const mapDispatch = state => {
-  return {}
+const mapDispatch = dispatch => {
+  return {
+    getOrders: (userId, offset) => {
+      dispatch(getUserOrders(userId, offset))
+    }
+  }
 }
 
 export default connect(mapState, mapDispatch)(OrderHistory)
