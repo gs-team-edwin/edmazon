@@ -96,7 +96,7 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: var(--light-bg-color);
+  background-color: rgba(0, 0, 0, 0.418);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,7 +172,7 @@ body {
 }
 .order-row {
   font-size: 16px;
-  background-color: lightgray;
+  background-color: var(--light-bg-color);
   padding: 4px;
 }
 .pagination-container {

@@ -167,7 +167,16 @@ function orderFactory(N) {
       'cancelled',
       'completed'
     ]
-    const status = statusChoices[getRandomInteger(5)]
+    let status = statusChoices[getRandomInteger(5)]
+
+    // check to see if the user in question already has a cart order
+    const thisUsersCartOrders = orders.filter(
+      order => order.userId === userId && order.status === 'cart'
+    )
+    if (thisUsersCartOrders.length) {
+      status = 'completed'
+    }
+
     const tracking = faker.random.uuid()
     const checkoutDate = randomDate()
     orders.push({

@@ -6,9 +6,9 @@ import history from '../history'
 const SingleOrderRow = ({order}) => {
   return (
     <tr className="order-row">
-      <td>Order #{order.id}</td>
-      <td>Checkout Date: {order.checkoutDate}</td>
-      <td>Status: {order.status}</td>
+      <td>{order.id}</td>
+      <td>{Date.parse(order.checkoutDate)}</td>
+      <td>{order.status}</td>
     </tr>
   )
 }
@@ -30,6 +30,11 @@ class OrderHistory extends React.Component {
         </div>
 
         <table className="order-table">
+          <tr>
+            <th>Order Number</th>
+            <th>Checkout Date</th>
+            <th>Status</th>
+          </tr>
           <tbody>
             {orders.map(order => (
               <SingleOrderRow order={order} key={order.id} />

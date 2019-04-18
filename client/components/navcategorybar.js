@@ -13,13 +13,16 @@ class NavCategoryBar extends React.Component {
     return (
       <div className="navbar">
         <nav className="navbar-right-box">
-            <span className="navbar-link-container">
+          <span className="navbar-link-container">
             {categories.map(category => (
-              <button type="button" onClick={() => this.props.gotAllProducts(category.id,0)}>
-              Category {category.id}
-            </button>
+              <button
+                type="button"
+                onClick={() => this.props.gotAllProducts(category.id, 0)}
+              >
+                Category {category.id}
+              </button>
             ))}
-            </span>
+          </span>
         </nav>
       </div>
     )
@@ -32,8 +35,9 @@ const mapStateToProps = state => {
 }
 const mapDispatch = dispatch => {
   return {
-    gotAllProducts: (category, offset) => dispatch(getProductByCategory(category, offset)),
-    gotAllCategories: ()=>dispatch(getAllCategories())
+    gotAllProducts: (category, offset) =>
+      dispatch(getProductByCategory(category, offset)),
+    gotAllCategories: () => dispatch(getAllCategories())
   }
 }
 export default connect(mapStateToProps, mapDispatch)(NavCategoryBar)
