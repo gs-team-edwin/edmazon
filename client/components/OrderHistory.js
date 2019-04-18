@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getUserOrders, me} from '../store'
+import {getUserOrders, getUserOrderCount} from '../store'
 import history from '../history'
 
 const SingleOrderRow = ({order}) => {
@@ -14,13 +14,14 @@ const SingleOrderRow = ({order}) => {
 }
 class OrderHistory extends React.Component {
   componentDidMount() {
-    const {getOrders} = this.props
+    const {getOrders, getCount} = this.props
     const {userId, offset} = this.props.match.params
     getOrders(userId, offset)
+    getCount(userId)
   }
 
   render() {
-    const {orders, user} = this.props
+    const {orders, user, count} = this.props
     const {userId, offset} = this.props.match.params
     return (
       <div>
@@ -30,16 +31,34 @@ class OrderHistory extends React.Component {
         <div className="orders-block">
           {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
         </div>
-        <div className="page-button">
-          <button
-            type="button"
-            onClick={() => {
-              history.push(`/user/${userId}/orders/page/${Number(offset) + 1}`)
-            }}
-          >
-            NEXT
-          </button>
-        </div>
+        {count > offset * 20 && (
+          <div className="page-button">
+            <button
+              type="button"
+              onClick={() => {
+                history.push(
+                  `/user/${userId}/orders/page/${Number(offset) + 1}`
+                )
+              }}
+            >
+              NEXT
+            </button>
+          </div>
+        )}
+        {offset > 0 && (
+          <div className="page-button">
+            <button
+              type="button"
+              onClick={() => {
+                history.push(
+                  `/user/${userId}/orders/page/${Number(offset) - 1}`
+                )
+              }}
+            >
+              PREV
+            </button>
+          </div>
+        )}
       </div>
     )
   }
@@ -47,8 +66,9 @@ class OrderHistory extends React.Component {
 
 const mapState = state => {
   return {
-    orders: state.userOrders,
-    user: state.user
+    orders: state.userOrders.orders,
+    user: state.user,
+    count: state.userOrders.count
   }
 }
 
@@ -57,7 +77,9 @@ const mapDispatch = dispatch => {
     getOrders: (userId, offset) => {
       dispatch(getUserOrders(userId, offset))
     },
-    getUser: () => dispatch(me())
+    getCount: userId => {
+      dispatch(getUserOrderCount(userId))
+    }
   }
 }
 
