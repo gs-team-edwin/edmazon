@@ -25,7 +25,7 @@ router.get('/search/:term/page/:offset', async (req, res, next) => {
     const products = await Product.findAll({
       include: [{model: Photo}],
       where: {
-        'title': { like: '%' + query + '%' } 
+        [Op.like]: '%' + query + '%'
       },
       limit: 20,
       offset: 20*offset
@@ -66,7 +66,7 @@ router.get('/categories/:categoryId/page/:offset', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
-    const product = await Product.findOne({where: {id}, include: [{model: Photo}, {model: Reviews}]})
+    const product = await Product.findOne({where: {id}, include: [{model: Photo}]})
     res.json(product)
   } catch (err) {
     next(err)
