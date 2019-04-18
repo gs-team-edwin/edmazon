@@ -5,11 +5,10 @@ import {getAllProducts} from '../store/'
 
 class AllProducts extends Component {
   componentDidMount() {
-    this.props.loadNewData(this.props.match.params.id)
+    this.props.loadNewData(this.props.match.params.offset)
   }
   render() {
     const products = this.props.products
-    console.log('*** products: ', products)
 
     return (
       <div>
@@ -18,10 +17,10 @@ class AllProducts extends Component {
         </div>
         <div>
           <button
-            type="Button"
+            type="button"
             onClick={() =>
               this.props.loadNewData(
-                parseInt(this.props.match.params.id, 10) + 1
+                parseInt(this.props.match.params.offset, 10) + 1
               )
             }
           >
@@ -29,7 +28,7 @@ class AllProducts extends Component {
           </button>
           {this.props.match.params.id > 0 ? (
             <button
-              type="Button"
+              type="button"
               onClick={() =>
                 this.props.loadNewData(
                   parseInt(this.props.match.params.id, 10) - 1

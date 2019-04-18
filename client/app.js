@@ -1,18 +1,18 @@
 import React from 'react'
 import {Navbar} from './components'
-import {AllProducts, LoginPopup} from './components/'
+import {LoginPopup, SignupPopup} from './components/'
 import Routes from './routes'
 import {connect} from 'react-redux'
-import {setPopup} from './store'
 
 class App extends React.Component {
   render() {
     const {popup} = this.props
     return (
       <div>
+        {popup === 'login' && <LoginPopup />}
+        {popup === 'signup' && <SignupPopup />}
         <Navbar />
         <Routes />
-        {popup === 'login' && <LoginPopup />}
       </div>
     )
   }
