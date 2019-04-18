@@ -12,7 +12,8 @@ class Navbar extends React.Component {
       handleClick,
       isLoggedIn,
       openLoginPopup,
-      openSignupPopup
+      openSignupPopup,
+      userType
     } = this.props
     return (
       <div className="navbar">
@@ -22,14 +23,17 @@ class Navbar extends React.Component {
         <nav className="navbar-right-box">
           {isLoggedIn ? (
             <span className="navbar-link-container">
-              {/* The navbar will show these links after you log in */}
+              {userType === 'admin' && (
+                <button type="button" onClick={() => history.push('/admin')}>
+                  Admin
+                </button>
+              )}
               <button type="button" onClick={handleClick}>
                 Logout
               </button>
             </span>
           ) : (
             <span className="navbar-link-container">
-              {/* The navbar will show these links before you log in */}
               <button type="button" onClick={() => openLoginPopup()}>
                 Login
               </button>
@@ -55,7 +59,8 @@ class Navbar extends React.Component {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    userType: state.user.userType
   }
 }
 
