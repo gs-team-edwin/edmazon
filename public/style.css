@@ -96,14 +96,17 @@ body {
   bottom: 0;
   margin: auto;
   background-color: rgba(50, 50, 50, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 99;
 }
 .popup {
-  position: absolute;
+  /* position: absolute;
   left: 30%;
   right: 30%;
   top: 28%;
-  bottom: 33%;
+  bottom: 33%; */
   background: var(--light-color);
   border: var(--dark-accent-color) solid 4px;
   border-radius: 5px;
