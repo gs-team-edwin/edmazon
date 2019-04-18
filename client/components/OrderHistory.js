@@ -9,7 +9,7 @@ const SingleOrderRow = ({order}) => {
     </div>
   )
 }
-
+//     history.push(`/user/${userId}/orders/page/${offset}`)
 class OrderHistory extends React.Component {
   async componentDidMount() {
     const {getOrders, user} = this.props

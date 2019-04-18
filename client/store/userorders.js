@@ -13,7 +13,6 @@ export const getUserOrders = (userId, offset) => async dispatch => {
     const url = `/api/user/${userId}/orders/page/${offset}`
     const res = await axios.get(url)
     dispatch(setUserOrders(res.data))
-    history.push(`/user/${userId}/orders/page/${offset}`)
   } catch (err) {
     console.error(err)
   }
