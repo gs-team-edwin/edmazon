@@ -9,12 +9,14 @@ import user from './user'
 import popup from './popup'
 import products from './products'
 import selectedProducts from './selectedproduct'
+import userorders from './userorders'
 
 const reducer = combineReducers({
   user: user,
   products: products,
   popup: popup,
-  selectedProducts: selectedProducts
+  selectedProducts: selectedProducts,
+  userOrders: userorders
 })
 
 const middleware = composeWithDevTools(
@@ -27,3 +29,4 @@ export * from './user'
 export * from './popup'
 export * from './products'
 export * from './selectedproduct'
+export * from './userorders'

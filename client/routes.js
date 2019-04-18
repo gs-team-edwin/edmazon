@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, AllProducts, SingleProduct} from './components'
+import {UserHome, AllProducts, SingleProduct, OrderHistory} from './components'
 import {me} from './store'
-import {Redirect} from 'react-router' //Todo fix backbutton bug.
+import {Redirect} from 'react-router' //TODO fix back button bug.
 
 /**
  * COMPONENT
@@ -20,9 +20,14 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/products/page/:id" component={AllProducts} />
-        <Route path="/product/:id" component={SingleProduct} />
-        <Redirect from="/" to="/products/page/0" />
+        <Route exact path="/products/page/:offset" component={AllProducts} />
+        <Route exact path="/product/:id" component={SingleProduct} />
+        <Route
+          exact
+          path="/user/:userId/orders/page/:offset"
+          component={OrderHistory}
+        />
+        <Redirect exact from="/" to="/products/page/0" />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

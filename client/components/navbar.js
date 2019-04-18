@@ -4,34 +4,43 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout, setPopup} from '../store'
 import {SearchBar} from './index'
+import history from '../history'
 
 class Navbar extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const {
       handleClick,
       isLoggedIn,
       openLoginPopup,
-      openSignupPopup
+      openSignupPopup,
+      userType,
+      userId
     } = this.props
     return (
       <div className="navbar">
-        <h1 className="navbar-title">EDMAZON</h1>
+        <h1 className="navbar-title" onClick={() => history.push('/')}>
+          EDMAZON
+        </h1>
         <nav className="navbar-right-box">
           {isLoggedIn ? (
             <span className="navbar-link-container">
-              {/* The navbar will show these links after you log in */}
-              <button type="button">Home</button>
+              {userType === 'admin' && (
+                <button type="button" onClick={() => history.push('/admin')}>
+                  Admin
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => history.push(`/user/${userId}/orders/page/0`)}
+              >
+                My Orders
+              </button>
               <button type="button" onClick={handleClick}>
                 Logout
               </button>
             </span>
           ) : (
             <span className="navbar-link-container">
-              {/* The navbar will show these links before you log in */}
               <button type="button" onClick={() => openLoginPopup()}>
                 Login
               </button>
@@ -57,7 +66,9 @@ class Navbar extends React.Component {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    userType: state.user.userType,
+    userId: state.user.id
   }
 }
 

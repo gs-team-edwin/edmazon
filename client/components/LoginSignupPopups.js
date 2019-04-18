@@ -1,35 +1,49 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import {auth, closePopup} from '../store'
 
-/**
- * COMPONENT
- */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {name, displayName, handleSubmit, error, closePopup} = props
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
+    <div className="popup-outer-container">
+      <div className="popup">
+        <form onSubmit={handleSubmit} name={name}>
+          <div className="form-item">
+            <label htmlFor="email">
+              <small>Email</small>
+            </label>
+            <input name="email" type="text" />
+          </div>
+          <div className="form-item">
+            <label htmlFor="password">
+              <small>Password</small>
+            </label>
+            <input name="password" type="password" />
+          </div>
+          <div className="form-item">
+            <button className="popup-form-button" type="submit">
+              {displayName}
+            </button>
+          </div>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        <button
+          className="popup-form-button google"
+          type="button"
+          href="/auth/google"
+        >
+          {displayName} with Google
+        </button>
+        <button
+          className="popup-close-button"
+          type="button"
+          onClick={closePopup}
+        >
+          Close
+        </button>
+      </div>
     </div>
   )
 }
@@ -64,8 +78,10 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
+      dispatch(closePopup())
       dispatch(auth(email, password, formName))
-    }
+    },
+    closePopup: () => dispatch(closePopup())
   }
 }
 

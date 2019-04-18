@@ -5,7 +5,7 @@
  */
 export {default as Navbar} from './navbar'
 export {default as AllProducts} from './AllProducts'
-export {default as UserHome} from './user-home'
-export {LoginPopup, SignupPopup} from './popups'
+export {LoginPopup, SignupPopup} from './LoginSignupPopups'
 export {SearchBar} from './searchbar'
 export {default as SingleProduct} from './SingleProduct'
+export {default as OrderHistory} from './OrderHistory'
