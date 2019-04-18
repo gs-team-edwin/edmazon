@@ -16,6 +16,18 @@ class AllProducts extends Component {
           {products.map(product => <li key={product.id}>{product.title}</li>)}
         </div>
         <div>
+          {this.props.match.params.offset > 0 && (
+            <button
+              type="button"
+              onClick={() =>
+                this.props.loadNewData(
+                  parseInt(this.props.match.params.offset, 10) - 1
+                )
+              }
+            >
+              Previous
+            </button>
+          )}
           <button
             type="button"
             onClick={() =>
@@ -26,20 +38,6 @@ class AllProducts extends Component {
           >
             Next
           </button>
-          {this.props.match.params.id > 0 ? (
-            <button
-              type="button"
-              onClick={() =>
-                this.props.loadNewData(
-                  parseInt(this.props.match.params.id, 10) - 1
-                )
-              }
-            >
-              Previous
-            </button>
-          ) : (
-            <div />
-          )}
         </div>
       </div>
     )
