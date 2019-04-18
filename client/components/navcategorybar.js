@@ -15,7 +15,7 @@ class NavCategoryBar extends React.Component {
         <nav className="navbar-right-box">
             <span className="navbar-link-container">
             {categories.map(category => (
-              <button type="button" onClick={() => this.props.gotAllProducts(category.id,0)}>
+              <button key={category.id} type="button" onClick={() => this.props.gotAllProducts(category.id,0)}>
               Category {category.id}
             </button>
             ))}
