@@ -4,12 +4,9 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout, setPopup} from '../store'
 import {SearchBar} from './index'
+import history from '../history'
 
 class Navbar extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const {
       handleClick,
@@ -19,12 +16,13 @@ class Navbar extends React.Component {
     } = this.props
     return (
       <div className="navbar">
-        <h1 className="navbar-title">EDMAZON</h1>
+        <h1 className="navbar-title" onClick={() => history.push('/')}>
+          EDMAZON
+        </h1>
         <nav className="navbar-right-box">
           {isLoggedIn ? (
             <span className="navbar-link-container">
               {/* The navbar will show these links after you log in */}
-              <button type="button">Home</button>
               <button type="button" onClick={handleClick}>
                 Logout
               </button>

@@ -78,6 +78,7 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
+      dispatch(closePopup())
       dispatch(auth(email, password, formName))
     },
     closePopup: () => dispatch(closePopup())
