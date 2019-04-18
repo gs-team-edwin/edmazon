@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth, closePopup} from '../store'
+import {auth, closePopup, removeUser} from '../store'
 
 class AuthForm extends React.Component {
   render() {
@@ -83,7 +83,11 @@ const mapDispatch = dispatch => {
       const password = evt.target.password.value
       dispatch(auth(email, password, formName))
     },
-    closePopup: () => dispatch(closePopup())
+    closePopup: () => {
+      dispatch(closePopup())
+      // hack to clear the error message on popup close
+      dispatch(removeUser())
+    }
   }
 }
 

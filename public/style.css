@@ -102,11 +102,6 @@ body {
   z-index: 99;
 }
 .popup {
-  /* position: absolute;
-  left: 30%;
-  right: 30%;
-  top: 28%;
-  bottom: 33%; */
   background: var(--light-color);
   border: var(--dark-accent-color) solid 4px;
   border-radius: 5px;
