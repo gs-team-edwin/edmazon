@@ -9,12 +9,16 @@ class AllProducts extends Component {
   }
   render() {
     const products = this.props.products
-
     return (
       <div>
-        <div>
-          {products.map(product => <li key={product.id}>{product.title}</li>)}
-        </div>
+        <ul type="none">
+          {products.map(product => (
+            <li key={product.id}>
+              <Link to={`/product/${product.id}`}> {product.title}</Link>
+              <div>${product.price}</div>
+            </li>
+          ))}
+        </ul>
         <div>
           {this.props.match.params.offset > 0 && (
             <button
