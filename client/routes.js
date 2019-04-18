@@ -22,6 +22,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/products/page/:offset" component={AllProducts} />
         <Route exact path="/product/:id" component={SingleProduct} />
+        <Route exact path="/admin" component = {AdminMenu} />
         <Route
           exact
           path="/user/:userId/orders/page/:offset"
