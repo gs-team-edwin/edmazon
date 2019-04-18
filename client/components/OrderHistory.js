@@ -17,12 +17,10 @@ class OrderHistory extends React.Component {
   }
   render() {
     const {orders, user} = this.props
-    console.log('RENDERING', this.props)
     return (
       <div>
         <div className="page-subhead">{user.email}'s orders</div>
         <div className="orders-block">
-          {console.log('ORDERS', orders)}
           {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
         </div>
       </div>
