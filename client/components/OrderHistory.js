@@ -5,11 +5,11 @@ import history from '../history'
 
 const SingleOrderRow = ({order}) => {
   return (
-    <div className="order-row">
-      <span>Order #{order.id}</span>{' '}
-      <span>Checkout Date: {order.checkoutDate}</span>{' '}
-      <span>Status: {order.status}</span>
-    </div>
+    <tr className="order-row">
+      <td>Order #{order.id}</td>
+      <td>Checkout Date: {order.checkoutDate}</td>
+      <td>Status: {order.status}</td>
+    </tr>
   )
 }
 class OrderHistory extends React.Component {
@@ -24,41 +24,47 @@ class OrderHistory extends React.Component {
     const {orders, user, count} = this.props
     const {userId, offset} = this.props.match.params
     return (
-      <div>
+      <div className="orders-block">
         <div className="page-subhead">
           <h2>{user.email}'s orders:</h2>
         </div>
-        <div className="orders-block">
-          {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
-        </div>
-        {count > (offset + 1) * 20 && (
-          <div className="page-button">
+
+        <table className="order-table">
+          <tbody>
+            {orders.map(order => (
+              <SingleOrderRow order={order} key={order.id} />
+            ))}
+          </tbody>
+        </table>
+
+        <div className="pagination-container">
+          {offset > 0 && (
             <button
+              className="pagination-button prev"
               type="button"
               onClick={() => {
                 history.push(
-                  `/user/${userId}/orders/page/${Number(offset) + 1}`
-                )
-              }}
-            >
-              NEXT
-            </button>
-          </div>
-        )}
-        {offset > 0 && (
-          <div className="page-button">
-            <button
-              type="button"
-              onClick={() => {
-                history.push(
-                  `/user/${userId}/orders/page/${Number(offset) - 1}`
+                  `/user/${userId}/orders/page/${Number(offset) - 20}`
                 )
               }}
             >
               PREV
             </button>
-          </div>
-        )}
+          )}
+          {count > offset && (
+            <button
+              className="pagination-button next"
+              type="button"
+              onClick={() => {
+                history.push(
+                  `/user/${userId}/orders/page/${Number(offset) + 20}`
+                )
+              }}
+            >
+              NEXT
+            </button>
+          )}
+        </div>
       </div>
     )
   }

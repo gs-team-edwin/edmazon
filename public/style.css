@@ -2,6 +2,7 @@
 :root {
   --dark-accent-color: rgb(35, 47, 61);
   --light-accent-color: rgb(252, 188, 12);
+  --light-bg-color: lightgrey;
   --light-color: white;
   --dark-color: black;
 }
@@ -95,7 +96,7 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: rgba(50, 50, 50, 0.5);
+  background-color: var(--light-bg-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,7 +165,28 @@ body {
 /* ORDER VIEWS */
 .page-subhead {
   font-size: 12px;
+  margin-left: 20px;
+}
+.order-table {
+  width: 95%;
 }
 .order-row {
-  font-size: 12px;
+  font-size: 16px;
+  background-color: lightgray;
+  padding: 4px;
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+}
+.pagination-button {
+  color: var(--dark-color);
+  margin: 5px;
+  padding: 8px;
+  text-decoration: none;
+  background-color: var(--light-accent-color);
+  border-radius: 4px;
+  font-size: 12pt;
+  border: none;
+  margin: 10px;
 }

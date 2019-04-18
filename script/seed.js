@@ -232,8 +232,12 @@ function productCategoryFactory(N, CATEGORY_COUNT) {
 async function ordersProductsFactory(N) {
   const ordersProductsArr = []
 
+  // get length of order array
+  const ordersList = await Order.findAll()
+  const numOfOrders = ordersList.length
+
   // loop through N
-  for (let i = 0; i < N; i++) {
+  for (let i = 0; i < numOfOrders; i++) {
     const numberOfProducts = getRandomInteger(4) + 1
 
     // set the first product id
