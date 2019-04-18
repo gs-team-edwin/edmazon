@@ -64,7 +64,7 @@ router.get('/:id', async (req, res, next) => {
     let id = req.params.id
     const product = await Product.findOne({
       where: {id},
-      include: [{model: Photo}, {model: Reviews}]
+      include: [{model: Photo}]
     })
     res.json(product)
   } catch (err) {
