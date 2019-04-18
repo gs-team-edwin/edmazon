@@ -66,8 +66,8 @@ router.get('/categories/:categoryId/page/:offset', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
-    const products = await Product.findOne({where: {id}, include: [{model: Photo}, {model: Reviews}]})
-    res.json(products)
+    const product = await Product.findOne({where: {id}, include: [{model: Photo}, {model: Reviews}]})
+    res.json(product)
   } catch (err) {
     next(err)
   }
