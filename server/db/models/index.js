@@ -10,7 +10,7 @@ const ProductsCategories = require('./ProductsCategories')
 const PhotosProducts = require('./PhotosProducts')
 /**
  * NOTES!
- * Photos is unfinished
+ * Session has been commented out as this is provided
  *
  */
 
