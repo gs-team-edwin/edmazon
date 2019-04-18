@@ -25,7 +25,9 @@ class Routes extends Component {
         <Route
           exact
           path="/user/:userId/orders/page/:offset"
-          component={OrderHistory}
+          render={rParams => (
+            <OrderHistory {...rParams} key={rParams.match.params.offset} />
+          )}
         />
         <Redirect exact from="/" to="/products/page/0" />
         {isLoggedIn && (

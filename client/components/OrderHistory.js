@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getUserOrders, me} from '../store'
+import history from '../history'
 
 const SingleOrderRow = ({order}) => {
   return (
@@ -11,24 +12,16 @@ const SingleOrderRow = ({order}) => {
     </div>
   )
 }
-//     history.push(`/user/${userId}/orders/page/${offset}`)
 class OrderHistory extends React.Component {
   componentDidMount() {
-    const {getOrders, user} = this.props
-    if (user.id) {
-      getOrders(user.id, 0)
-    }
+    const {getOrders} = this.props
+    const {userId, offset} = this.props.match.params
+    getOrders(userId, offset)
   }
 
-  componentDidUpdate(prevProps) {
-    console.log('FIRING COMPONENT DID UPDATE')
-    if (prevProps.user.id !== this.props.user.id) {
-      const {getOrders, user} = this.props
-      getOrders(user.id, 0)
-    }
-  }
   render() {
     const {orders, user} = this.props
+    const {userId, offset} = this.props.match.params
     return (
       <div>
         <div className="page-subhead">
@@ -36,6 +29,16 @@ class OrderHistory extends React.Component {
         </div>
         <div className="orders-block">
           {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
+        </div>
+        <div className="page-button">
+          <button
+            type="button"
+            onClick={() => {
+              history.push(`/user/${userId}/orders/page/${Number(offset) + 1}`)
+            }}
+          >
+            NEXT
+          </button>
         </div>
       </div>
     )
