@@ -16,7 +16,7 @@ const reducer = combineReducers({
   products: products,
   popup: popup,
   selectedProducts: selectedProducts,
-  userOrders: userorders,
+  userOrders: userorders
 })
 
 const middleware = composeWithDevTools(

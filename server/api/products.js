@@ -22,8 +22,6 @@ router.get('/page/:offset', async (req, res, next) => {
   }
 })
 
-
-
 router.get('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
@@ -36,9 +34,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/admin/add', async (req, res, next) => {
   try {
-    console.log('FASDFASDFASDF')
-    const product = await Product.create(req.body)
-    // res.json(product)
+    await Product.create(req.body)
   } catch (error) {
     next(error)
   }

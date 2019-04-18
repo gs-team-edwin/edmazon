@@ -18,9 +18,7 @@ export default class AdminMenu extends Component {
             type="button"
             className="admin-button"
             onClick={() =>
-              this.props.loadNewData(
-                parseInt(this.props.match.params.offset, 10) - 1
-              )
+                console.log('put an onclick function here')
             }
           >
             Manage Orders
@@ -29,9 +27,7 @@ export default class AdminMenu extends Component {
             type="button"
             className="admin-button"
             onClick={() =>
-              this.props.loadNewData(
-                parseInt(this.props.match.params.offset, 10) - 1
-              )
+                console.log('put an onclick function here')
             }
           >
             Manage Users
