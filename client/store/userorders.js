@@ -22,7 +22,7 @@ export const getUserOrders = (userId, offset) => async dispatch => {
 
 export const getUserOrderCount = userId => async dispatch => {
   try {
-    const url = `/api/user/${userId}/count`
+    const url = `/api/user/${userId}/orders/count`
     const res = await axios.get(url)
     dispatch(setUserOrdersCount(res.data))
   } catch (err) {

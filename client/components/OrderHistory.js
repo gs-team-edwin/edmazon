@@ -31,7 +31,7 @@ class OrderHistory extends React.Component {
         <div className="orders-block">
           {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
         </div>
-        {count > offset * 20 && (
+        {count > (offset + 1) * 20 && (
           <div className="page-button">
             <button
               type="button"
