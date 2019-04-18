@@ -160,3 +160,11 @@ body {
   font-size: 14pt;
   margin-top: 10px;
 }
+
+/* ORDER VIEWS */
+.page-subhead {
+  font-size: 12px;
+}
+.order-row {
+  font-size: 12px;
+}
