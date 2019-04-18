@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import history from '../history'
 
 export default class AdminMenu extends Component {
   render() {
@@ -6,39 +7,35 @@ export default class AdminMenu extends Component {
       <div>
         <div className="admin-item">ADMIN MENU</div>
         <div className="admin-button-box">
-            <button
+          <button
             type="button"
             className="admin-button"
-            onClick={() =>
-                this.props.loadNewData(
-                parseInt(this.props.match.params.offset, 10) - 1
-                )
-            }
-            >
+            onClick={() => history.push('/addproduct')}
+          >
             Add Product
-            </button>
-            <button
+          </button>
+          <button
             type="button"
             className="admin-button"
             onClick={() =>
-                this.props.loadNewData(
+              this.props.loadNewData(
                 parseInt(this.props.match.params.offset, 10) - 1
-                )
+              )
             }
-            >
-                Manage Orders
-            </button>
-            <button
+          >
+            Manage Orders
+          </button>
+          <button
             type="button"
             className="admin-button"
             onClick={() =>
-                this.props.loadNewData(
+              this.props.loadNewData(
                 parseInt(this.props.match.params.offset, 10) - 1
-                )
+              )
             }
-            >
-                Manage Users
-            </button>
+          >
+            Manage Users
+          </button>
         </div>
       </div>
     )

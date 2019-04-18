@@ -16,7 +16,7 @@ const reducer = combineReducers({
   products: products,
   popup: popup,
   selectedProducts: selectedProducts,
-  userOrders: userorders
+  userOrders: userorders,
 })
 
 const middleware = composeWithDevTools(
@@ -30,3 +30,4 @@ export * from './popup'
 export * from './products'
 export * from './selectedproduct'
 export * from './userorders'
+export * from './addproduct'
