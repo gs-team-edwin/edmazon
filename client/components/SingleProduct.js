@@ -44,9 +44,7 @@ class SingleProduct extends Component {
             <button
               type="button"
               onClick={() =>
-                history.push(
-                  `/products/${this.props.match.params.id}/newreview`
-                )
+                history.push(`/product/${this.props.match.params.id}/newreview`)
               }
             >
               Write Reivew
