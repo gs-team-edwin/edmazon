@@ -29,7 +29,8 @@ router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
           userId: userId
         },
         limit: 20,
-        offset: offset
+        offset: offset,
+        order: [['checkoutDate', 'DESC']]
       })
       res.json(orders)
     }
