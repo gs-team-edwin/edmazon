@@ -76,7 +76,7 @@ router.get('/:id', async (req, res, next) => {
 router.post('/:id', async (req, res, next) => {
   try {
     console.log(req.body)
-    const review = await Review.create(req.body)
+    const review = await Reviews.create(req.body)
     req.json(review)
   } catch (err) {
     next(err)
