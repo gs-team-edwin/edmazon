@@ -16,10 +16,11 @@ class NavCategoryBar extends React.Component {
           <span className="navbar-link-container">
             {categories.map(category => (
               <button
+                key={category.id}
                 type="button"
                 onClick={() => this.props.gotAllProducts(category.id, 0)}
               >
-                Category {category.id}
+                Category {category.name}
               </button>
             ))}
           </span>

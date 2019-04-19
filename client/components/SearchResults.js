@@ -1,15 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getAllProducts} from '../store/'
+import {getProductBySearch} from '../store/'
 
-class AllProducts extends Component {
+class SearchResults extends Component {
   componentDidMount() {
-    this.props.gotAllProducts(this.props.match.params.offset)
+    this.props.gotAllProducts(this.props.match.params.term, this.props.match.params.offset)
   }
   render() {
     const products = this.props.products
-    console.log(products)
     return (
       <div>
         <ul type="none">
@@ -24,20 +23,20 @@ class AllProducts extends Component {
         <div>
           {this.props.match.params.offset > 0 && (
             <button
-            type="button"
-            onClick={() =>
-              this.props.gotAllProducts(
-                parseInt(this.props.match.params.offset, 10) - 1
-              )
-            }
-          >
-            Previous
-          </button>
+              type="button"
+              onClick={() =>
+                this.props.gotAllProducts(this.props.match.params.term,
+                  parseInt(this.props.match.params.offset, 10) - 1
+                )
+              }
+            >
+              Previous
+            </button>
           )}
           <button
             type="button"
             onClick={() =>
-              this.props.gotAllProducts(
+              this.props.gotAllProducts(this.props.match.params.term,
                 parseInt(this.props.match.params.offset, 10) + 1
               )
             }
@@ -57,8 +56,8 @@ const mapStateToProps = state => {
 
 const mapDispatch = dispatch => {
   return {
-    gotAllProducts: input => dispatch(getAllProducts(input))
+    gotAllProducts: (term, offset) => dispatch(getProductBySearch(term, offset))
   }
 }
 
-export default connect(mapStateToProps, mapDispatch)(AllProducts)
+export default connect(mapStateToProps, mapDispatch)(SearchResults)
