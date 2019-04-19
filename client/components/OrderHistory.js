@@ -55,7 +55,7 @@ class OrderHistory extends React.Component {
               PREV
             </button>
           )}
-          {count > offset && (
+          {count > +offset + 20 && (
             <button
               className="pagination-button next"
               type="button"

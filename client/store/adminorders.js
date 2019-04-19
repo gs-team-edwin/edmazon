@@ -10,9 +10,9 @@ const setAdminOrders = orders => ({type: SET_ADMIN_ORDERS, orders})
 const setAdminOrdersCount = count => ({type: SET_ADMIN_ORDERS_COUNT, count})
 
 //THUNK CREATORS
-export const getAdminOrders = offset => async dispatch => {
+export const getAdminOrders = (offset, filter) => async dispatch => {
   try {
-    const url = `/api/admin/orders/offset/${offset}`
+    const url = `/api/admin/orders/offset/${offset}/filter/${filter}`
     const res = await axios.get(url)
     dispatch(setAdminOrders(res.data))
   } catch (err) {
@@ -20,9 +20,9 @@ export const getAdminOrders = offset => async dispatch => {
   }
 }
 
-export const getAdminOrderCount = userId => async dispatch => {
+export const getAdminOrderCount = filter => async dispatch => {
   try {
-    const url = `/api/admin/orders/count`
+    const url = `/api/admin/orders/count/filter/${filter}`
     const res = await axios.get(url)
     dispatch(setAdminOrdersCount(res.data))
   } catch (err) {

@@ -31,12 +31,9 @@ class Routes extends Component {
             {/* Routes placed here are only available for admin users */}
             <Route
               exact
-              path="/admin/orders/offset/:offset"
+              path="/admin/orders/offset/:offset/filter/:filter"
               render={rParams => (
-                <AdminOrdersView
-                  {...rParams}
-                  key={rParams.match.params.offset}
-                />
+                <AdminOrdersView {...rParams} key={rParams.match.url} />
               )}
             />
           </Switch>

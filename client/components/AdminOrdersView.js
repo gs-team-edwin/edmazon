@@ -17,19 +17,27 @@ const SingleOrderRow = ({order}) => {
 }
 class AdminOrdersView extends React.Component {
   componentDidMount() {
-    const {offset} = this.props.match.params
+    const {offset, filter} = this.props.match.params
     const {getOrders, getCount} = this.props
-    getOrders(offset)
-    getCount()
+    getOrders(offset, filter)
+    getCount(filter)
   }
 
   render() {
     const {orders, count} = this.props
-    const {offset} = this.props.match.params
+    const {offset, filter} = this.props.match.params
     return (
       <div className="orders-block">
         <div className="page-subhead-container">
-          <div className="page-subhead">All orders:</div>
+          <div className="page-subhead">All orders</div>
+          <select>
+            <option value="all">All</option>
+            <option value="cart">Cart</option>
+            <option value="created">Created</option>
+            <option value="processing">Processing</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="completed">Completed</option>
+          </select>
         </div>
 
         <div className="order-table">
@@ -47,18 +55,23 @@ class AdminOrdersView extends React.Component {
               className="pagination-button prev"
               type="button"
               onClick={() => {
-                history.push(`/admin/orders/offset/${Number(offset) - 20}`)
+                history.push(
+                  `/admin/orders/offset/${Number(offset) - 20}/filter/${filter}`
+                )
               }}
             >
               PREV
             </button>
           )}
-          {count > offset && (
+
+          {count > +offset + 20 && (
             <button
               className="pagination-button next"
               type="button"
               onClick={() => {
-                history.push(`/admin/orders/offset/${Number(offset) + 20}`)
+                history.push(
+                  `/admin/orders/offset/${Number(offset) + 20}/filter/${filter}`
+                )
               }}
             >
               NEXT
@@ -79,8 +92,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getOrders: offset => dispatch(getAdminOrders(offset)),
-    getCount: () => dispatch(getAdminOrderCount())
+    getOrders: (offset, filter) => dispatch(getAdminOrders(offset, filter)),
+    getCount: filter => dispatch(getAdminOrderCount(filter))
   }
 }
 
