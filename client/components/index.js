@@ -4,7 +4,9 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
+export {default as NavCategoryBar} from './navcategorybar'
 export {default as AllProducts} from './AllProducts'
+export {default as CategoryProducts} from './CategoryProducts'
 export {LoginPopup, SignupPopup} from './LoginSignupPopups'
 export {SearchBar} from './searchbar'
 export {default as SingleProduct} from './SingleProduct'

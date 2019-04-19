@@ -19,6 +19,17 @@ export const getAllProducts = offset => async dispatch => {
   }
 }
 
+export const getProductByCategory = (categoryId, offset) => async dispatch => {
+  try {
+    const res = await axios.get(`/api/products/categories/${categoryId}/page/${offset}`)
+    dispatch(getProducts(res.data))
+    history.push(`/products/categories/${categoryId}/page/${offset}`)
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
 //reducer
 export default function(state = [], action) {
   switch (action.type) {

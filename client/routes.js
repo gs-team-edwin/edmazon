@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {UserHome, AllProducts, SingleProduct, OrderHistory, AdminMenu, AddProduct, Cart} from './components'
+import {UserHome, AllProducts, SingleProduct, OrderHistory, AdminMenu, BillingForm, AddProduct, Cart, CategoryProducts} from './components'
 import {me} from './store'
 import {Redirect} from 'react-router' //TODO fix back button bug.
 
@@ -21,6 +21,7 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/products/page/:offset" component={AllProducts} />
+        <Route exact path="/products/categories/:categoryId/page/:offset" component={CategoryProducts} />
         <Route exact path="/product/:id" component={SingleProduct} />
         <Route exact path="/admin" component = {AdminMenu} />
         <Route exact path="/addproduct" component = {AddProduct} />
@@ -31,6 +32,7 @@ class Routes extends Component {
           path="/user/:userId/orders/page/:offset"
           component={OrderHistory}
         />
+        <Route exact path="/billing" component={BillingForm} />
         <Redirect exact from="/" to="/products/page/0" />
         {isLoggedIn && (
           <Switch>

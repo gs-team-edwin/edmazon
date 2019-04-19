@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navbar} from './components'
+import {Navbar, NavCategoryBar} from './components'
 import {LoginPopup, SignupPopup} from './components/'
 import Routes from './routes'
 import {connect} from 'react-redux'
@@ -12,6 +12,7 @@ class App extends React.Component {
         {popup === 'login' && <LoginPopup />}
         {popup === 'signup' && <SignupPopup />}
         <Navbar />
+        <NavCategoryBar />
         <Routes />
       </div>
     )

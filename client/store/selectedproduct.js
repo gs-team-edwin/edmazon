@@ -10,7 +10,7 @@ const selectProduct = product => ({type: SELECT_PRODUCT, product})
 //THUNK CREATORS
 export const getSingleProduct = productId => async dispatch => {
   try {
-    const res = await axios.get(`/api/product/${productId}`)
+    const res = await axios.get(`/api/products/${productId}`)
     dispatch(selectProduct(res.data))
   } catch (err) {
     console.error(err)
