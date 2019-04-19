@@ -15,6 +15,15 @@ body {
   margin: 0px;
 }
 
+img {
+  border: 1px solid #ddd; /* Gray border */
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  border-radius: 4px; /* Rounded border */
+  padding: 5px; /* Some padding */
+  width: 150px; /* Set a small width */
+}
+
+
 /* navbar */
 .navbar {
   background-color: var(--dark-accent-color);
@@ -153,21 +162,56 @@ body {
   margin-top: 10px;
 }
 
-img {
-  border: 1px solid #ddd; /* Gray border */
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-  border-radius: 4px; /* Rounded border */
-  padding: 5px; /* Some padding */
-  width: 150px; /* Set a small width */
+
+
+/* admin menu */ 
+.admin-button-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-button {
-  color: var(--dark-color);
-  margin: 5px;
-  padding: 8px;
-  text-decoration: none;
-  background-color: var(--light-accent-color);
-  border-radius: 4px;
-  font-size: 10pt;
-  border: none;
+.admin-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  font-size: 25pt;
 }
+
+.cart-products {
+  display: flex;
+  width: 450px;
+  border: 3px solid rgb(0, 0, 0);
+  padding: 20px;
+  margin: 20px;
+  height: 100px;
+  background-color: var(--light-accent-color);
+}
+
+.cart-box {
+  display: flex;
+  width: 300px;
+  padding: 20px;
+  border: 3px solid rgb(0, 0, 0);
+  margin: 20px;
+  height: 170px;
+  background-color: var(--light-accent-color);
+}
+
+.cart-total {
+  width: 300px;
+  padding: 20px;
+  margin: 20px;
+  height: 450px;
+  background-color: var(--light-accent-color);
+  border: 3px solid rgb(0, 0, 0);
+
+}
+
+.cart-page-width {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+

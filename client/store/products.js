@@ -5,6 +5,7 @@ import history from '../history'
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
 
 //ACTION CREATORS
+
 const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
 
 //THUNK CREATORS
