@@ -19,6 +19,17 @@ export const getAllProducts = offset => async dispatch => {
   }
 }
 
+export const getProductBySearch = (term, offset) => async dispatch => {
+  try {
+    const res = await axios.get(`/api/products/search/${term}/page/${offset}`)
+    dispatch(getProducts(res.data))
+    history.push(`/products/search/${term}/page/${offset}`)
+  }
+  catch(err){
+    console.error(err)
+  }
+}
+
 export const getProductByCategory = (categoryId, offset) => async dispatch => {
   try {
     const res = await axios.get(`/api/products/categories/${categoryId}/page/${offset}`)

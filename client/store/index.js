@@ -18,8 +18,8 @@ const reducer = combineReducers({
   products: products,
   popup: popup,
   userOrders: userorders,
-  cartProducts: cartProducts,
   categories: categories,
+  cartProducts: cartProducts,
   selectedProduct: selectedProduct,
 })
 

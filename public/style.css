@@ -15,6 +15,15 @@ body {
   margin: 0px;
 }
 
+img {
+  border: 1px solid #ddd; /* Gray border */
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  border-radius: 4px; /* Rounded border */
+  padding: 5px; /* Some padding */
+  width: 150px; /* Set a small width */
+}
+
+
 /* navbar */
 .navbar {
   background-color: var(--dark-accent-color);
@@ -153,21 +162,9 @@ body {
   margin-top: 10px;
 }
 
-/* admin menu */
 
-.admin-button {
-  color: var(--dark-color);
-  margin: 5px;
-  padding: 8px;
-  text-decoration: none;
-  background-color: var(--light-accent-color);
-  border-radius: 4px;
-  font-size: 12pt;
-  border: none;
-  width: 180px;
-  margin: 10px;
-}
 
+/* admin menu */ 
 .admin-button-box {
   display: flex;
   flex-direction: column;
@@ -217,3 +214,4 @@ body {
   flex-direction: row;
   justify-content: space-around;
 }
+
