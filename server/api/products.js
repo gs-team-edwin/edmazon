@@ -75,7 +75,6 @@ router.get('/:id', async (req, res, next) => {
 //FIX GET REQUEST ABOVE
 router.post('/:id', async (req, res, next) => {
   try {
-    console.log(req.body)
     const review = await Reviews.create(req.body)
     req.json(review)
   } catch (err) {

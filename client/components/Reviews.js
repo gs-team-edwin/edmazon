@@ -3,14 +3,18 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getAllReviews} from '../store/reviews'
 
-class Review extends Component {
+class Reviews extends Component {
   componentDidMount() {
     this.props.getAllReviews(this.props.match.params.id)
   }
   render() {
-    //const review = this.props
-    console.log(this.props)
-    return <div />
+    const {reviews} = this.props
+    console.log(reviews)
+    return (
+      <div>
+        <h2>Reviews</h2>
+      </div>
+    )
   }
 }
 
@@ -26,4 +30,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatch)(Review)
+export default connect(mapStateToProps, mapDispatch)(Reviews)

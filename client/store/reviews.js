@@ -21,7 +21,7 @@ export const getAllReviews = () => async dispatch => {
 
 export const writeReview = review => async dispatch => {
   try {
-    const {data} = await axios.post(`/api/products/`, review)
+    const {data} = await axios.post(`/api/products/:id`, review)
     dispatch(postReview(data))
   } catch (err) {
     console.error(err)
