@@ -5,7 +5,6 @@ import history from '../history'
 
 const SingleOrderRow = ({order}) => {
   const date = new Date(order.checkoutDate)
-  console.log('date: ', date)
   const dateString = `${date.getMonth() +
     1}/${date.getDate()}/${date.getFullYear()}`
   return (
