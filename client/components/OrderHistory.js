@@ -8,11 +8,11 @@ const SingleOrderRow = ({order}) => {
   const dateString = `${date.getMonth() +
     1}/${date.getDate()}/${date.getFullYear()}`
   return (
-    <tr className="order-row">
-      <td>{order.id}</td>
-      <td>{dateString}</td>
-      <td>{order.status}</td>
-    </tr>
+    <div className="order-row">
+      <span className="order-row-item">{order.id}</span>
+      <span className="order-row-item">{dateString}</span>
+      <span className="order-row-item">{order.status}</span>
+    </div>
   )
 }
 class OrderHistory extends React.Component {
@@ -28,22 +28,18 @@ class OrderHistory extends React.Component {
     const {userId, offset} = this.props.match.params
     return (
       <div className="orders-block">
-        <div className="page-subhead">
-          <h2>{user.email}'s orders:</h2>
+        <div className="page-subhead-container">
+          <div className="page-subhead">{user.email}'s orders:</div>
         </div>
 
-        <table className="order-table">
-          <tbody>
-            <tr>
-              <th>Order Number</th>
-              <th>Checkout Date</th>
-              <th>Status</th>
-            </tr>
-            {orders.map(order => (
-              <SingleOrderRow order={order} key={order.id} />
-            ))}
-          </tbody>
-        </table>
+        <div className="order-table">
+          <div className="order-row header">
+            <span className="order-row-item">Order Number</span>
+            <span className="order-row-item">Checkout Date</span>
+            <span className="order-row-item">Status</span>
+          </div>
+          {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
+        </div>
 
         <div className="pagination-container">
           {offset > 0 && (
