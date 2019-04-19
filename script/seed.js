@@ -176,9 +176,16 @@ function orderFactory(N) {
     if (thisUsersCartOrders.length) {
       status = 'completed'
     }
+    // if status is cart, checkout date is null
+    let checkoutDate
+    if (status === 'cart') {
+      checkoutDate = null
+    } else {
+      checkoutDate = randomDate()
+    }
 
     const tracking = faker.random.uuid()
-    const checkoutDate = randomDate()
+
     orders.push({
       userId,
       sessionId,
