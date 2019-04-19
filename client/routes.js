@@ -8,7 +8,7 @@ import {
   OrderHistory,
   BillingForm,
   CategoryProducts,
-  AdminOrderView
+  AdminOrdersView
 } from './components'
 import {me} from './store'
 import {Redirect} from 'react-router' //TODO fix back button bug.
@@ -23,6 +23,7 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn, isAdmin} = this.props
+    console.log('isAdmin: ', isAdmin)
 
     return (
       <Switch>
@@ -42,7 +43,9 @@ class Routes extends Component {
           )}
         />
         <Route exact path="/billing" component={BillingForm} />
-        {/* Redirect to first product page */}
+
+        {/* Redirects */}
+        <Redirect exact from="/admin/orders" to="/admin/orders/offset/0" />
         <Redirect exact from="/" to="/products/page/0" />
         <Redirect exact from="/index.html" to="/products/page/0" />
         {isLoggedIn && (
@@ -53,6 +56,18 @@ class Routes extends Component {
         {isAdmin && (
           <Switch>
             {/* Routes placed here are only available for admin users */}
+            {console.log('in isAdmin switch', isAdmin)}
+
+            <Route
+              exact
+              path="/admin/orders/offset/:offset"
+              render={rParams => (
+                <AdminOrdersView
+                  {...rParams}
+                  key={rParams.match.params.offset}
+                />
+              )}
+            />
           </Switch>
         )}
       </Switch>
