@@ -6,7 +6,10 @@ import {
   AllProducts,
   SingleProduct,
   OrderHistory,
+  AdminMenu,
+  AddProduct,
   BillingForm,
+  Cart,
   CategoryProducts,
   AdminOrdersView
 } from './components'
@@ -46,6 +49,10 @@ class Routes extends Component {
           component={CategoryProducts}
         />
         <Route exact path="/product/:id" component={SingleProduct} />
+        <Route exact path="/admin" component={AdminMenu} />
+        <Route exact path="/addproduct" component={AddProduct} />
+        <Route exact path="/user/:userId/cart" component={Cart} />
+
         <Route
           exact
           path="/user/:userId/orders/offset/:offset"

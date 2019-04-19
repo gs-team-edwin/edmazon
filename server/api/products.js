@@ -5,6 +5,8 @@ const {Op} = require('sequelize')
 const isAdmin = require('../middleware/isAdmin')
 module.exports = router
 
+// router /products/....
+
 router.get('/page/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
@@ -51,3 +53,13 @@ router.get('/:id', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/admin/add', async (req, res, next) => {
+  try {
+    await Product.create(req.body)
+  } catch (error) {
+    next(error)
+  }
+})
+
+
