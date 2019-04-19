@@ -26,7 +26,10 @@ class Navbar extends React.Component {
     } = this.props
     return (
       <div className="navbar">
-        <h1 className="navbar-title" onClick={() => history.push('/')}>
+        <h1
+          className="navbar-title"
+          onClick={() => history.push('/index.html')}
+        >
           EDMAZON
         </h1>
         <nav className="navbar-right-box">
@@ -37,7 +40,10 @@ class Navbar extends React.Component {
                 <div>{userEmail}!</div>
               </span>
               {userType === 'admin' && (
-                <button type="button" onClick={() => history.push('/admin')}>
+                <button
+                  type="button"
+                  onClick={() => history.push('/products/page/0')}
+                >
                   Admin
                 </button>
               )}

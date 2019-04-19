@@ -29,9 +29,30 @@ class Routes extends Component {
 
     return (
       <Switch>
+        {/* Routes placed here are available to all visitors */}
+        <Route exact path="/user/:userId/cart" component={Cart} />
+        <Route
+          exact
+          path="/user/:userId/orders/offset/:offset"
+          render={rParams => (
+            <OrderHistory {...rParams} key={rParams.match.params.offset} />
+          )}
+        />
+
+        <Route exact path="/products/page/:offset" component={AllProducts} />
+        <Route
+          exact
+          path="/products/categories/:categoryId/page/:offset"
+          component={CategoryProducts}
+        />
+        <Route exact path="/product/:id" component={SingleProduct} />
+        <Route exact path="/billing" component={BillingForm} />
         {isAdmin && (
           <Switch>
             {/* Routes placed here are only available for admin users */}
+            <Route exact path="/admin" component={AdminMenu} />
+            <Route exact path="/addproduct" component={AddProduct} />
+            {/* TODO There is a problem with the route below; if the /addproduct route is placed below it, it disappears */}
             <Route
               exact
               path="/admin/orders/offset/:offset/filter/:filter"
@@ -41,26 +62,6 @@ class Routes extends Component {
             />
           </Switch>
         )}
-        {/* Routes placed here are available to all visitors */}
-        <Route exact path="/products/page/:offset" component={AllProducts} />
-        <Route
-          exact
-          path="/products/categories/:categoryId/page/:offset"
-          component={CategoryProducts}
-        />
-        <Route exact path="/product/:id" component={SingleProduct} />
-        <Route exact path="/admin" component={AdminMenu} />
-        <Route exact path="/addproduct" component={AddProduct} />
-        <Route exact path="/user/:userId/cart" component={Cart} />
-
-        <Route
-          exact
-          path="/user/:userId/orders/offset/:offset"
-          render={rParams => (
-            <OrderHistory {...rParams} key={rParams.match.params.offset} />
-          )}
-        />
-        <Route exact path="/billing" component={BillingForm} />
 
         {/* Redirects */}
         <Redirect exact from="/admin/orders" to="/admin/orders/offset/0" />
