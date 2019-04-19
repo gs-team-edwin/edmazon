@@ -23,14 +23,12 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn, isAdmin} = this.props
-    console.log('isAdmin: ', isAdmin)
 
     return (
       <Switch>
         {isAdmin && (
           <Switch>
             {/* Routes placed here are only available for admin users */}
-            {console.log('in isAdmin switch', isAdmin)}
             <Route
               exact
               path="/admin/orders/offset/:offset"
