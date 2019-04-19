@@ -13,9 +13,8 @@ export default class SearchBar extends React.Component {
   }
   onFormSubmit(event) {
     event.preventDefault()
-    let poop = this.state.term
-    console.log(poop)
-    history.push(`/products/search/${poop}/page/0`)
+    let searchTerm = this.state.term
+    history.push(`/products/search/${searchTerm}/page/0`)
   }
   onFormChange(event) {
     this.setState({term: event.target.value})
