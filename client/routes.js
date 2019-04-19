@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-
 import {
   AllProducts,
   SingleProduct,
@@ -12,6 +11,7 @@ import {
   AddProduct,
   Cart,
   CategoryProducts,
+  AdminOrdersView,
   SearchResults,
   ReviewForm
 } from './components'
@@ -32,7 +32,6 @@ class Routes extends Component {
 
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
         <Route exact path="products/:id/newreview" component={ReviewForm} />
         <Route exact path="/user/:userId/cart" component={Cart} />
         <Route
@@ -42,7 +41,6 @@ class Routes extends Component {
             <OrderHistory {...rParams} key={rParams.match.params.offset} />
           )}
         />
-
         <Route
           exact
           path="/products/page/:offset"
@@ -64,7 +62,6 @@ class Routes extends Component {
             <SingleProduct {...rParams} key={rParams.match.url} />
           )}
         />
-        <Route exact path="/billing" component={BillingForm} />
         <Route
           exact
           path="/products/search/:term/page/:offset"
@@ -72,13 +69,12 @@ class Routes extends Component {
             <SearchResults {...rParams} key={rParams.match.url} />
           )}
         />
+        <Route exact path="/billing" component={BillingForm} />
 
         {isAdmin && (
           <Switch>
-            {/* Routes placed here are only available for admin users */}
             <Route exact path="/admin" component={AdminMenu} />
             <Route exact path="/addproduct" component={AddProduct} />
-            {/* TODO There is a problem with the route below; if the /addproduct route is placed below it, it disappears */}
             <Route
               exact
               path="/admin/orders/offset/:offset/filter/:filter"

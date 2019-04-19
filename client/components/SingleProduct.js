@@ -10,7 +10,6 @@ class SingleProduct extends Component {
   }
   render() {
     const selectedProduct = this.props.selectedProduct
-    console.log(this.props.selectedProduct)
     return (
       <div>
         <h1>{selectedProduct.title}</h1>
