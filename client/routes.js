@@ -4,7 +4,6 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import {
-  UserHome,
   AllProducts,
   SingleProduct,
   OrderHistory,
@@ -34,6 +33,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="products/:id/newreview" component={ReviewForm} />
         <Route exact path="/user/:userId/cart" component={Cart} />
         <Route
           exact
@@ -72,7 +72,7 @@ class Routes extends Component {
             <SearchResults {...rParams} key={rParams.match.url} />
           )}
         />
-        <Route exact path="products/:id/newreview" component={ReviewForm} />
+
         {isAdmin && (
           <Switch>
             {/* Routes placed here are only available for admin users */}

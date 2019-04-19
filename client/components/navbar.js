@@ -40,10 +40,7 @@ class Navbar extends React.Component {
                 <div>{userEmail}!</div>
               </span>
               {userType === 'admin' && (
-                <button
-                  type="button"
-                  onClick={() => history.push('/products/page/0')}
-                >
+                <button type="button" onClick={() => history.push('/admin')}>
                   Admin
                 </button>
               )}
