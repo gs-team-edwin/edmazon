@@ -21,7 +21,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn, isAdmin} = this.props
 
     return (
       <Switch>
@@ -41,10 +41,17 @@ class Routes extends Component {
           )}
         />
         <Route exact path="/billing" component={BillingForm} />
+        {/* Redirect to first product page */}
         <Redirect exact from="/" to="/products/page/0" />
+        <Redirect exact from="/index.html" to="/products/page/0" />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+          </Switch>
+        )}
+        {isAdmin && (
+          <Switch>
+            {/* Routes placed here are only available for admin users */}
           </Switch>
         )}
       </Switch>
@@ -59,7 +66,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.id && state.user.userType === 'admin'
   }
 }
 
