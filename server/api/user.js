@@ -17,7 +17,7 @@ router.get('/:userId/orders/count', async (req, res, next) => {
   }
 })
 
-router.get('/:userId/orders/page/:offset', async (req, res, next) => {
+router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
   try {
     const userId = Number(req.params.userId)
     if (!!req.user.id && userId !== req.user.id) {

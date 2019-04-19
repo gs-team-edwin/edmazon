@@ -12,7 +12,7 @@ const setUserOrdersCount = count => ({type: SET_USER_ORDERS_COUNT, count})
 //THUNK CREATORS
 export const getUserOrders = (userId, offset) => async dispatch => {
   try {
-    const url = `/api/user/${userId}/orders/page/${offset}`
+    const url = `/api/user/${userId}/orders/offset/${offset}`
     const res = await axios.get(url)
     dispatch(setUserOrders(res.data))
   } catch (err) {

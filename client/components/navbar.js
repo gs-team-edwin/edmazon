@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout, setPopup, closePopup} from '../store'
-import {SearchBar} from './index'
+import {SearchBar, CartButton} from './index'
 import history from '../history'
 
 class Navbar extends React.Component {
@@ -67,6 +67,7 @@ class Navbar extends React.Component {
             </span>
           )}
           <SearchBar />
+          <CartButton />
         </nav>
       </div>
     )
