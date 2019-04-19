@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {Order} = require('../db/models')
 const isAdmin = require('../middleware/isAdmin')
+const {Op} = require('sequelize')
 module.exports = router
 
 router.get('/:userId/orders/count', async (req, res, next) => {
@@ -26,7 +27,8 @@ router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
       const offset = Number(req.params.offset)
       const orders = await Order.findAll({
         where: {
-          userId: userId
+          userId: userId,
+          status: {[Op.ne]: 'cart'}
         },
         limit: 20,
         offset: offset,
