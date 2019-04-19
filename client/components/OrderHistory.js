@@ -4,10 +4,14 @@ import {getUserOrders, getUserOrderCount} from '../store'
 import history from '../history'
 
 const SingleOrderRow = ({order}) => {
+  const date = new Date(order.checkoutDate)
+  console.log('date: ', date)
+  const dateString = `${date.getMonth() +
+    1}/${date.getDate()}/${date.getFullYear()}`
   return (
     <tr className="order-row">
       <td>{order.id}</td>
-      <td>{Date.parse(order.checkoutDate)}</td>
+      <td>{dateString}</td>
       <td>{order.status}</td>
     </tr>
   )
@@ -30,12 +34,12 @@ class OrderHistory extends React.Component {
         </div>
 
         <table className="order-table">
-          <tr>
-            <th>Order Number</th>
-            <th>Checkout Date</th>
-            <th>Status</th>
-          </tr>
           <tbody>
+            <tr>
+              <th>Order Number</th>
+              <th>Checkout Date</th>
+              <th>Status</th>
+            </tr>
             {orders.map(order => (
               <SingleOrderRow order={order} key={order.id} />
             ))}
