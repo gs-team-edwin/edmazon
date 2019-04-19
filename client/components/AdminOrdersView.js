@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getUserOrders, getUserOrderCount} from '../store'
+import {getAdminOrders, getAdminOrderCount} from '../store'
 import history from '../history'
 
 const SingleOrderRow = ({order}) => {
@@ -15,21 +15,29 @@ const SingleOrderRow = ({order}) => {
     </div>
   )
 }
-class OrderHistory extends React.Component {
+class AdminOrdersView extends React.Component {
   componentDidMount() {
+    const {offset, filter} = this.props.match.params
     const {getOrders, getCount} = this.props
-    const {userId, offset} = this.props.match.params
-    getOrders(userId, offset)
-    getCount(userId)
+    getOrders(offset, filter)
+    getCount(filter)
   }
 
   render() {
-    const {orders, user, count} = this.props
-    const {userId, offset} = this.props.match.params
+    const {orders, count} = this.props
+    const {offset, filter} = this.props.match.params
     return (
       <div className="orders-block">
         <div className="page-subhead-container">
-          <div className="page-subhead">{user.email}'s orders:</div>
+          <div className="page-subhead">All orders</div>
+          <select>
+            <option value="all">All</option>
+            <option value="cart">Cart</option>
+            <option value="created">Created</option>
+            <option value="processing">Processing</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="completed">Completed</option>
+          </select>
         </div>
 
         <div className="order-table">
@@ -48,20 +56,21 @@ class OrderHistory extends React.Component {
               type="button"
               onClick={() => {
                 history.push(
-                  `/user/${userId}/orders/offset/${Number(offset) - 20}`
+                  `/admin/orders/offset/${Number(offset) - 20}/filter/${filter}`
                 )
               }}
             >
               PREV
             </button>
           )}
+
           {count > +offset + 20 && (
             <button
               className="pagination-button next"
               type="button"
               onClick={() => {
                 history.push(
-                  `/user/${userId}/orders/offset/${Number(offset) + 20}`
+                  `/admin/orders/offset/${Number(offset) + 20}/filter/${filter}`
                 )
               }}
             >
@@ -76,21 +85,16 @@ class OrderHistory extends React.Component {
 
 const mapState = state => {
   return {
-    orders: state.userOrders.orders,
-    user: state.user,
-    count: state.userOrders.count
+    orders: state.adminOrders.orders,
+    count: state.adminOrders.count
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getOrders: (userId, offset) => {
-      dispatch(getUserOrders(userId, offset))
-    },
-    getCount: userId => {
-      dispatch(getUserOrderCount(userId))
-    }
+    getOrders: (offset, filter) => dispatch(getAdminOrders(offset, filter)),
+    getCount: filter => dispatch(getAdminOrderCount(filter))
   }
 }
 
-export default connect(mapState, mapDispatch)(OrderHistory)
+export default connect(mapState, mapDispatch)(AdminOrdersView)

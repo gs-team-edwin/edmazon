@@ -158,8 +158,7 @@ function reviewInfoFactory(N) {
 // build orders array
 function orderFactory(N) {
   let orders = []
-  for (let i = 0; i < N; i++) {
-    const userId = getRandomInteger(N) + 1
+  function buildAndAddOrder(userId) {
     const sessionId = null
     const statusChoices = [
       'cart',
@@ -168,9 +167,25 @@ function orderFactory(N) {
       'cancelled',
       'completed'
     ]
-    const status = statusChoices[getRandomInteger(5)]
+    let status = statusChoices[getRandomInteger(5)]
+
+    // check to see if the user in question already has a cart order
+    const thisUsersCartOrders = orders.filter(
+      order => order.userId === userId && order.status === 'cart'
+    )
+    if (thisUsersCartOrders.length) {
+      status = 'completed'
+    }
+    // if status is cart, checkout date is null
+    let checkoutDate
+    if (status === 'cart') {
+      checkoutDate = null
+    } else {
+      checkoutDate = randomDate()
+    }
+
     const tracking = faker.random.uuid()
-    const checkoutDate = randomDate()
+
     orders.push({
       userId,
       sessionId,
@@ -179,6 +194,18 @@ function orderFactory(N) {
       checkoutDate
     })
   }
+
+  // add 100 orders with random users
+  for (let i = 0; i < N; i++) {
+    const userId = getRandomInteger(N) + 1
+    buildAndAddOrder(userId)
+  }
+
+  // add 50 orders to the first user
+  for (let i = 0; i < 100; i += 1) {
+    buildAndAddOrder(1)
+  }
+
   return orders
 }
 
@@ -221,8 +248,12 @@ function productCategoryFactory(N, CATEGORY_COUNT) {
 async function ordersProductsFactory(N) {
   const ordersProductsArr = []
 
+  // get length of order array
+  const ordersList = await Order.findAll()
+  const numOfOrders = ordersList.length
+
   // loop through N
-  for (let i = 0; i < N; i++) {
+  for (let i = 0; i < numOfOrders; i++) {
     const numberOfProducts = getRandomInteger(4) + 1
 
     // set the first product id

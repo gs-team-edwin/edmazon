@@ -2,11 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout, setPopup} from '../store'
-import {SearchBar} from './index'
+import {logout, setPopup, closePopup} from '../store'
+import {SearchBar, CartButton} from './index'
 import history from '../history'
 
 class Navbar extends React.Component {
+  componentDidUpdate() {
+    // close the popup if we have successfully logged in
+    if (this.props.isLoggedIn) {
+      this.props.closePopup()
+    }
+  }
+
   render() {
     const {
       handleClick,
@@ -14,16 +21,24 @@ class Navbar extends React.Component {
       openLoginPopup,
       openSignupPopup,
       userType,
-      userId
+      userId,
+      userEmail
     } = this.props
     return (
       <div className="navbar">
-        <h1 className="navbar-title" onClick={() => history.push('/')}>
+        <h1
+          className="navbar-title"
+          onClick={() => history.push('/index.html')}
+        >
           EDMAZON
         </h1>
         <nav className="navbar-right-box">
           {isLoggedIn ? (
             <span className="navbar-link-container">
+              <span className="login-message">
+                <div>Welcome,</div>
+                <div>{userEmail}!</div>
+              </span>
               {userType === 'admin' && (
                 <button type="button" onClick={() => history.push('/admin')}>
                   Admin
@@ -31,7 +46,7 @@ class Navbar extends React.Component {
               )}
               <button
                 type="button"
-                onClick={() => history.push(`/user/${userId}/orders/page/0`)}
+                onClick={() => history.push(`/user/${userId}/orders/offset/0`)}
               >
                 My Orders
               </button>
@@ -55,6 +70,7 @@ class Navbar extends React.Component {
             </span>
           )}
           <SearchBar />
+          <CartButton />
         </nav>
       </div>
     )
@@ -68,7 +84,8 @@ const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
     userType: state.user.userType,
-    userId: state.user.id
+    userId: state.user.id,
+    userEmail: state.user.email
   }
 }
 
@@ -82,6 +99,9 @@ const mapDispatch = dispatch => {
     },
     openSignupPopup() {
       dispatch(setPopup('signup'))
+    },
+    closePopup() {
+      dispatch(closePopup())
     }
   }
 }

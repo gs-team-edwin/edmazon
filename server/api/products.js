@@ -2,6 +2,7 @@ const router = require('express').Router()
 const {Product, Photo, Review} = require('../db/models')
 const {Category} = require('../db/models')
 const {Op} = require('sequelize')
+const isAdmin = require('../middleware/isAdmin')
 module.exports = router
 
 // router /products/....
@@ -101,7 +102,6 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/:id/reviews', async (req, res, next) => {
   try {
-    console.log(`**********`, req.body)
     const review = await Review.create(req.body)
     res.json(review)
   } catch (err) {
@@ -116,5 +116,3 @@ router.post('/admin/add', async (req, res, next) => {
     next(error)
   }
 })
-
-

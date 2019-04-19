@@ -5,17 +5,17 @@ const Order = require('./order')
 const Photo = require('./photo')
 const Product = require('./product')
 const Review = require('./review')
-const Session = require('./session')
+// const Session = require('./session')
 const ProductsCategories = require('./ProductsCategories')
 const PhotosProducts = require('./PhotosProducts')
 /**
- * NOTES!
- * Photos is unfinished
+ * TODO
+ * Session has been commented out as this is provided; cannot get working defining it manually
  *
  */
 
-Order.belongsTo(Session)
-User.hasMany(Session)
+// Order.belongsTo(Session)
+// User.hasMany(Session)
 Review.belongsTo(User)
 User.hasMany(Order)
 Category.belongsToMany(Product, {
@@ -44,7 +44,7 @@ module.exports = {
   Photo,
   Product,
   Review,
-  Session,
+  // Session,
   ProductsCategories,
   PhotosProducts
 }
