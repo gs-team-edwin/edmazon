@@ -11,4 +11,5 @@ export {default as SingleProduct} from './SingleProduct'
 export {default as OrderHistory} from './OrderHistory'
 export {default as AdminMenu} from './AdminMenu'
 export {default as AddProduct} from './AddProduct'
+export {default as Cart} from './Cart'
 
