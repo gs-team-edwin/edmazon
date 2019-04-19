@@ -160,3 +160,14 @@ img {
   padding: 5px; /* Some padding */
   width: 150px; /* Set a small width */
 }
+
+button {
+  color: var(--dark-color);
+  margin: 5px;
+  padding: 8px;
+  text-decoration: none;
+  background-color: var(--light-accent-color);
+  border-radius: 4px;
+  font-size: 10pt;
+  border: none;
+}

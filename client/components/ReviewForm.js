@@ -1,14 +1,17 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {writeReview} from '../store/reviews'
 //update order History with addreses
+
+//STILL NEEDS WORK
 
 class ReviewForm extends React.Component {
   constructor() {
     super()
     this.state = {
-      rating: '',
+      stars: 0,
       title: '',
-      content: ''
+      body: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -17,11 +20,14 @@ class ReviewForm extends React.Component {
   async handleSubmit(event) {
     try {
       event.preventDefault()
-      // this.setState({
-      //   firstName: '',
-      //   lastName: '',
-      //   address: ''
-      // })
+      await this.props.writeReview(this.props.match.params.id, {
+        stars: this.state.stars,
+        title: this.state.title,
+        body: this.state.body,
+        productId: Number(this.props.match.params.id),
+        userId: 10
+      })
+      this.props.history.push(`/product/${this.props.match.params.id}`)
     } catch (err) {
       console.log(err)
     }
@@ -29,37 +35,39 @@ class ReviewForm extends React.Component {
 
   handleChange = event => {
     this.setState({
-      firstName: event.targe.value
+      [event.target.name]: event.target.value
     })
   }
   render() {
-    const {rating, title, content} = this.state
+    const {stars, title, body} = this.state
     return (
       <form onSubmit={this.handleSubmit}>
-        <h1>Shipping & Billing Address</h1>
+        <h3>Review Products</h3>
         <div>
           <label htmlFor="name">STARS:</label>
           <input
             type="text"
-            name="rating"
+            name="stars"
             onChange={this.handleChange}
-            value={rating}
+            value={stars}
           />
-          <label htmlFor="name">Title:</label>
+          <label htmlFor="title">Title:</label>
           <input
-            type="title"
-            name="name"
+            required
+            type="text"
+            name="title"
             onChange={this.handleChange}
             value={title}
           />
         </div>
         <div>
-          <label htmlFor="adress">review:</label>
+          <label htmlFor="body">review:</label>
           <input
-            type="review"
-            name="address"
+            required
+            type="text"
+            name="body"
             onChange={this.handleChange}
-            value={content}
+            value={body}
           />
         </div>
 
@@ -73,11 +81,10 @@ class ReviewForm extends React.Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => ({
-//   //placeholder,
+const mapDispatchToProps = dispatch => ({
+  writeReview: (userId, review) => dispatch(writeReview(userId, review))
+})
 
-//});
+export default connect(null, mapDispatchToProps)(ReviewForm)
 
-//export default connect(null, mapDispatchToProps)(ReviewForm)
-
-export default ReviewForm
+//export default ReviewForm

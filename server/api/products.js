@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product, Photo, Reviews} = require('../db/models')
+const {Product, Photo, Review} = require('../db/models')
 const {Category} = require('../db/models')
 const {Op} = require('sequelize')
 module.exports = router
@@ -64,7 +64,7 @@ router.get('/:id', async (req, res, next) => {
     let id = req.params.id
     const product = await Product.findOne({
       where: {id},
-      include: [{model: Photo}]
+      include: [{model: Photo}, {model: Review}]
     })
     res.json(product)
   } catch (err) {
@@ -72,11 +72,13 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-//FIX GET REQUEST ABOVE
-router.post('/:id', async (req, res, next) => {
+//THIS NEEDS TO BE IN THE ABLOVE ROUTE
+
+router.post('/:id/reviews', async (req, res, next) => {
   try {
-    const review = await Reviews.create(req.body)
-    req.json(review)
+    console.log(`**********`, req.body)
+    const review = await Review.create(req.body)
+    res.json(review)
   } catch (err) {
     next(err)
   }
