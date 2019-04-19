@@ -12,6 +12,26 @@ router.get('/page/:offset', async (req, res, next) => {
     const products = await Product.findAll({
       include: [{model: Photo}],
       limit: 20,
+      offset: 20*offset
+    })
+    res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/search/:term/page/:offset', async (req, res, next) => {
+  try {
+    let offset = Number(req.params.offset)
+    let query = req.params.term
+    const products = await Product.findAll({
+      include: [{model: Photo}],
+      where: {
+        title: {
+          [Op.like]: `%${query}%`
+        }
+      },
+      limit: 20,
       offset: 20 * offset
     })
     res.json(products)
@@ -38,6 +58,7 @@ router.get('/search/:term/page/:offset', async (req, res, next) => {
   }
 })
 
+
 router.get('/categories/:categoryId/page/:offset', async (req, res, next) => {
   try {
     let id = parseInt(req.params.categoryId, 10)
@@ -53,7 +74,8 @@ router.get('/categories/:categoryId/page/:offset', async (req, res, next) => {
     if (results[0]) {
       let desiredProducts = results[0].products
       res.json(desiredProducts)
-    } else {
+    }
+    else {
       res.json([])
     }
   } catch (err) {
@@ -64,6 +86,7 @@ router.get('/categories/:categoryId/page/:offset', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
+
     const product = await Product.findOne({
       where: {id},
       include: [{model: Photo}, {model: Review}]
