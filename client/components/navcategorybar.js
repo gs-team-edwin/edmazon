@@ -20,7 +20,7 @@ class NavCategoryBar extends React.Component {
                 type="button"
                 onClick={() => this.props.gotAllProducts(category.id, 0)}
               >
-                Category {category.name}
+                {category.name}
               </button>
             ))}
           </span>
