@@ -43,7 +43,7 @@ class Navbar extends React.Component {
               )}
               <button
                 type="button"
-                onClick={() => history.push(`/user/${userId}/orders/page/0`)}
+                onClick={() => history.push(`/user/${userId}/orders/offset/0`)}
               >
                 My Orders
               </button>

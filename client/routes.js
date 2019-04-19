@@ -7,7 +7,8 @@ import {
   SingleProduct,
   OrderHistory,
   BillingForm,
-  CategoryProducts
+  CategoryProducts,
+  AdminOrderView
 } from './components'
 import {me} from './store'
 import {Redirect} from 'react-router' //TODO fix back button bug.
@@ -35,7 +36,7 @@ class Routes extends Component {
         <Route exact path="/product/:id" component={SingleProduct} />
         <Route
           exact
-          path="/user/:userId/orders/page/:offset"
+          path="/user/:userId/orders/offset/:offset"
           render={rParams => (
             <OrderHistory {...rParams} key={rParams.match.params.offset} />
           )}

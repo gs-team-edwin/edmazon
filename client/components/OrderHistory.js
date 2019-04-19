@@ -48,7 +48,7 @@ class OrderHistory extends React.Component {
               type="button"
               onClick={() => {
                 history.push(
-                  `/user/${userId}/orders/page/${Number(offset) - 20}`
+                  `/user/${userId}/orders/offset/${Number(offset) - 20}`
                 )
               }}
             >
@@ -61,7 +61,7 @@ class OrderHistory extends React.Component {
               type="button"
               onClick={() => {
                 history.push(
-                  `/user/${userId}/orders/page/${Number(offset) + 20}`
+                  `/user/${userId}/orders/offset/${Number(offset) + 20}`
                 )
               }}
             >

@@ -188,6 +188,8 @@ body {
   margin-bottom: 10px;
 }
 .order-table {
+  border: 2px solid var(--dark-color);
+  border-radius: 4px;
 }
 .order-row {
   font-size: 16px;
@@ -201,7 +203,8 @@ body {
   color: var(--light-accent-color);
 }
 .order-row.header {
-  background-color: var(--light-color);
+  background-color: var(--dark-color);
+  color: var(--light-color);
   font-weight: bold;
 }
 .order-row-item {
