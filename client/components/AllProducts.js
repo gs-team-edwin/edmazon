@@ -9,6 +9,7 @@ class AllProducts extends Component {
   }
   render() {
     const products = this.props.products
+    console.log(products)
     return (
       <div>
         <ul type="none">
