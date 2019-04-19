@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  if (!!req.user.id && req.user.userType === 'admin') {
+  if (!!req.user && !!req.user.id && req.user.userType === 'admin') {
     //update to include whatever condition is appropriate
     next()
   } else {
