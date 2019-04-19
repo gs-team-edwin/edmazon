@@ -4,22 +4,26 @@ import {} from '../store'
 import history from '../history'
 
 class CartButton extends React.Component {
+  componentDidMount() {
+    this.props.getCartLength()
+  }
+
   render() {
-    return (
-      <div className="cart-button">
-        Cart
-        <div className="cart-button-count" />
-      </div>
-    )
+    const {cartLength} = this.props
+    return <div className="cart-button">Cart ({cartLength})</div>
   }
 }
 
-mapStateToProps = state => {
-  return {}
+const mapStateToProps = state => {
+  return {
+    cartLength: 0
+  }
 }
 
-mapDispatchToProps = dispatch => {
-  return {}
+const mapDispatchToProps = dispatch => {
+  return {
+    getCartLength: () => {}
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartButton)
