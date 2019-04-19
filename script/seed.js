@@ -19,7 +19,7 @@ const faker = require('faker')
  ***********************************/
 
 const N = 100
-const PHOTO_COUNT = 13
+const PHOTO_COUNT = 5
 const CATEGORY_COUNT = 5
 
 /***********************************

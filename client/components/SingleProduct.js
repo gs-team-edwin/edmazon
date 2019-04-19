@@ -9,7 +9,6 @@ class SingleProduct extends Component {
   }
   render() {
     const selectedProduct = this.props.selectedProduct
-    console.log(this.props.selectedProduct)
     return (<div>
       {selectedProduct.title}
       {this.props.selectedProduct && this.props.selectedProduct.photos ? <img src={`${this.props.selectedProduct.photos[0].photoUrl}`}/> : <div>
