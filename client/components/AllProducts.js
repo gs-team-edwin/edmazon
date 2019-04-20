@@ -12,7 +12,6 @@ class AllProducts extends Component {
   }
   render() {
     const {products, count} = this.props
-    console.log('count: ', count)
     const offset = Number(this.props.match.params.offset)
     return (
       <div>

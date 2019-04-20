@@ -9,7 +9,7 @@ import history from '../history'
 class Navbar extends React.Component {
   componentDidUpdate() {
     // close the popup if we have successfully logged in
-    if (this.props.isLoggedIn) {
+    if (this.props.isLoggedIn && this.props.popup) {
       this.props.closePopup()
     }
   }
