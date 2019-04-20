@@ -43,14 +43,14 @@ class Routes extends Component {
         />
         <Route
           exact
-          path="/products/page/:offset"
+          path="/products/offset/:offset"
           render={rParams => (
             <AllProducts {...rParams} key={rParams.match.url} />
           )}
         />
         <Route
           exact
-          path="/products/categories/:categoryId/page/:offset"
+          path="/products/categories/:categoryId/offset/:offset"
           render={rParams => (
             <CategoryProducts {...rParams} key={rParams.match.url} />
           )}
@@ -64,7 +64,7 @@ class Routes extends Component {
         />
         <Route
           exact
-          path="/products/search/:term/page/:offset"
+          path="/products/search/:term/offset/:offset"
           render={rParams => (
             <SearchResults {...rParams} key={rParams.match.url} />
           )}
@@ -91,8 +91,8 @@ class Routes extends Component {
           from="/admin/orders"
           to="/admin/orders/offset/0/filter/all"
         />
-        <Redirect exact from="/" to="/products/page/0" />
-        <Redirect exact from="/index.html" to="/products/page/0" />
+        <Redirect exact from="/" to="/products/offset/0" />
+        <Redirect exact from="/index.html" to="/products/offset/0" />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

@@ -3,16 +3,19 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getProductBySearch} from '../store/'
 import {PaginationButtons} from './'
+import history from '../history'
 
 class SearchResults extends Component {
   componentDidMount() {
-    this.props.gotAllProducts(
-      this.props.match.params.term,
-      this.props.match.params.offset
-    )
+    const {term} = this.props.match.params
+    const offset = Number(this.props.match.params.offset)
+    this.props.getProducts(term, offset)
   }
+  // history.push()
   render() {
-    const products = this.props.products
+    const {products, count} = this.props
+    const {term} = this.props.match.params
+    const offset = Number(this.props.match.params.offset)
     return (
       <div>
         <ul type="none">
@@ -24,45 +27,26 @@ class SearchResults extends Component {
             </li>
           ))}
         </ul>
-        <div>
-          {this.props.match.params.offset > 0 && (
-            <button
-              type="button"
-              onClick={() =>
-                this.props.gotAllProducts(
-                  this.props.match.params.term,
-                  parseInt(this.props.match.params.offset, 10) - 1
-                )
-              }
-            >
-              Previous
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={() =>
-              this.props.gotAllProducts(
-                this.props.match.params.term,
-                parseInt(this.props.match.params.offset, 10) + 1
-              )
-            }
-          >
-            Next
-          </button>
-        </div>
+        <PaginationButtons
+          url={`/products/search/${term}/offset/:offset`}
+          offset={offset}
+          pageSize={20}
+          count={count}
+        />
       </div>
     )
   }
 }
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products.products,
+    count: state.products.count
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    gotAllProducts: (term, offset) => dispatch(getProductBySearch(term, offset))
+    getProducts: (term, offset) => dispatch(getProductBySearch(term, offset))
   }
 }
 

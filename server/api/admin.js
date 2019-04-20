@@ -23,7 +23,6 @@ router.get('/orders/count/filter/:filter', isAdmin, async (req, res, next) => {
         }
       })
     }
-    console.log('ORDERS.LENGTH', orders.length)
     res.json(orders.length)
   } catch (err) {
     next(err)

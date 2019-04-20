@@ -3,16 +3,20 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getProductByCategory} from '../store/'
 import {PaginationButtons} from './'
+import history from '../history'
 
 class CategoryProducts extends Component {
   componentDidMount() {
-    this.props.gotAllProducts(
-      this.props.match.params.categoryId,
-      this.props.match.params.offset
-    )
+    const categoryId = Number(this.props.match.params.categoryId)
+    const offset = Number(this.props.match.params.offset)
+    this.props.getProducts(categoryId, offset)
   }
+
   render() {
-    const products = this.props.products
+    const {products, count} = this.props
+    const {categoryId} = this.props.match.params
+    const offset = Number(this.props.match.params.offset)
+
     return (
       <div>
         <ul type="none">
@@ -24,45 +28,26 @@ class CategoryProducts extends Component {
             </li>
           ))}
         </ul>
-        <div>
-          {this.props.match.params.offset > 0 && (
-            <button
-              type="button"
-              onClick={() =>
-                this.props.gotAllProducts(
-                  this.props.match.params.categoryId,
-                  parseInt(this.props.match.params.offset, 10) - 1
-                )
-              }
-            >
-              Previous
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={() =>
-              this.props.gotAllProducts(
-                this.props.match.params.categoryId,
-                parseInt(this.props.match.params.offset, 10) + 1
-              )
-            }
-          >
-            Next
-          </button>
-        </div>
+        <PaginationButtons
+          url={`/products/categories/${categoryId}/offset/:offset`}
+          offset={offset}
+          pageSize={20}
+          count={count}
+        />
       </div>
     )
   }
 }
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products.products,
+    count: state.products.count
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    gotAllProducts: (category, offset) =>
+    getProducts: (category, offset) =>
       dispatch(getProductByCategory(category, offset))
   }
 }

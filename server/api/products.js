@@ -5,21 +5,22 @@ const {Op} = require('sequelize')
 const isAdmin = require('../middleware/isAdmin')
 module.exports = router
 
-router.get('/page/:offset', async (req, res, next) => {
+router.get('/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
     const products = await Product.findAll({
       include: [{model: Photo}],
       limit: 20,
-      offset: 20 * offset
+      offset: offset
     })
-    res.json(products)
+    const count = await Product.count()
+    res.json({products, count})
   } catch (err) {
     next(err)
   }
 })
 
-router.get('/search/:term/page/:offset', async (req, res, next) => {
+router.get('/search/:term/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
     let query = req.params.term
@@ -31,17 +32,24 @@ router.get('/search/:term/page/:offset', async (req, res, next) => {
         }
       },
       limit: 20,
-      offset: 20 * offset
+      offset: offset
     })
-    res.json(products)
+    const count = await Product.count({
+      where: {
+        title: {
+          [Op.like]: `%${query}%`
+        }
+      }
+    })
+    res.json({products, count})
   } catch (err) {
     next(err)
   }
 })
 
-router.get('/categories/:categoryId/page/:offset', async (req, res, next) => {
+router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
   try {
-    let id = parseInt(req.params.categoryId, 10)
+    let id = Number(req.params.categoryId)
     let offset = Number(req.params.offset)
     let results = await Category.findAll({
       include: [{model: Product, include: [{model: Photo}]}],
@@ -49,13 +57,20 @@ router.get('/categories/:categoryId/page/:offset', async (req, res, next) => {
         id: id
       },
       limit: 20,
-      offset: 20 * offset
+      offset: offset
+    })
+    let countList = await Category.findAll({
+      include: [{model: Product, include: [{model: Photo}]}],
+      where: {
+        id: id
+      }
     })
     if (results[0]) {
-      let desiredProducts = results[0].products
-      res.json(desiredProducts)
+      let products = results[0].products
+      let count = countList[0].products.length
+      res.json({count: count, products})
     } else {
-      res.json([])
+      res.json({count: 0, products: []})
     }
   } catch (err) {
     next(err)
