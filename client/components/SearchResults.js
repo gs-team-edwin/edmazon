@@ -40,9 +40,11 @@ class SearchResults extends Component {
             />
           </div>
         )}
-        <div className="page-subhead-container">
-          <div className="page-subhead">No results for query "{term}"</div>
-        </div>
+        {!found && (
+          <div className="page-subhead-container">
+            <div className="page-subhead">No results for query "{term}"</div>
+          </div>
+        )}
       </div>
     )
   }

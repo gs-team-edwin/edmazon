@@ -13,27 +13,49 @@ class CategoryProducts extends Component {
   }
 
   render() {
-    const {products, count} = this.props
+    const {products, count, found, categories} = this.props
     const {categoryId} = this.props.match.params
     const offset = Number(this.props.match.params.offset)
 
+    let categoryName = categories.length ? categories[categoryId - 1].name : ''
+
     return (
       <div>
-        <ul type="none">
-          {products.map(product => (
-            <li key={product.id}>
-              <img src={`${product.photos[0].photoUrl}`} />
-              <Link to={`/product/${product.id}`}> {product.title}</Link>
-              <div>${product.price}</div>
-            </li>
-          ))}
-        </ul>
-        <PaginationButtons
-          url={`/products/categories/${categoryId}/offset/:offset`}
-          offset={offset}
-          pageSize={20}
-          count={count}
-        />
+        {!found &&
+          count === 0 && (
+            <div className="page-subhead-container">
+              <div className="page-subhead">Loading</div>
+            </div>
+          )}
+        {found && (
+          <div>
+            <div className="page-subhead-container">
+              <div className="page-subhead">
+                Products in category {categoryName}
+              </div>
+            </div>
+            <ul type="none">
+              {products.map(product => (
+                <li key={product.id}>
+                  <img src={`${product.photos[0].photoUrl}`} />
+                  <Link to={`/product/${product.id}`}> {product.title}</Link>
+                  <div>${product.price}</div>
+                </li>
+              ))}
+            </ul>
+            <PaginationButtons
+              url={`/products/categories/${categoryId}/offset/:offset`}
+              offset={offset}
+              pageSize={20}
+              count={count}
+            />
+          </div>
+        )}
+        {!found && (
+          <div className="page-subhead-container">
+            <div className="page-subhead">That category is empty</div>
+          </div>
+        )}
       </div>
     )
   }
@@ -41,7 +63,9 @@ class CategoryProducts extends Component {
 const mapStateToProps = state => {
   return {
     products: state.products.products,
-    count: state.products.count
+    count: state.products.count,
+    found: state.products.found,
+    categories: state.categories
   }
 }
 

@@ -52,26 +52,26 @@ router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
   try {
     let id = Number(req.params.categoryId)
     let offset = Number(req.params.offset)
-    let results = await Category.findAll({
-      include: [{model: Product, include: [{model: Photo}]}],
-      where: {
-        id: id
-      },
-      limit: 20,
-      offset: offset
-    })
-    let countList = await Category.findAll({
+    let category = await Category.findOne({
       include: [{model: Product, include: [{model: Photo}]}],
       where: {
         id: id
       }
     })
-    if (results[0]) {
-      let products = results[0].products
-      let count = countList[0].products.length
-      res.json({count: count, products, found: true})
+    // if no category matches or if no products in category
+    if (!category || category.products === []) {
+      res.json({
+        count: 0,
+        products: [],
+        found: false
+      })
     } else {
-      res.json({count: 0, products: [], found: false})
+      let count = category.products.length
+      res.json({
+        count: count,
+        products: category.products.slice(offset, offset + 20),
+        found: true
+      })
     }
   } catch (err) {
     next(err)
