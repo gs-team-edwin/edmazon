@@ -16,7 +16,9 @@ class NavCategoryBar extends React.Component {
           <button
             key={category.id}
             type="button"
-            onClick={() => this.props.gotAllProducts(category.id, 0)}
+            onClick={() =>
+              history.push(`/products/categories/${category.id}/offset/0`)
+            }
           >
             {category.name.toUpperCase()}
           </button>
