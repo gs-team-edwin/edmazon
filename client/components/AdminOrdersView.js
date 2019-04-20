@@ -30,7 +30,13 @@ class AdminOrdersView extends React.Component {
       <div className="orders-block">
         <div className="page-subhead-container">
           <div className="page-subhead">All orders</div>
-          <select>
+          <select
+            onChange={evt => {
+              const value = evt.target.value
+              history.push(`/admin/orders/offset/0/filter/${value}`)
+            }}
+            value={filter}
+          >
             <option value="all">All</option>
             <option value="created">Created</option>
             <option value="processing">Processing</option>
