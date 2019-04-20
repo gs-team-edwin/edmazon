@@ -32,7 +32,6 @@ class AdminOrdersView extends React.Component {
           <div className="page-subhead">All orders</div>
           <select>
             <option value="all">All</option>
-            <option value="cart">Cart</option>
             <option value="created">Created</option>
             <option value="processing">Processing</option>
             <option value="cancelled">Cancelled</option>
