@@ -335,7 +335,7 @@ async function seed() {
   console.log(`seeded ${orders.length} orders`)
 
   const photos = await Photo.bulkCreate(photoFactory(PHOTO_COUNT))
-  console.log(`seeded ${photos.length} reviews`)
+  console.log(`seeded ${photos.length} photos`)
 
   const ordersProducts = await OrdersProducts.bulkCreate(
     await ordersProductsFactory(N)
