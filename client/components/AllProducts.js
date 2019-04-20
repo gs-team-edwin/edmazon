@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/'
+import {PaginationButtons} from './'
 
 class AllProducts extends Component {
   componentDidMount() {
@@ -21,6 +22,7 @@ class AllProducts extends Component {
             </li>
           ))}
         </ul>
+
         <div>
           {this.props.match.params.offset > 0 && (
             <button

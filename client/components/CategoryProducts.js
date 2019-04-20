@@ -2,10 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getProductByCategory} from '../store/'
+import {PaginationButtons} from './'
 
 class CategoryProducts extends Component {
   componentDidMount() {
-    this.props.gotAllProducts(this.props.match.params.categoryId, this.props.match.params.offset)
+    this.props.gotAllProducts(
+      this.props.match.params.categoryId,
+      this.props.match.params.offset
+    )
   }
   render() {
     const products = this.props.products
@@ -14,7 +18,7 @@ class CategoryProducts extends Component {
         <ul type="none">
           {products.map(product => (
             <li key={product.id}>
-              <img src={`${product.photos[0].photoUrl}`}/>
+              <img src={`${product.photos[0].photoUrl}`} />
               <Link to={`/product/${product.id}`}> {product.title}</Link>
               <div>${product.price}</div>
             </li>
@@ -25,7 +29,8 @@ class CategoryProducts extends Component {
             <button
               type="button"
               onClick={() =>
-                this.props.gotAllProducts(this.props.match.params.categoryId,
+                this.props.gotAllProducts(
+                  this.props.match.params.categoryId,
                   parseInt(this.props.match.params.offset, 10) - 1
                 )
               }
@@ -36,7 +41,8 @@ class CategoryProducts extends Component {
           <button
             type="button"
             onClick={() =>
-              this.props.gotAllProducts(this.props.match.params.categoryId,
+              this.props.gotAllProducts(
+                this.props.match.params.categoryId,
                 parseInt(this.props.match.params.offset, 10) + 1
               )
             }
@@ -56,7 +62,8 @@ const mapStateToProps = state => {
 
 const mapDispatch = dispatch => {
   return {
-    gotAllProducts: (category, offset) => dispatch(getProductByCategory(category, offset))
+    gotAllProducts: (category, offset) =>
+      dispatch(getProductByCategory(category, offset))
   }
 }
 

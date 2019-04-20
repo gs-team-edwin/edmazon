@@ -42,9 +42,8 @@ class OrderHistory extends React.Component {
           {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
         </div>
         <PaginationButtons
-          url="/user/:userId/orders/offset/:offset"
+          url={`/user/${userId}/orders/offset/:offset`}
           offset={Number(offset)}
-          urlParams={{userId: userId}}
           pageSize={20}
           count={count}
         />

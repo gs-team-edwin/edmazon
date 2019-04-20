@@ -55,9 +55,8 @@ class AdminOrdersView extends React.Component {
           {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
         </div>
         <PaginationButtons
-          url="/admin/orders/offset/:offset/filter/:filter"
+          url={`/admin/orders/offset/:offset/filter/${filter}`}
           offset={Number(offset)}
-          urlParams={{filter: filter}}
           pageSize={20}
           count={count}
         />
