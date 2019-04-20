@@ -28,7 +28,7 @@ class Navbar extends React.Component {
       <div className="navbar">
         <h1
           className="navbar-title"
-          onClick={() => history.push('/index.html')}
+          onClick={() => history.push('/products/offset/0')}
         >
           EDMAZON
         </h1>

@@ -92,7 +92,6 @@ class Routes extends Component {
           to="/admin/orders/offset/0/filter/all"
         />
         <Redirect exact from="/" to="/products/offset/0" />
-        <Redirect exact from="/index.html" to="/products/offset/0" />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
