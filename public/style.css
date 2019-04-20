@@ -3,6 +3,7 @@
   --dark-accent-color: rgb(35, 47, 61);
   --light-accent-color: rgb(252, 188, 12);
   --light-bg-color: lightgrey;
+  --muted-fg-color: darkgrey;
   --light-color: white;
   --dark-color: black;
 }
@@ -14,6 +15,9 @@
 }
 body {
   margin: 0px;
+}
+button {
+  cursor: pointer;
 }
 
 img {
@@ -239,9 +243,11 @@ img {
   flex: 1;
 }
 
+/* Pagination controller */
 .pagination-container {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .pagination-button {
   color: var(--dark-color);
@@ -254,7 +260,18 @@ img {
   border: none;
   margin: 10px;
 }
-/* admin menu */
+.pagination-button.disabled {
+  background-color: var(--light-bg-color);
+  color: var(--muted-fg-color);
+  cursor: initial;
+}
+.page-count-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90px;
+}
 
 /* admin menu */
 .admin-button-box {

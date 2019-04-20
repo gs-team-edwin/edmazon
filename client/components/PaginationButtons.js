@@ -9,31 +9,36 @@ const PaginationButtons = props => {
   let prevUrl = url.replace(':offset', offset - pageSize)
   let nextUrl = url.replace(':offset', offset + pageSize)
 
+  // display vars
+  let showPrev = offset > 0
+  let showNext = count > offset + pageSize
+
   return (
     <div className="pagination-container">
-      {offset > 0 && (
-        <button
-          className="pagination-button prev"
-          type="button"
-          onClick={() => {
-            history.push(prevUrl)
-          }}
-        >
-          PREV
-        </button>
-      )}
-
-      {count > +offset + 20 && (
-        <button
-          className="pagination-button next"
-          type="button"
-          onClick={() => {
-            history.push(nextUrl)
-          }}
-        >
-          NEXT
-        </button>
-      )}
+      <button
+        className={`pagination-button prev ${showPrev ? '' : 'disabled'}`}
+        type="button"
+        onClick={() => {
+          if (showPrev) history.push(prevUrl)
+        }}
+      >
+        ◀
+      </button>
+      <div className="page-count-container">
+        <div className="page-count-line">
+          {offset} to {offset + pageSize}
+        </div>
+        <div className="page-count-line">of {count}</div>
+      </div>
+      <button
+        className={`pagination-button next ${showNext ? '' : 'disabled'}`}
+        type="button"
+        onClick={() => {
+          if (showNext) history.push(nextUrl)
+        }}
+      >
+        ▶
+      </button>
     </div>
   )
 }
