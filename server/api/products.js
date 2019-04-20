@@ -28,7 +28,7 @@ router.get('/search/:term/offset/:offset', async (req, res, next) => {
       include: [{model: Photo}],
       where: {
         title: {
-          [Op.like]: `%${query}%`
+          [Op.iLike]: `%${query}%`
         }
       },
       limit: 20,
@@ -37,7 +37,7 @@ router.get('/search/:term/offset/:offset', async (req, res, next) => {
     const count = await Product.count({
       where: {
         title: {
-          [Op.like]: `%${query}%`
+          [Op.iLike]: `%${query}%`
         }
       }
     })
