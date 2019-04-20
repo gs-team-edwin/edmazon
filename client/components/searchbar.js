@@ -24,13 +24,15 @@ export default class SearchBar extends React.Component {
     return (
       <span className="search-bar">
         <form onSubmit={this.onFormSubmit}>
-          <input
-            type="text"
-            name="searchText"
-            id="searchText"
-            onChange={this.onFormChange}
-          />
-          <button type="submit">Search</button>
+          <div className="search-form-container">
+            <input
+              type="text"
+              name="searchText"
+              id="searchText"
+              onChange={this.onFormChange}
+            />
+            <button type="submit">Search</button>
+          </div>
         </form>
       </span>
     )

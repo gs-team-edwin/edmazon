@@ -81,6 +81,10 @@ img {
   margin: 0px;
   padding: 0px;
   position: relative;
+  top: 0px;
+}
+.search-form-container {
+  width: 164px;
 }
 .search-bar input {
   background-color: var(--light-color);
@@ -89,7 +93,7 @@ img {
   width: 100px;
   border-radius: 5px 0px 0px 5px;
   border: none;
-  margin-top: 7px;
+  margin-top: 7.5px;
   padding: 3px;
 }
 .search-bar button {
@@ -101,7 +105,7 @@ img {
   border-radius: 0px 5px 5px 0px;
   border: none;
   position: relative;
-  top: -1px;
+  top: -0.5px;
   height: 31px;
   font-size: 10pt;
 }
