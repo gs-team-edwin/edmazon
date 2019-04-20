@@ -41,7 +41,8 @@ router.get('/search/:term/offset/:offset', async (req, res, next) => {
         }
       }
     })
-    res.json({products, count})
+    const found = count > 0
+    res.json({products, count, found})
   } catch (err) {
     next(err)
   }

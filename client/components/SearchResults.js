@@ -18,7 +18,7 @@ class SearchResults extends Component {
     const offset = Number(this.props.match.params.offset)
     return (
       <div>
-        {found ? (
+        {found && (
           <div>
             <div className="page-subhead-container">
               <div className="page-subhead">Results for query "{term}"</div>
@@ -39,11 +39,10 @@ class SearchResults extends Component {
               count={count}
             />
           </div>
-        ) : (
-          <div className="page-subhead-container">
-            <div className="page-subhead">No results for query "{term}"</div>
-          </div>
         )}
+        <div className="page-subhead-container">
+          <div className="page-subhead">No results for query "{term}"</div>
+        </div>
       </div>
     )
   }
@@ -51,7 +50,8 @@ class SearchResults extends Component {
 const mapStateToProps = state => {
   return {
     products: state.products.products,
-    count: state.products.count
+    count: state.products.count,
+    found: state.products.found
   }
 }
 

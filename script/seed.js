@@ -86,16 +86,16 @@ function userInfoFactory(N) {
 function categoryFactory(CATEGORY_COUNT) {
   const categoriesArr = []
   const categoryWords = shuffle([
-    'Sensors',
-    'Capacitors',
-    'Protocols',
-    'Matrices',
-    'Hard Drives',
-    'Drivers',
-    'Alarms',
-    'Systems',
-    'Microchips',
-    'Monitors'
+    'Extraordinary',
+    'Impressive',
+    'Superlative',
+    'Exceptional',
+    'Delightful',
+    'Magnificent',
+    'Majestic',
+    'Splendid',
+    'Glorious',
+    'Lavish'
   ])
   for (let i = 0; i < CATEGORY_COUNT; i++) {
     const name = categoryWords.pop()
