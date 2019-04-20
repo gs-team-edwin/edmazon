@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getAdminOrders, getAdminOrderCount} from '../store'
 import history from '../history'
+import {PaginationButtons} from './'
 
 const SingleOrderRow = ({order}) => {
   const date = new Date(order.checkoutDate)
@@ -53,36 +54,13 @@ class AdminOrdersView extends React.Component {
           </div>
           {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
         </div>
-
-        <div className="pagination-container">
-          {offset > 0 && (
-            <button
-              className="pagination-button prev"
-              type="button"
-              onClick={() => {
-                history.push(
-                  `/admin/orders/offset/${Number(offset) - 20}/filter/${filter}`
-                )
-              }}
-            >
-              PREV
-            </button>
-          )}
-
-          {count > +offset + 20 && (
-            <button
-              className="pagination-button next"
-              type="button"
-              onClick={() => {
-                history.push(
-                  `/admin/orders/offset/${Number(offset) + 20}/filter/${filter}`
-                )
-              }}
-            >
-              NEXT
-            </button>
-          )}
-        </div>
+        <PaginationButtons
+          url="/admin/orders/offset/:offset/filter/:filter"
+          offset={offset}
+          urlParams={{filter: filter}}
+          pageSize={20}
+          count={count}
+        />
       </div>
     )
   }
