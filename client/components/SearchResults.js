@@ -13,26 +13,37 @@ class SearchResults extends Component {
   }
   // history.push()
   render() {
-    const {products, count} = this.props
+    const {products, count, found} = this.props
     const {term} = this.props.match.params
     const offset = Number(this.props.match.params.offset)
     return (
       <div>
-        <ul type="none">
-          {products.map(product => (
-            <li key={product.id}>
-              <img src={`${product.photos[0].photoUrl}`} />
-              <Link to={`/product/${product.id}`}> {product.title}</Link>
-              <div>${product.price}</div>
-            </li>
-          ))}
-        </ul>
-        <PaginationButtons
-          url={`/products/search/${term}/offset/:offset`}
-          offset={offset}
-          pageSize={20}
-          count={count}
-        />
+        {found ? (
+          <div>
+            <div className="page-subhead-container">
+              <div className="page-subhead">Results for query "{term}"</div>
+            </div>
+            <ul type="none">
+              {products.map(product => (
+                <li key={product.id}>
+                  <img src={`${product.photos[0].photoUrl}`} />
+                  <Link to={`/product/${product.id}`}> {product.title}</Link>
+                  <div>${product.price}</div>
+                </li>
+              ))}
+            </ul>
+            <PaginationButtons
+              url={`/products/search/${term}/offset/:offset`}
+              offset={offset}
+              pageSize={20}
+              count={count}
+            />
+          </div>
+        ) : (
+          <div className="page-subhead-container">
+            <div className="page-subhead">No results for query "{term}"</div>
+          </div>
+        )}
       </div>
     )
   }

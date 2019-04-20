@@ -68,9 +68,9 @@ router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
     if (results[0]) {
       let products = results[0].products
       let count = countList[0].products.length
-      res.json({count: count, products})
+      res.json({count: count, products, found: true})
     } else {
-      res.json({count: 0, products: []})
+      res.json({count: 0, products: [], found: false})
     }
   } catch (err) {
     next(err)

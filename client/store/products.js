@@ -5,14 +5,18 @@ import history from '../history'
 const SET_PRODUCTS = 'SET_PRODUCTS'
 
 //ACTION CREATORS
-const setProducts = (products, count) => ({type: SET_PRODUCTS, products, count})
+const setProducts = (products, count, found) => ({
+  type: SET_PRODUCTS,
+  products,
+  found
+})
 
 //THUNK CREATORS
 export const getAllProducts = offset => async dispatch => {
   try {
     const res = await axios.get(`/api/products/offset/${offset}`)
-    const {products, count} = res.data
-    dispatch(setProducts(products, count))
+    const {products, count, found} = res.data
+    dispatch(setProducts(products, count, found))
   } catch (err) {
     console.error(err)
   }
@@ -21,8 +25,8 @@ export const getAllProducts = offset => async dispatch => {
 export const getProductBySearch = (term, offset) => async dispatch => {
   try {
     const res = await axios.get(`/api/products/search/${term}/offset/${offset}`)
-    const {products, count} = res.data
-    dispatch(setProducts(products, count))
+    const {products, count, found} = res.data
+    dispatch(setProducts(products, count, found))
   } catch (err) {
     console.error(err)
   }
@@ -44,7 +48,11 @@ export const getProductByCategory = (categoryId, offset) => async dispatch => {
 export default function(state = {count: 0, products: []}, action) {
   switch (action.type) {
     case SET_PRODUCTS:
-      return {products: action.products, count: action.count}
+      return {
+        products: action.products,
+        count: action.count,
+        found: action.found
+      }
     default:
       return state
   }

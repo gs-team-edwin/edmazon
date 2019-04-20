@@ -27,6 +27,31 @@ img {
   width: 150px; /* Set a small width */
 }
 
+/* page subheads */
+.page-subhead-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page-subhead {
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.page-subhead-container select {
+  color: var(--dark-color);
+  margin: 5px;
+  padding: 3px;
+  text-decoration: none;
+  background-color: var(--light-color);
+  border-radius: 4px;
+  font-size: 12pt;
+  border: 2px solid var(--dark-color);
+  margin-top: 0px;
+  margin-bottom: 20px;
+  width: 130px;
+}
+
 /* navbar */
 .navbar {
   background-color: var(--dark-accent-color);
@@ -200,30 +225,6 @@ img {
 .orders-block {
   width: 90%;
   margin: auto;
-}
-.page-subhead-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.page-subhead {
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-.page-subhead-container select {
-  color: var(--dark-color);
-  margin: 5px;
-  padding: 3px;
-  text-decoration: none;
-  background-color: var(--light-color);
-  border-radius: 4px;
-  font-size: 12pt;
-  border: 2px solid var(--dark-color);
-  margin-top: 0px;
-  margin-bottom: 10px;
-  width: 130px;
 }
 .order-table {
   border: 2px solid var(--dark-color);

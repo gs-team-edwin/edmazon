@@ -29,7 +29,9 @@ class AdminOrdersView extends React.Component {
     return (
       <div className="orders-block">
         <div className="page-subhead-container">
-          <div className="page-subhead">All orders</div>
+          <div className="page-subhead">
+            {filter[0].toUpperCase() + filter.slice(1)} orders
+          </div>
           <select
             onChange={evt => {
               const value = evt.target.value
