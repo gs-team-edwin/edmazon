@@ -73,8 +73,6 @@ class Routes extends Component {
 
         {isAdmin && (
           <Switch>
-            <Route exact path="/admin" component={AdminMenu} />
-            <Route exact path="/addproduct" component={AddProduct} />
             <Route
               exact
               path="/admin/orders/offset/:offset/filter/:filter"
@@ -82,11 +80,17 @@ class Routes extends Component {
                 <AdminOrdersView {...rParams} key={rParams.match.url} />
               )}
             />
+            <Route exact path="/admin" component={AdminMenu} />
+            <Route exact path="/addproduct" component={AddProduct} />
           </Switch>
         )}
 
         {/* Redirects */}
-        <Redirect exact from="/admin/orders" to="/admin/orders/offset/0" />
+        <Redirect
+          exact
+          from="/admin/orders"
+          to="/admin/orders/offset/0/filter/all"
+        />
         <Redirect exact from="/" to="/products/page/0" />
         <Redirect exact from="/index.html" to="/products/page/0" />
         {isLoggedIn && (

@@ -9,11 +9,17 @@ router.get('/orders/count/filter/:filter', isAdmin, async (req, res, next) => {
     const filter = req.params.filter
     let orders
     if (filter === 'all') {
-      orders = await Order.findAll()
+      orders = await Order.findAll({
+        where: {
+          status: {
+            [Op.ne]: 'cart'
+          }
+        }
+      })
     } else {
       orders = await Order.findAll({
         where: {
-          status: filter
+          status: {[Op.and]: {[Op.ne]: 'cart', [Op.eq]: filter}}
         }
       })
     }
@@ -36,12 +42,17 @@ router.get(
         orders = await Order.findAll({
           limit: 20,
           offset: offset,
-          order: [['checkoutDate', 'DESC']]
+          order: [['checkoutDate', 'DESC']],
+          where: {
+            status: {
+              [Op.ne]: 'cart'
+            }
+          }
         })
       } else {
         orders = await Order.findAll({
           where: {
-            status: filter
+            status: {[Op.and]: {[Op.ne]: 'cart', [Op.eq]: filter}}
           },
           limit: 20,
           offset: offset,
