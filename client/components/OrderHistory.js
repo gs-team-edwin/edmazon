@@ -43,7 +43,7 @@ class OrderHistory extends React.Component {
         </div>
         <PaginationButtons
           url="/user/:userId/orders/offset/:offset"
-          offset={offset}
+          offset={Number(offset)}
           urlParams={{userId: userId}}
           pageSize={20}
           count={count}

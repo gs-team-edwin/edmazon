@@ -1,5 +1,7 @@
 import React from 'react'
 import history from '../history'
+import PropTypes from 'prop-types'
+
 /**
  * This is an abstraction over next/previous buttons
  * Required props:
@@ -13,18 +15,16 @@ import history from '../history'
  */
 
 const PaginationButtons = props => {
-  const {count, pageSize, url, urlParams} = props
-  const offset = Number(props.offset)
+  const {count, pageSize, url, urlParams, offset} = props
 
   // build URLs with the offset plugged in
-  let prevUrl = url.replace(/:offset/, offset - pageSize)
-  let nextUrl = url.replace(/:offset/, offset + pageSize)
+  let prevUrl = url.replace(':offset', offset - pageSize)
+  let nextUrl = url.replace(':offset', offset + pageSize)
 
   // iterate through the urlParams to fill in other stuff in the Url
   for (let [key, value] of Object.entries(urlParams)) {
-    let re = new RegExp(`:${key}`)
-    prevUrl = prevUrl.replace(re, value)
-    nextUrl = nextUrl.replace(re, value)
+    prevUrl = prevUrl.replace(`:${key}`, value)
+    nextUrl = nextUrl.replace(`:${key}`, value)
   }
 
   return (

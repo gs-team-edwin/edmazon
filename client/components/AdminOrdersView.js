@@ -56,7 +56,7 @@ class AdminOrdersView extends React.Component {
         </div>
         <PaginationButtons
           url="/admin/orders/offset/:offset/filter/:filter"
-          offset={offset}
+          offset={Number(offset)}
           urlParams={{filter: filter}}
           pageSize={20}
           count={count}
