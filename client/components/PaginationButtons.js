@@ -57,3 +57,12 @@ const PaginationButtons = props => {
 }
 
 export default PaginationButtons
+
+// prop types
+PaginationButtons.propTypes = {
+  url: PropTypes.string.isRequired,
+  offset: PropTypes.number.isRequired,
+  urlParams: PropTypes.object,
+  pageSize: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired
+}
