@@ -4,31 +4,6 @@ const isAdmin = require('../middleware/isAdmin')
 const {Op} = require('sequelize')
 module.exports = router
 
-router.get('/orders/count/filter/:filter', isAdmin, async (req, res, next) => {
-  try {
-    const filter = req.params.filter
-    let orders
-    if (filter === 'all') {
-      orders = await Order.findAll({
-        where: {
-          status: {
-            [Op.ne]: 'cart'
-          }
-        }
-      })
-    } else {
-      orders = await Order.findAll({
-        where: {
-          status: {[Op.and]: {[Op.ne]: 'cart', [Op.eq]: filter}}
-        }
-      })
-    }
-    res.json(orders.length)
-  } catch (err) {
-    next(err)
-  }
-})
-
 router.get(
   '/orders/offset/:offset/filter/:filter',
   isAdmin,
@@ -37,10 +12,19 @@ router.get(
       const offset = Number(req.params.offset)
       const filter = req.params.filter
       let orders
+      let count
       if (filter === 'all') {
         orders = await Order.findAll({
           limit: 20,
           offset: offset,
+          order: [['checkoutDate', 'DESC']],
+          where: {
+            status: {
+              [Op.ne]: 'cart'
+            }
+          }
+        })
+        count = await Order.count({
           order: [['checkoutDate', 'DESC']],
           where: {
             status: {
@@ -57,8 +41,14 @@ router.get(
           offset: offset,
           order: [['checkoutDate', 'DESC']]
         })
+        count = await Order.count({
+          where: {
+            status: {[Op.and]: {[Op.ne]: 'cart', [Op.eq]: filter}}
+          },
+          order: [['checkoutDate', 'DESC']]
+        })
       }
-      res.json(orders)
+      res.json({orders, count})
     } catch (err) {
       next(err)
     }

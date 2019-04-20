@@ -19,9 +19,8 @@ const SingleOrderRow = ({order}) => {
 class AdminOrdersView extends React.Component {
   componentDidMount() {
     const {offset, filter} = this.props.match.params
-    const {getOrders, getCount} = this.props
+    const {getOrders} = this.props
     getOrders(offset, filter)
-    getCount(filter)
   }
 
   render() {
@@ -74,8 +73,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getOrders: (offset, filter) => dispatch(getAdminOrders(offset, filter)),
-    getCount: filter => dispatch(getAdminOrderCount(filter))
+    getOrders: (offset, filter) => dispatch(getAdminOrders(offset, filter))
   }
 }
 

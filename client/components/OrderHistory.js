@@ -18,10 +18,9 @@ const SingleOrderRow = ({order}) => {
 }
 class OrderHistory extends React.Component {
   componentDidMount() {
-    const {getOrders, getCount} = this.props
+    const {getOrders} = this.props
     const {userId, offset} = this.props.match.params
     getOrders(userId, offset)
-    getCount(userId)
   }
 
   render() {
@@ -64,9 +63,6 @@ const mapDispatch = dispatch => {
   return {
     getOrders: (userId, offset) => {
       dispatch(getUserOrders(userId, offset))
-    },
-    getCount: userId => {
-      dispatch(getUserOrderCount(userId))
     }
   }
 }

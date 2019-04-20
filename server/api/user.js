@@ -4,20 +4,6 @@ const isAdmin = require('../middleware/isAdmin')
 const {Op} = require('sequelize')
 module.exports = router
 
-router.get('/:userId/orders/count', async (req, res, next) => {
-  try {
-    const userId = Number(req.params.userId)
-    if (!!req.user.id && userId !== req.user.id) {
-      res.status(401).send('not authorized')
-    } else {
-      const result = await Order.findAll({where: {userId: userId}})
-      res.json(result.length)
-    }
-  } catch (err) {
-    next(err)
-  }
-})
-
 router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
   try {
     const userId = Number(req.params.userId)
@@ -34,7 +20,14 @@ router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
         offset: offset,
         order: [['checkoutDate', 'DESC']]
       })
-      res.json(orders)
+      const count = await Order.count({
+        where: {
+          userId: userId,
+          status: {[Op.ne]: 'cart'}
+        }
+      })
+      console.log('count: ', count)
+      res.json({count, orders})
     }
   } catch (err) {
     next(err)
