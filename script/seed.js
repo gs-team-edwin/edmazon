@@ -18,7 +18,7 @@ const faker = require('faker')
  *      GLOBAL CONSTANTS
  ***********************************/
 
-const N = 100
+const N = 1000
 const PHOTO_COUNT = 5
 const CATEGORY_COUNT = 5
 
