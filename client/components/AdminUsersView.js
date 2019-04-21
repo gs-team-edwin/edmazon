@@ -17,21 +17,25 @@ const SingleUserRow = props => {
     <div className="user-row">
       <span className="user-row-item large">{user.email}</span>
       <span className="user-row-item">
-        <input
-          type="checkbox"
-          className="user-checkbox"
-          checked={user.userType === 'admin'}
-          onChange={evt => {
-            const action = evt.target.checked
-            console.log('action: ', action)
+        {globalUserId === user.id ? (
+          <span className="user-row-text">Current User</span>
+        ) : (
+          <input
+            type="checkbox"
+            className="user-checkbox"
+            checked={user.userType === 'admin'}
+            onChange={evt => {
+              const action = evt.target.checked
+              console.log('action: ', action)
 
-            if (action) {
-              addAdminPrivelage(user.id)
-            } else {
-              removeAdminPrivelage(user.id)
-            }
-          }}
-        />
+              if (action) {
+                addAdminPrivelage(user.id)
+              } else {
+                removeAdminPrivelage(user.id)
+              }
+            }}
+          />
+        )}
       </span>
       {/* <span className="user-row-item">
         <button type="button" className="user-row-button">
