@@ -11,7 +11,7 @@ router.get('/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
     const products = await Product.findAll({
-      include: [{model: Photo}],
+      include: [{model: Photo}, {model: Category}],
       limit: PRODUCT_PAGE_SIZE,
       offset: offset
     })
@@ -55,7 +55,7 @@ router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
     let id = Number(req.params.categoryId)
     let offset = Number(req.params.offset)
     let category = await Category.findOne({
-      include: [{model: Product, include: [{model: Photo}]}],
+      include: [{model: Product, include: [{model: Photo}, {model: Category}]}],
       where: {
         id: id
       }

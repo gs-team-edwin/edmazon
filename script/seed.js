@@ -95,7 +95,13 @@ function categoryFactory(CATEGORY_COUNT) {
     'Majestic',
     'Splendid',
     'Glorious',
-    'Lavish'
+    'Exceptional',
+    'Marvelous',
+    'Superlative',
+    'Unrivaled',
+    'Peerless',
+    'Faultless',
+    'Flawless'
   ])
   for (let i = 0; i < CATEGORY_COUNT; i++) {
     const name = categoryWords.pop()
@@ -115,12 +121,11 @@ function productInfoFactory(N) {
       ' ' +
       faker.hacker.noun()
     title = titleCase(title)
-    const description =
-      faker.hacker.phrase() +
-      ' ' +
-      faker.hacker.phrase() +
-      ' ' +
-      faker.hacker.phrase()
+    const desc = faker.hacker.phrase()
+    const description = desc
+      .split(' ')
+      .map((w, i) => (i === 0 ? titleCase(w) : w))
+      .join(' ')
     const price = getRandomInteger(1000)
     const quantityOnHand = getRandomInteger(100)
     productsArr.push({
