@@ -337,6 +337,14 @@ button {
   background-color: var(--dark-accent-color);
   color: var(--light-accent-color);
 }
+.no-orders-notice {
+  font-size: 16px;
+  background-color: var(--light-bg-color);
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .order-row.header {
   background-color: var(--dark-color);
   color: var(--light-color);
