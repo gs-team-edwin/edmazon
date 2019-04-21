@@ -27,7 +27,7 @@ router.get('/search/:term/offset/:offset', async (req, res, next) => {
     let offset = Number(req.params.offset)
     let query = req.params.term
     const products = await Product.findAll({
-      include: [{model: Photo}],
+      include: [{model: Photo}, {model: Category}],
       where: {
         title: {
           [Op.iLike]: `%${query}%`
@@ -86,7 +86,7 @@ router.get('/:id', async (req, res, next) => {
 
     const product = await Product.findOne({
       where: {id},
-      include: [{model: Photo}, {model: Review}]
+      include: [{model: Photo}, {model: Review}, {model: Category}]
     })
     res.json(product)
   } catch (err) {
