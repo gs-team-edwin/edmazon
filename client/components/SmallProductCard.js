@@ -16,7 +16,9 @@ const SmallProductCard = props => {
         <div onClick={productLink} className="small-product-card-title">
           {product.title}
         </div>
-        <div className="small-product-card-price">${product.price / 100}</div>
+        <div className="small-product-card-price">
+          ${(product.price / 100).toFixed(2)}
+        </div>
         <div className="small-product-card-description">
           {product.description}
         </div>
