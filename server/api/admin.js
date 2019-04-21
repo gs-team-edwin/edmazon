@@ -67,16 +67,29 @@ router.delete('/users/:userId/delete', isAdmin, async (req, res, next) => {
   }
 })
 
+router.put('/users/:userId', isAdmin, async (req, res, next) => {
+  try {
+    const {userId} = req.params
+    await User.update(
+      {userType: req.body.userType},
+      {
+        where: {id: userId}
+      }
+    )
+    res.sendStatus(200)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/users/offset/:offset', isAdmin, async (req, res, next) => {
   try {
     const offset = Number(req.params.offset)
     const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
       attributes: ['id', 'email', 'userType'],
       limit: 20,
-      offset: offset
+      offset: offset,
+      order: [['id', 'ASC']]
     })
     const count = await User.count()
     res.json({users, count})

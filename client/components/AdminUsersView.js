@@ -1,15 +1,38 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getAdminUsers, deleteUser} from '../store'
+import {getAdminUsers, deleteUser, addAdmin, removeAdmin} from '../store'
+
 import history from '../history'
 import {PaginationButtons} from './'
 
 const SingleUserRow = props => {
-  const {user, deleteThisUser, globalUserId} = props
+  const {
+    user,
+    deleteThisUser,
+    globalUserId,
+    addAdminPrivelage,
+    removeAdminPrivelage
+  } = props
   return (
     <div className="user-row">
       <span className="user-row-item large">{user.email}</span>
-      <span className="user-row-item">{user.userType}</span>
+      <span className="user-row-item">
+        <input
+          type="checkbox"
+          className="user-checkbox"
+          checked={user.userType === 'admin'}
+          onChange={evt => {
+            const action = evt.target.checked
+            console.log('action: ', action)
+
+            if (action) {
+              addAdminPrivelage(user.id)
+            } else {
+              removeAdminPrivelage(user.id)
+            }
+          }}
+        />
+      </span>
       <span className="user-row-item">
         <button type="button" className="user-row-button">
           Reset Password
@@ -51,7 +74,13 @@ class AdminUsersView extends React.Component {
   }
 
   render() {
-    const {users, count, deleteThisUser} = this.props
+    const {
+      users,
+      count,
+      deleteThisUser,
+      addAdminPrivelage,
+      removeAdminPrivelage
+    } = this.props
     const {offset} = this.props.match.params
     return (
       <div className="users-block">
@@ -62,7 +91,7 @@ class AdminUsersView extends React.Component {
         <div className="user-table">
           <div className="user-row header">
             <span className="user-row-item large">User Email</span>
-            <span className="user-row-item">User Type</span>
+            <span className="user-row-item">Admin?</span>
             <span className="user-row-item">Reset Password</span>
             <span className="user-row-item">Delete</span>
             <span className="user-row-item">View orders</span>
@@ -74,6 +103,8 @@ class AdminUsersView extends React.Component {
               offset={offset}
               deleteThisUser={deleteThisUser}
               globalUserId={this.props.user.id}
+              addAdminPrivelage={addAdminPrivelage}
+              removeAdminPrivelage={removeAdminPrivelage}
             />
           ))}
         </div>
@@ -101,6 +132,12 @@ const mapDispatch = dispatch => {
     getUsers: offset => dispatch(getAdminUsers(offset)),
     deleteThisUser: userId => {
       dispatch(deleteUser(userId))
+    },
+    addAdminPrivelage: userId => {
+      dispatch(addAdmin(userId))
+    },
+    removeAdminPrivelage: userId => {
+      dispatch(removeAdmin(userId))
     }
   }
 }
