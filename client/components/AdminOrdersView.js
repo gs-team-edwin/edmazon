@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getAdminOrders, getAdminOrderCount} from '../store'
+import {getAdminOrders} from '../store'
 import history from '../history'
+import {PaginationButtons} from './'
 
 const SingleOrderRow = ({order}) => {
   const date = new Date(order.checkoutDate)
@@ -18,9 +19,8 @@ const SingleOrderRow = ({order}) => {
 class AdminOrdersView extends React.Component {
   componentDidMount() {
     const {offset, filter} = this.props.match.params
-    const {getOrders, getCount} = this.props
+    const {getOrders} = this.props
     getOrders(offset, filter)
-    getCount(filter)
   }
 
   render() {
@@ -29,10 +29,17 @@ class AdminOrdersView extends React.Component {
     return (
       <div className="orders-block">
         <div className="page-subhead-container">
-          <div className="page-subhead">All orders</div>
-          <select>
+          <div className="page-subhead">
+            {filter[0].toUpperCase() + filter.slice(1)} orders
+          </div>
+          <select
+            onChange={evt => {
+              const value = evt.target.value
+              history.push(`/admin/orders/offset/0/filter/${value}`)
+            }}
+            value={filter}
+          >
             <option value="all">All</option>
-            <option value="cart">Cart</option>
             <option value="created">Created</option>
             <option value="processing">Processing</option>
             <option value="cancelled">Cancelled</option>
@@ -48,36 +55,12 @@ class AdminOrdersView extends React.Component {
           </div>
           {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
         </div>
-
-        <div className="pagination-container">
-          {offset > 0 && (
-            <button
-              className="pagination-button prev"
-              type="button"
-              onClick={() => {
-                history.push(
-                  `/admin/orders/offset/${Number(offset) - 20}/filter/${filter}`
-                )
-              }}
-            >
-              PREV
-            </button>
-          )}
-
-          {count > +offset + 20 && (
-            <button
-              className="pagination-button next"
-              type="button"
-              onClick={() => {
-                history.push(
-                  `/admin/orders/offset/${Number(offset) + 20}/filter/${filter}`
-                )
-              }}
-            >
-              NEXT
-            </button>
-          )}
-        </div>
+        <PaginationButtons
+          url={`/admin/orders/offset/:offset/filter/${filter}`}
+          offset={Number(offset)}
+          pageSize={20}
+          count={count}
+        />
       </div>
     )
   }
@@ -92,8 +75,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getOrders: (offset, filter) => dispatch(getAdminOrders(offset, filter)),
-    getCount: filter => dispatch(getAdminOrderCount(filter))
+    getOrders: (offset, filter) => dispatch(getAdminOrders(offset, filter))
   }
 }
 

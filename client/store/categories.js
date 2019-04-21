@@ -17,7 +17,6 @@ export const getAllCategories = () => async dispatch => {
   }
 }
 
-
 //reducer
 export default function(state = [], action) {
   switch (action.type) {

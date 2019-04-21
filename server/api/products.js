@@ -5,21 +5,24 @@ const {Op} = require('sequelize')
 const isAdmin = require('../middleware/isAdmin')
 module.exports = router
 
-router.get('/page/:offset', async (req, res, next) => {
+const PRODUCT_PAGE_SIZE = 12
+
+router.get('/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
     const products = await Product.findAll({
-      include: [{model: Photo}],
-      limit: 20,
-      offset: 20 * offset
+      include: [{model: Photo}, {model: Category}],
+      limit: PRODUCT_PAGE_SIZE,
+      offset: offset
     })
-    res.json(products)
+    const count = await Product.count()
+    res.json({products, count})
   } catch (err) {
     next(err)
   }
 })
 
-router.get('/search/:term/page/:offset', async (req, res, next) => {
+router.get('/search/:term/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
     let query = req.params.term
@@ -27,35 +30,50 @@ router.get('/search/:term/page/:offset', async (req, res, next) => {
       include: [{model: Photo}],
       where: {
         title: {
-          [Op.like]: `%${query}%`
+          [Op.iLike]: `%${query}%`
         }
       },
-      limit: 20,
-      offset: 20 * offset
+      limit: PRODUCT_PAGE_SIZE,
+      offset: offset
     })
-    res.json(products)
+    const count = await Product.count({
+      where: {
+        title: {
+          [Op.iLike]: `%${query}%`
+        }
+      }
+    })
+    const found = count > 0
+    res.json({products, count, found})
   } catch (err) {
     next(err)
   }
 })
 
-router.get('/categories/:categoryId/page/:offset', async (req, res, next) => {
+router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
   try {
-    let id = parseInt(req.params.categoryId, 10)
+    let id = Number(req.params.categoryId)
     let offset = Number(req.params.offset)
-    let results = await Category.findAll({
-      include: [{model: Product, include: [{model: Photo}]}],
+    let category = await Category.findOne({
+      include: [{model: Product, include: [{model: Photo}, {model: Category}]}],
       where: {
         id: id
-      },
-      limit: 20,
-      offset: 20 * offset
+      }
     })
-    if (results[0]) {
-      let desiredProducts = results[0].products
-      res.json(desiredProducts)
+    // if no category matches or if no products in category
+    if (!category || category.products === []) {
+      res.json({
+        count: 0,
+        products: [],
+        found: false
+      })
     } else {
-      res.json([])
+      let count = category.products.length
+      res.json({
+        count: count,
+        products: category.products.slice(offset, offset + PRODUCT_PAGE_SIZE),
+        found: true
+      })
     }
   } catch (err) {
     next(err)

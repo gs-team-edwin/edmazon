@@ -18,7 +18,7 @@ const faker = require('faker')
  *      GLOBAL CONSTANTS
  ***********************************/
 
-const N = 100
+const N = 1000
 const PHOTO_COUNT = 5
 const CATEGORY_COUNT = 5
 
@@ -86,16 +86,22 @@ function userInfoFactory(N) {
 function categoryFactory(CATEGORY_COUNT) {
   const categoriesArr = []
   const categoryWords = shuffle([
-    'Sensors',
-    'Capacitors',
-    'Protocols',
-    'Matrices',
-    'Hard Drives',
-    'Drivers',
-    'Alarms',
-    'Systems',
-    'Microchips',
-    'Monitors'
+    'Extraordinary',
+    'Impressive',
+    'Superlative',
+    'Exceptional',
+    'Delightful',
+    'Magnificent',
+    'Majestic',
+    'Splendid',
+    'Glorious',
+    'Exceptional',
+    'Marvelous',
+    'Superlative',
+    'Unrivaled',
+    'Peerless',
+    'Faultless',
+    'Flawless'
   ])
   for (let i = 0; i < CATEGORY_COUNT; i++) {
     const name = categoryWords.pop()
@@ -115,12 +121,11 @@ function productInfoFactory(N) {
       ' ' +
       faker.hacker.noun()
     title = titleCase(title)
-    const description =
-      faker.hacker.phrase() +
-      ' ' +
-      faker.hacker.phrase() +
-      ' ' +
-      faker.hacker.phrase()
+    const desc = faker.hacker.phrase()
+    const description = desc
+      .split(' ')
+      .map((w, i) => (i === 0 ? titleCase(w) : w))
+      .join(' ')
     const price = getRandomInteger(1000)
     const quantityOnHand = getRandomInteger(100)
     productsArr.push({
@@ -335,7 +340,7 @@ async function seed() {
   console.log(`seeded ${orders.length} orders`)
 
   const photos = await Photo.bulkCreate(photoFactory(PHOTO_COUNT))
-  console.log(`seeded ${photos.length} reviews`)
+  console.log(`seeded ${photos.length} photos`)
 
   const ordersProducts = await OrdersProducts.bulkCreate(
     await ordersProductsFactory(N)

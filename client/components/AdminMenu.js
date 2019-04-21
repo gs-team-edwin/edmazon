@@ -17,18 +17,14 @@ export default class AdminMenu extends Component {
           <button
             type="button"
             className="admin-button"
-            onClick={() =>
-                console.log('put an onclick function here')
-            }
+            onClick={() => history.push('/admin/orders/offset/0/filter/all')}
           >
             Manage Orders
           </button>
           <button
             type="button"
             className="admin-button"
-            onClick={() =>
-                console.log('put an onclick function here')
-            }
+            onClick={() => history.push('/admin/users/offset/0')}
           >
             Manage Users
           </button>

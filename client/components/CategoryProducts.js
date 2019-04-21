@@ -2,61 +2,73 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getProductByCategory} from '../store/'
+import {PaginationButtons, SmallProductCard} from './'
+import history from '../history'
 
 class CategoryProducts extends Component {
   componentDidMount() {
-    this.props.gotAllProducts(this.props.match.params.categoryId, this.props.match.params.offset)
+    const categoryId = Number(this.props.match.params.categoryId)
+    const offset = Number(this.props.match.params.offset)
+    this.props.getProducts(categoryId, offset)
   }
+
   render() {
-    const products = this.props.products
+    const {products, count, found, categories} = this.props
+    const {categoryId} = this.props.match.params
+    const offset = Number(this.props.match.params.offset)
+
+    let categoryName = categories.length ? categories[categoryId - 1].name : ''
+
     return (
       <div>
-        <ul type="none">
-          {products.map(product => (
-            <li key={product.id}>
-              <img src={`${product.photos[0].photoUrl}`}/>
-              <Link to={`/product/${product.id}`}> {product.title}</Link>
-              <div>${product.price}</div>
-            </li>
-          ))}
-        </ul>
-        <div>
-          {this.props.match.params.offset > 0 && (
-            <button
-              type="button"
-              onClick={() =>
-                this.props.gotAllProducts(this.props.match.params.categoryId,
-                  parseInt(this.props.match.params.offset, 10) - 1
-                )
-              }
-            >
-              Previous
-            </button>
+        {!found &&
+          count === 0 && (
+            <div className="page-subhead-container">
+              <div className="page-subhead">Loading</div>
+            </div>
           )}
-          <button
-            type="button"
-            onClick={() =>
-              this.props.gotAllProducts(this.props.match.params.categoryId,
-                parseInt(this.props.match.params.offset, 10) + 1
-              )
-            }
-          >
-            Next
-          </button>
-        </div>
+        {found && (
+          <div>
+            <div className="page-subhead-container">
+              <div className="page-subhead">
+                Products in category {categoryName}
+              </div>
+            </div>
+            <div className="product-container">
+              {products.map(product => (
+                <SmallProductCard product={product} key={product.id} />
+              ))}
+            </div>
+            <PaginationButtons
+              url={`/products/categories/${categoryId}/offset/:offset`}
+              offset={offset}
+              pageSize={12}
+              count={count}
+            />
+          </div>
+        )}
+        {!found && (
+          <div className="page-subhead-container">
+            <div className="page-subhead">That category is empty</div>
+          </div>
+        )}
       </div>
     )
   }
 }
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products.products,
+    count: state.products.count,
+    found: state.products.found,
+    categories: state.categories
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    gotAllProducts: (category, offset) => dispatch(getProductByCategory(category, offset))
+    getProducts: (category, offset) =>
+      dispatch(getProductByCategory(category, offset))
   }
 }
 

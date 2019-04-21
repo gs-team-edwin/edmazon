@@ -13,7 +13,8 @@ import {
   CategoryProducts,
   AdminOrdersView,
   SearchResults,
-  ReviewForm
+  ReviewForm,
+  AdminUsersView
 } from './components'
 
 import {me} from './store'
@@ -34,23 +35,25 @@ class Routes extends Component {
       <Switch>
         <Route exact path="/product/:id/newreview" component={ReviewForm} />
         <Route exact path="/user/:userId/cart" component={Cart} />
+        {
+          <Route
+            exact
+            path="/user/:userId/orders/offset/:offset"
+            render={rParams => (
+              <OrderHistory {...rParams} key={rParams.match.params.offset} />
+            )}
+          />
+        }
         <Route
           exact
-          path="/user/:userId/orders/offset/:offset"
-          render={rParams => (
-            <OrderHistory {...rParams} key={rParams.match.params.offset} />
-          )}
-        />
-        <Route
-          exact
-          path="/products/page/:offset"
+          path="/products/offset/:offset"
           render={rParams => (
             <AllProducts {...rParams} key={rParams.match.url} />
           )}
         />
         <Route
           exact
-          path="/products/categories/:categoryId/page/:offset"
+          path="/products/categories/:categoryId/offset/:offset"
           render={rParams => (
             <CategoryProducts {...rParams} key={rParams.match.url} />
           )}
@@ -64,7 +67,7 @@ class Routes extends Component {
         />
         <Route
           exact
-          path="/products/search/:term/page/:offset"
+          path="/products/search/:term/offset/:offset"
           render={rParams => (
             <SearchResults {...rParams} key={rParams.match.url} />
           )}
@@ -73,8 +76,13 @@ class Routes extends Component {
 
         {isAdmin && (
           <Switch>
-            <Route exact path="/admin" component={AdminMenu} />
-            <Route exact path="/addproduct" component={AddProduct} />
+            <Route
+              exact
+              path="/admin/users/offset/:offset"
+              render={rParams => (
+                <AdminUsersView {...rParams} key={rParams.match.url} />
+              )}
+            />
             <Route
               exact
               path="/admin/orders/offset/:offset/filter/:filter"
@@ -82,13 +90,18 @@ class Routes extends Component {
                 <AdminOrdersView {...rParams} key={rParams.match.url} />
               )}
             />
+            <Route exact path="/admin" component={AdminMenu} />
+            <Route exact path="/addproduct" component={AddProduct} />
           </Switch>
         )}
 
         {/* Redirects */}
-        <Redirect exact from="/admin/orders" to="/admin/orders/offset/0" />
-        <Redirect exact from="/" to="/products/page/0" />
-        <Redirect exact from="/index.html" to="/products/page/0" />
+        <Redirect
+          exact
+          from="/admin/orders"
+          to="/admin/orders/offset/0/filter/all"
+        />
+        <Redirect exact from="/" to="/products/offset/0" />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

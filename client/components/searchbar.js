@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import history from '../history'
 
 export default class SearchBar extends React.Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
-      term: ""
+      term: ''
     }
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onFormChange = this.onFormChange.bind(this)
@@ -14,7 +14,7 @@ export default class SearchBar extends React.Component {
   onFormSubmit(event) {
     event.preventDefault()
     let searchTerm = this.state.term
-    history.push(`/products/search/${searchTerm}/page/0`)
+    history.push(`/products/search/${searchTerm}/offset/0`)
   }
   onFormChange(event) {
     this.setState({term: event.target.value})
@@ -24,13 +24,17 @@ export default class SearchBar extends React.Component {
     return (
       <span className="search-bar">
         <form onSubmit={this.onFormSubmit}>
-          <input type="text" name="searchText" id="searchText" onChange={this.onFormChange}/>
-          <button type="submit">Search</button>
+          <div className="search-form-container">
+            <input
+              type="text"
+              name="searchText"
+              id="searchText"
+              onChange={this.onFormChange}
+            />
+            <button type="submit">Search</button>
+          </div>
         </form>
       </span>
     )
-
   }
 }
-
-

@@ -11,20 +11,18 @@ class NavCategoryBar extends React.Component {
   render() {
     let categories = this.props.categories
     return (
-      <div className="navbar">
-        <nav className="navbar-right-box">
-          <span className="navbar-link-container">
-            {categories.map(category => (
-              <button
-                key={category.id}
-                type="button"
-                onClick={() => this.props.gotAllProducts(category.id, 0)}
-              >
-                {category.name}
-              </button>
-            ))}
-          </span>
-        </nav>
+      <div className="navbar categories">
+        {categories.map(category => (
+          <button
+            key={category.id}
+            type="button"
+            onClick={() =>
+              history.push(`/products/categories/${category.id}/offset/0`)
+            }
+          >
+            {category.name.toUpperCase()}
+          </button>
+        ))}
       </div>
     )
   }

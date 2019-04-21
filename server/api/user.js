@@ -1,29 +1,16 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, User} = require('../db/models')
 const isAdmin = require('../middleware/isAdmin')
 const {Op} = require('sequelize')
 module.exports = router
 
-router.get('/:userId/orders/count', async (req, res, next) => {
-  try {
-    const userId = Number(req.params.userId)
-    if (!!req.user.id && userId !== req.user.id) {
-      res.status(401).send('not authorized')
-    } else {
-      const result = await Order.findAll({where: {userId: userId}})
-      res.json(result.length)
-    }
-  } catch (err) {
-    next(err)
-  }
-})
-
 router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
   try {
     const userId = Number(req.params.userId)
-    if (!!req.user.id && userId !== req.user.id) {
-      res.status(401).send('not authorized')
-    } else {
+    if (
+      req.user.id &&
+      (userId === req.user.id || req.user.userType === 'admin')
+    ) {
       const offset = Number(req.params.offset)
       const orders = await Order.findAll({
         where: {
@@ -34,7 +21,16 @@ router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
         offset: offset,
         order: [['checkoutDate', 'DESC']]
       })
-      res.json(orders)
+      const count = await Order.count({
+        where: {
+          userId: userId,
+          status: {[Op.ne]: 'cart'}
+        }
+      })
+      const {email} = await User.findOne({where: {id: userId}})
+      res.json({count, orders, email})
+    } else {
+      res.status(401).send('not authorized')
     }
   } catch (err) {
     next(err)

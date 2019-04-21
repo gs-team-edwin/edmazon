@@ -13,7 +13,8 @@ const {
   OrdersProducts
 } = require('../server/db/models')
 
-describe('the seed script', () => {
+describe('the seed script', function() {
+  this.timeout(10000)
   before(seed)
 
   it('populates the users table with at least one entry', async () => {
@@ -83,7 +84,6 @@ describe('the seed script', () => {
     idArray2.sort()
     expect(idArray).to.deep.equal(idArray2)
   })
-  
 
   it('gives every category at least one product', async () => {
     const categories = await Category.findAll()

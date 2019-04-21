@@ -8,6 +8,7 @@ import history from '../history'
 
 class Navbar extends React.Component {
   componentDidUpdate() {
+    console.log('this.props.popup', this.props.popup)
     // close the popup if we have successfully logged in
     if (this.props.isLoggedIn) {
       this.props.closePopup()
@@ -28,7 +29,7 @@ class Navbar extends React.Component {
       <div className="navbar">
         <h1
           className="navbar-title"
-          onClick={() => history.push('/index.html')}
+          onClick={() => history.push('/products/offset/0')}
         >
           EDMAZON
         </h1>
