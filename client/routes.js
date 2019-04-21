@@ -13,7 +13,8 @@ import {
   CategoryProducts,
   AdminOrdersView,
   SearchResults,
-  ReviewForm
+  ReviewForm,
+  AdminUsersView
 } from './components'
 
 import {me} from './store'
@@ -73,6 +74,13 @@ class Routes extends Component {
 
         {isAdmin && (
           <Switch>
+            <Route
+              exact
+              path="/admin/users/offset/:offset"
+              render={rParams => (
+                <AdminUsersView {...rParams} key={rParams.match.url} />
+              )}
+            />
             <Route
               exact
               path="/admin/orders/offset/:offset/filter/:filter"

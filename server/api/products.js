@@ -5,7 +5,7 @@ const {Op} = require('sequelize')
 const isAdmin = require('../middleware/isAdmin')
 module.exports = router
 
-const PRODUCT_PAGE_SIZE = 6
+const PRODUCT_PAGE_SIZE = 12
 
 router.get('/offset/:offset', async (req, res, next) => {
   try {

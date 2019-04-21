@@ -31,7 +31,7 @@ class SearchResults extends Component {
             <PaginationButtons
               url={`/products/search/${term}/offset/:offset`}
               offset={offset}
-              pageSize={6}
+              pageSize={12}
               count={count}
             />
           </div>

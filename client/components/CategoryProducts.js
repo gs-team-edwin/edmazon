@@ -42,7 +42,7 @@ class CategoryProducts extends Component {
             <PaginationButtons
               url={`/products/categories/${categoryId}/offset/:offset`}
               offset={offset}
-              pageSize={6}
+              pageSize={12}
               count={count}
             />
           </div>

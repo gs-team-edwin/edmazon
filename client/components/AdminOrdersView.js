@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getAdminOrders, getAdminOrderCount} from '../store'
+import {getAdminOrders} from '../store'
 import history from '../history'
 import {PaginationButtons} from './'
 

@@ -54,3 +54,33 @@ router.get(
     }
   }
 )
+
+router.delete('/users/:userId/delete', isAdmin, async (req, res, next) => {
+  try {
+    const {userId} = req.params
+    await User.destroy({
+      where: {id: userId}
+    })
+    res.sendStatus(202)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/users/offset/:offset', isAdmin, async (req, res, next) => {
+  try {
+    const offset = Number(req.params.offset)
+    const users = await User.findAll({
+      // explicitly select only the id and email fields - even though
+      // users' passwords are encrypted, it won't help if we just
+      // send everything to anyone who asks!
+      attributes: ['id', 'email', 'userType'],
+      limit: 20,
+      offset: offset
+    })
+    const count = await User.count()
+    res.json({users, count})
+  } catch (err) {
+    next(err)
+  }
+})
