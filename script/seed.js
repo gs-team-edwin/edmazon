@@ -19,7 +19,7 @@ const faker = require('faker')
  ***********************************/
 
 const N = 1000
-const PHOTO_COUNT = 5
+const PHOTO_COUNT = 3
 const CATEGORY_COUNT = 5
 
 /***********************************
@@ -127,7 +127,14 @@ function productInfoFactory(N) {
       .map((w, i) => (i === 0 ? titleCase(w) : w))
       .join(' ')
     const price = getRandomInteger(1000)
-    const quantityOnHand = getRandomInteger(100)
+    // one tenth of products are out of stock
+    const isEmpty = getRandomInteger(9)
+    let quantityOnHand
+    if (isEmpty === 0) {
+      quantityOnHand = 0
+    } else {
+      quantityOnHand = getRandomInteger(100)
+    }
     productsArr.push({
       title,
       description,
