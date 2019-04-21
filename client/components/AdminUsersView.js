@@ -33,11 +33,11 @@ const SingleUserRow = props => {
           }}
         />
       </span>
-      <span className="user-row-item">
+      {/* <span className="user-row-item">
         <button type="button" className="user-row-button">
           Reset Password
         </button>
-      </span>
+      </span> */}
       <span className="user-row-item">
         {globalUserId === user.id ? (
           <span className="user-row-text">Current User</span>
@@ -92,7 +92,7 @@ class AdminUsersView extends React.Component {
           <div className="user-row header">
             <span className="user-row-item large">User Email</span>
             <span className="user-row-item">Admin?</span>
-            <span className="user-row-item">Reset Password</span>
+            {/* <span className="user-row-item">Reset Password</span> */}
             <span className="user-row-item">Delete</span>
             <span className="user-row-item">View orders</span>
           </div>
