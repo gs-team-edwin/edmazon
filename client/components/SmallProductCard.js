@@ -11,8 +11,10 @@ const SmallProductCard = props => {
         className="small-product-card-image"
         src={`${product.photos[0].photoUrl}`}
       />
-      <div>{product.title}</div>
-      <div>${product.price / 100}</div>
+      <div className="small-product-card-right">
+        <div className="small-product-card-title">{product.title}</div>
+        <div className="small-product-card-price">${product.price / 100}</div>
+      </div>
     </div>
   )
 }

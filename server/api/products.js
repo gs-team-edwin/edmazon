@@ -5,12 +5,14 @@ const {Op} = require('sequelize')
 const isAdmin = require('../middleware/isAdmin')
 module.exports = router
 
+const PRODUCT_PAGE_SIZE = 6
+
 router.get('/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
     const products = await Product.findAll({
       include: [{model: Photo}],
-      limit: 20,
+      limit: PRODUCT_PAGE_SIZE,
       offset: offset
     })
     const count = await Product.count()
@@ -31,7 +33,7 @@ router.get('/search/:term/offset/:offset', async (req, res, next) => {
           [Op.iLike]: `%${query}%`
         }
       },
-      limit: 20,
+      limit: PRODUCT_PAGE_SIZE,
       offset: offset
     })
     const count = await Product.count({
@@ -69,7 +71,7 @@ router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
       let count = category.products.length
       res.json({
         count: count,
-        products: category.products.slice(offset, offset + 20),
+        products: category.products.slice(offset, offset + PRODUCT_PAGE_SIZE),
         found: true
       })
     }

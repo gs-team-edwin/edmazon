@@ -23,7 +23,7 @@ class AllProducts extends Component {
         <PaginationButtons
           url="/products/offset/:offset"
           offset={offset}
-          pageSize={20}
+          pageSize={6}
           count={count}
         />
       </div>

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getProductByCategory} from '../store/'
-import {PaginationButtons} from './'
+import {PaginationButtons, SmallProductCard} from './'
 import history from '../history'
 
 class CategoryProducts extends Component {
@@ -34,19 +34,15 @@ class CategoryProducts extends Component {
                 Products in category {categoryName}
               </div>
             </div>
-            <ul type="none">
+            <div className="product-container">
               {products.map(product => (
-                <li key={product.id}>
-                  <img src={`${product.photos[0].photoUrl}`} />
-                  <Link to={`/product/${product.id}`}> {product.title}</Link>
-                  <div>${product.price}</div>
-                </li>
+                <SmallProductCard product={product} key={product.id} />
               ))}
-            </ul>
+            </div>
             <PaginationButtons
               url={`/products/categories/${categoryId}/offset/:offset`}
               offset={offset}
-              pageSize={20}
+              pageSize={6}
               count={count}
             />
           </div>

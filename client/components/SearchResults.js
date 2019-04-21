@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getProductBySearch} from '../store/'
-import {PaginationButtons} from './'
+import {PaginationButtons, SmallProductCard} from './'
 import history from '../history'
 
 class SearchResults extends Component {
@@ -23,19 +23,15 @@ class SearchResults extends Component {
             <div className="page-subhead-container">
               <div className="page-subhead">Results for query "{term}"</div>
             </div>
-            <ul type="none">
+            <div className="product-container">
               {products.map(product => (
-                <li key={product.id}>
-                  <img src={`${product.photos[0].photoUrl}`} />
-                  <Link to={`/product/${product.id}`}> {product.title}</Link>
-                  <div>${product.price}</div>
-                </li>
+                <SmallProductCard product={product} key={product.id} />
               ))}
-            </ul>
+            </div>
             <PaginationButtons
               url={`/products/search/${term}/offset/:offset`}
               offset={offset}
-              pageSize={20}
+              pageSize={6}
               count={count}
             />
           </div>
