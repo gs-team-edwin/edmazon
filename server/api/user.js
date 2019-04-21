@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, User} = require('../db/models')
 const isAdmin = require('../middleware/isAdmin')
 const {Op} = require('sequelize')
 module.exports = router
@@ -27,7 +27,8 @@ router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
           status: {[Op.ne]: 'cart'}
         }
       })
-      res.json({count, orders})
+      const {email} = await User.findOne({where: {id: userId}})
+      res.json({count, orders, email})
     } else {
       res.status(401).send('not authorized')
     }

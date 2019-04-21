@@ -35,13 +35,15 @@ class Routes extends Component {
       <Switch>
         <Route exact path="/product/:id/newreview" component={ReviewForm} />
         <Route exact path="/user/:userId/cart" component={Cart} />
-        <Route
-          exact
-          path="/user/:userId/orders/offset/:offset"
-          render={rParams => (
-            <OrderHistory {...rParams} key={rParams.match.params.offset} />
-          )}
-        />
+        {
+          <Route
+            exact
+            path="/user/:userId/orders/offset/:offset"
+            render={rParams => (
+              <OrderHistory {...rParams} key={rParams.match.params.offset} />
+            )}
+          />
+        }
         <Route
           exact
           path="/products/offset/:offset"

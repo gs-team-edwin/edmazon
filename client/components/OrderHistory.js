@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getUserOrders, getUserOrderCount} from '../store'
+import {getUserOrders} from '../store'
 import history from '../history'
 import {PaginationButtons} from './'
 
@@ -16,6 +16,7 @@ const SingleOrderRow = ({order}) => {
     </div>
   )
 }
+
 class OrderHistory extends React.Component {
   componentDidMount() {
     const {getOrders} = this.props
@@ -24,12 +25,12 @@ class OrderHistory extends React.Component {
   }
 
   render() {
-    const {orders, user, count} = this.props
+    const {orders, count, username} = this.props
     const {userId, offset} = this.props.match.params
     return (
       <div className="orders-block">
         <div className="page-subhead-container">
-          <div className="page-subhead">{user.email}'s orders:</div>
+          <div className="page-subhead">{username}'s orders:</div>
         </div>
 
         <div className="order-table">
@@ -54,8 +55,8 @@ class OrderHistory extends React.Component {
 const mapState = state => {
   return {
     orders: state.userOrders.orders,
-    user: state.user,
-    count: state.userOrders.count
+    count: state.userOrders.count,
+    username: state.userOrders.email
   }
 }
 
