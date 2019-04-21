@@ -243,11 +243,13 @@ button {
   border-radius: 5px;
   width: 150px;
   height: 150px;
+  cursor: pointer;
 }
 .small-product-card-title {
   font-size: 16px;
   margin-bottom: 10px;
   color: var(--title-emphasis-color);
+  cursor: pointer;
 }
 .small-product-card-price {
   font-size: 15px;
