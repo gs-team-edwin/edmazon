@@ -17,8 +17,7 @@ const PhotosProducts = require('./PhotosProducts')
 // Order.belongsTo(Session)
 // User.hasMany(Session)
 Review.belongsTo(User, {onDelete: 'cascade'})
-User.hasMany(Review)
-User.hasMany(Order)
+
 Order.belongsTo(User, {onDelete: 'cascade'})
 Category.belongsToMany(Product, {
   through: ProductsCategories
