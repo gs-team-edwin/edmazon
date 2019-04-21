@@ -24,7 +24,7 @@ const SmallProductCard = props => {
         </div>
 
         <div className="small-product-card-categories">
-          {product.length &&
+          {product.categories.length &&
             product.categories.map(cat => (
               <button
                 key={cat.id}
