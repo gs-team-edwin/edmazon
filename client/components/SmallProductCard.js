@@ -24,18 +24,19 @@ const SmallProductCard = props => {
         </div>
 
         <div className="small-product-card-categories">
-          {product.categories.map(cat => (
-            <button
-              key={cat.id}
-              className="small-category-link"
-              type="button"
-              onClick={() =>
-                history.push(`/products/categories/${cat.id}/offset/0`)
-              }
-            >
-              {cat.name}
-            </button>
-          ))}
+          {product.length &&
+            product.categories.map(cat => (
+              <button
+                key={cat.id}
+                className="small-category-link"
+                type="button"
+                onClick={() =>
+                  history.push(`/products/categories/${cat.id}/offset/0`)
+                }
+              >
+                {cat.name}
+              </button>
+            ))}
         </div>
       </div>
     </div>
