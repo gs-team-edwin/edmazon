@@ -32,7 +32,11 @@ const SingleUserRow = props => {
         )}
       </span>
       <span className="user-row-item">
-        <button type="button" className="user-row-button">
+        <button
+          type="button"
+          className="user-row-button"
+          onClick={() => history.push(`/user/${user.id}/orders/offset/0`)}
+        >
           View Orders
         </button>
       </span>

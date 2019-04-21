@@ -7,9 +7,10 @@ module.exports = router
 router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
   try {
     const userId = Number(req.params.userId)
-    if (!!req.user.id && userId !== req.user.id) {
-      res.status(401).send('not authorized')
-    } else {
+    if (
+      req.user.id &&
+      (userId === req.user.id || req.user.userType === 'admin')
+    ) {
       const offset = Number(req.params.offset)
       const orders = await Order.findAll({
         where: {
@@ -26,8 +27,9 @@ router.get('/:userId/orders/offset/:offset', async (req, res, next) => {
           status: {[Op.ne]: 'cart'}
         }
       })
-      console.log('count: ', count)
       res.json({count, orders})
+    } else {
+      res.status(401).send('not authorized')
     }
   } catch (err) {
     next(err)
