@@ -6,7 +6,7 @@ class orderItem extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      quantity: 1
+      quantity: this.props.product.ordersProducts.quantity
     }
   }
 
