@@ -8,12 +8,6 @@ export class Cart extends Component {
     this.props.getCartThunk()
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.user.id !== this.props.user.id && this.props.user.id) {
-  //   this.props.getCartThunk()
-  //   }
-  // }
-
   render() {
     if (this.props.user.id) {
       return (
