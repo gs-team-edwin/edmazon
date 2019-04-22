@@ -5,7 +5,7 @@ module.exports = router
 
 router.delete('/remove/:productId', async (req, res, next) => {
   try {
-    let removedProduct = await Product.destroy({
+    await Product.destroy({
       where: {
         id: req.params.productId
       }

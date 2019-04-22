@@ -107,14 +107,7 @@ router.post('/:id/reviews', async (req, res, next) => {
 
 router.post('/admin/add', async (req, res, next) => {
   try {
-    let createdProduct = await Product.create(req.body)
-    console.log('success!!')
-    if (createdProduct) {
-      console.log("this worked")
-    }
-    else {
-      console.log("try again")
-    }
+    await Product.create(req.body)
   } catch (err) {
     next(err)
   }

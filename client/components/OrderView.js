@@ -1,7 +1,7 @@
 import OrderItem from './OrderItem'
 import React from 'react'
 
-//takes 3 props: user object, viewType (e.g. 'cart', 'order history'), and products array 
+//takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 const orderView = props => {
   const subtotal = props.products.reduce(
     (total, amount) => total + amount.price,
