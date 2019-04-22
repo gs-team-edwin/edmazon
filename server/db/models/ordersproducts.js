@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const {Product} = require('../db') 
+const Product = require('./product') 
 
 const OrdersProducts = db.define('ordersProducts', {
   orderId: {
@@ -23,7 +23,7 @@ const OrdersProducts = db.define('ordersProducts', {
 OrdersProducts.prototype.getTotalPrice = async function() {
   let thisPrice = this.purchasePrice
   if (thisPrice === null) {
-    let chosenProduct = Product.findById(this.productId)
+    let chosenProduct = Product.findByPk(this.productId)
     return chosenProduct.price
   }
   else {

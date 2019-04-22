@@ -11,15 +11,17 @@ class orderView extends React.Component {
     this.state = {
       status: this.props.order.status
     }
+    this.onToken = this.onToken.bind(this)
   }
-  onToken = (token) => {
+  async onToken(token) {
     console.log(token)
-    fetch(`/api/orders/${this.props.order.id}`, {
-      method: 'POST',
-      body: JSON.stringify(token),
-    }).then(response => {
-      response.json()
-    });
+    await axios.post(`/api/orders/${this.props.order.id}`, token)
+    // fetch(`/api/orders/${this.props.order.id}`, {
+    //   method: 'POST',
+    //   body: JSON.stringify(token),
+    // }).then(response => {
+    //   response.json()
+    // });
   }
 
   render() {
