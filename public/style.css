@@ -647,6 +647,7 @@ button {
 }
 .math-hr {
   width: 70px;
+  margin-right: 0px;
 }
 .remove-item-button {
   color: var(--dark-color);

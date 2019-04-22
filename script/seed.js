@@ -283,7 +283,7 @@ async function ordersProductsFactory(N) {
       // set up the easy stuff
       const orderId = i + 1
       productId = (productId + 1) % N + 1 // make sure we don't duplicate products
-      const quantity = getRandomInteger(4) + 1
+      const quantity = getRandomInteger(5) + 1
 
       // get the purchased status for this order
       // if it's cart, set price to null

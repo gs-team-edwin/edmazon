@@ -4,8 +4,13 @@ import React from 'react'
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 const orderView = props => {
   const subtotal = (
-    props.products.reduce((total, product) => total + product.price, 0) / 100
+    props.products.reduce(
+      (total, product) =>
+        total + product.price * product.ordersProducts.quantity,
+      0
+    ) / 100
   ).toFixed(2)
+
   const {user, viewType, products, removeItem} = props
   return (
     <div className="order-view-container">
