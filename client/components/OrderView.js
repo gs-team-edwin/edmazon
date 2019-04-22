@@ -27,86 +27,97 @@ class orderView extends React.Component {
 
     return (
       <div className="order-view-container">
-        <div className="order-view">
-          <div className="order-view-header-container">
-            {status === 'cart' ? (
-              <div className="order-view-header">{email}'s cart</div>
-            ) : (
-              <div className="order-view-header">
-                Order {this.props.order.id}, user {email}
-              </div>
-            )}
-          </div>
-          <div className="order-body">
-            <div className="order-body-left">
-              {products.length ? (
-                products.map(product => (
-                  <div key={product.id}>
-                    <OrderItem
-                      product={product}
-                      removeItem={removeItem}
-                      status={status}
-                      orderId={id}
-                    />
-                  </div>
-                ))
+        {products.length ? (
+          <div className="order-view">
+            <div className="order-view-header-container">
+              {status === 'cart' ? (
+                <div className="order-view-header">{email}'s cart</div>
               ) : (
-                <div className="">No products to show</div>
-              )}
-            </div>
-            <div className="order-body-right">
-              <div className="order-body-info-block">
-                <div>SUBTOTAL: ${parseFloat(subtotal).toFixed(2)}</div>
-                <div>TAX: ${parseFloat(subtotal * 0.1).toFixed(2)}</div>
-                <div>TOTAL: ${parseFloat(subtotal * 1.1).toFixed(2)}</div>
-                <div>YOU SAVED: ${parseFloat(subtotal / 4).toFixed(2)}</div>
-              </div>
-              {status !== 'cart' && (
-                <div className="order-body-info-block">
-                  <div className="">Shipping Address</div>
-                  <div className="">Payment Information</div>
+                <div className="order-view-header">
+                  Order {this.props.order.id}, user {email}
                 </div>
               )}
-              {status !== 'cart' &&
-                userType === 'admin' && (
+            </div>
+            <div className="order-body">
+              <div className="order-body-left">
+                {products.length ? (
+                  products.map(product => (
+                    <div key={product.id}>
+                      <OrderItem
+                        product={product}
+                        removeItem={removeItem}
+                        status={status}
+                        orderId={id}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="">No products to show</div>
+                )}
+              </div>
+              <div className="order-body-right">
+                <div className="order-body-info-block">
+                  <div>SUBTOTAL: ${parseFloat(subtotal).toFixed(2)}</div>
+                  <div>TAX: ${parseFloat(subtotal * 0.1).toFixed(2)}</div>
+                  <div>TOTAL: ${parseFloat(subtotal * 1.1).toFixed(2)}</div>
+                  <div>YOU SAVED: ${parseFloat(subtotal / 4).toFixed(2)}</div>
+                </div>
+                {status !== 'cart' && (
                   <div className="order-body-info-block">
-                    <form>
-                      <select
-                        onChange={evt =>
-                          this.setState({status: evt.target.value})
-                        }
-                        value={this.state.status}
-                        className="order-status-selector"
-                        name="qty"
-                      >
-                        <option value="created">Created</option>
-                        <option value="processing">Processing</option>
-                        <option value="cancelled">Cancelled</option>
-                        <option value="completed">Completed</option>
-                      </select>
-                      <button
-                        type="submit"
-                        onClick={evt => {
-                          evt.preventDefault()
-                          console.log(`changing status to ${this.state.status}`)
-                        }}
-                        className="order-product-change-qty-button"
-                      >
-                        Change Status
-                      </button>
-                    </form>
+                    <div className="">Shipping Address</div>
+                    <div className="">Payment Information</div>
                   </div>
                 )}
-              {status === 'cart' && (
-                <div className="order-body-info-block">
-                  <button type="button" className="checkout-button">
-                    CHECK OUT
-                  </button>
-                </div>
-              )}
+                {status !== 'cart' &&
+                  userType === 'admin' && (
+                    <div className="order-body-info-block">
+                      <form>
+                        <select
+                          onChange={evt =>
+                            this.setState({status: evt.target.value})
+                          }
+                          value={this.state.status}
+                          className="order-status-selector"
+                          name="qty"
+                        >
+                          <option value="created">Created</option>
+                          <option value="processing">Processing</option>
+                          <option value="cancelled">Cancelled</option>
+                          <option value="completed">Completed</option>
+                        </select>
+                        <button
+                          type="submit"
+                          onClick={evt => {
+                            evt.preventDefault()
+                            console.log(
+                              `changing status to ${this.state.status}`
+                            )
+                          }}
+                          className="order-product-change-qty-button"
+                        >
+                          Change Status
+                        </button>
+                      </form>
+                    </div>
+                  )}
+                {status === 'cart' && (
+                  <div className="order-body-info-block">
+                    <button type="button" className="checkout-button">
+                      CHECK OUT
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="order-view">
+            <div className="order-view-header-container">
+              {' '}
+              <div className="order-view-header">No Products Found</div>
+            </div>
+          </div>
+        )}
       </div>
     )
   }
