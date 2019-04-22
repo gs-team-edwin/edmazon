@@ -9,18 +9,29 @@ module.exports = router
 router.get('/:orderId', async (req, res, next) => {
   try {
     let orderId = req.params.orderId
-    const order = await Order.findOne({
-      where: {
-        id: orderId
-      },
-      include: [{model: Product, include: {model: Photo}}]
-    })
-    const user = await User.findOne({
-      where: {
-        id: order.userId
-      }
-    })
-    res.json({order, user})
+    let loggedInUser = req.user.id
+    let loggedInUserType = req.user.userType
+    // get the order's userId
+    const order = await Order.findByPk(orderId)
+    const orderUserId = order.dataValues.userId
+
+    if (loggedInUser === orderUserId || loggedInUserType === 'admin') {
+      let orderId = req.params.orderId
+      const order = await Order.findOne({
+        where: {
+          id: orderId
+        },
+        include: [{model: Product, include: {model: Photo}}]
+      })
+      const user = await User.findOne({
+        where: {
+          id: order.userId
+        }
+      })
+      res.json({order, user})
+    } else {
+      res.sendStatus(401)
+    }
   } catch (err) {
     next(err)
   }
@@ -43,11 +54,11 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
     const {productId, orderId} = req.params
 
     // get the order's userId
-    const user = await User.findByPk(userId)
+    const order = await Order.findByPk(orderId)
+    const orderUserId = order.dataValues.userId
 
     // if the logged-in user has access...
-
-    if (user.id === userId) {
+    if (orderUserId === userId) {
       // destroy the item
       await OrdersProducts.destroy({
         where: {
