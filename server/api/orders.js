@@ -1,12 +1,12 @@
 const router = require('express').Router()
 const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
 const isAdmin = require('../middleware/isAdmin')
+const isLoggedIn = require('../middleware/isLoggedIn')
 
 module.exports = router
 
-// /api/orders/id
 // returns a single order with associated user
-router.get('/:orderId', async (req, res, next) => {
+router.get('/:orderId', isLoggedIn, async (req, res, next) => {
   try {
     let orderId = req.params.orderId
     let loggedInUser = req.user.id
@@ -37,7 +37,8 @@ router.get('/:orderId', async (req, res, next) => {
   }
 })
 
-router.put('/:orderId/status', isAdmin, async (req, res, next) => {
+// update order status, admin only
+router.put('/:orderId/status', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     let orderId = req.params.orderId
     await Order.update({status: req.body.status}, {where: {id: orderId}})
@@ -47,9 +48,11 @@ router.put('/:orderId/status', isAdmin, async (req, res, next) => {
   }
 })
 
-// api/orders/:orderId/remove/:productId
+// deleting products from carts, public
 router.delete('/:orderId/remove/:productId', async (req, res, next) => {
   try {
+    // WILL BREAK FOR ANON USERS
+    // todo
     const userId = req.user.id
     const {productId, orderId} = req.params
 
