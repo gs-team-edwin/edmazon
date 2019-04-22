@@ -24,12 +24,14 @@ class LargeProductCard extends React.Component {
               src={`${product.photos[this.state.selectedPhoto - 1].photoUrl}`}
             />
             <div className="tiny-image-container">
-              {product.photos.map(photo => (
+              {product.photos.map((photo, i) => (
                 <img
                   className="tiny-image"
                   key={photo.id}
                   src={photo.photoUrl}
-                  onClick={() => this.setState({selectedPhoto: photo.id})}
+                  onClick={() => {
+                    this.setState({selectedPhoto: i + 1})
+                  }}
                 />
               ))}
             </div>
