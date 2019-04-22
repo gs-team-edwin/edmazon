@@ -13,8 +13,7 @@ const postReview = review => ({type: POST_REVIEW, review})
 
 export const writeReview = (product, review) => async dispatch => {
   try {
-    console.log(`REVIEW******`, review)
-    const {data} = await axios.post(`/api/products/${product}/reviews`, review)
+=    const {data} = await axios.post(`/api/products/${product}/reviews`, review)
     dispatch(postReview(data))
   } catch (err) {
     console.error(err)

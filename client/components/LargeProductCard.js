@@ -14,7 +14,6 @@ class LargeProductCard extends React.Component {
     }
   }
   render() {
-    console.log('PROPS', this.props)
     const {product, openReviewPopup, popup, user} = this.props
 
     return (
