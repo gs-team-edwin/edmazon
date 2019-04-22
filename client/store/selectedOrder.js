@@ -57,19 +57,26 @@ export const removeCartItemThunk = (orderId, productId) => async dispatch => {
   }
 }
 
-
 export const addToCart = (productId, quantity, userId) => async dispatch => {
   try {
     const res = await axios.get(`/api/getcartid`)
     const cartId = res.data
-    if(cartId) {
-      await axios.post(`/api/orders/${cartId}/add/${productId}`, {quantity: quantity, purchasePrice: null})
-    }
-    else {
-      let newCart = await axios.post(`/api/orders/createCartOrder`, {userId: userId})
+    if (cartId) {
+      await axios.post(`/api/orders/${cartId}/add/${productId}`, {
+        quantity: quantity,
+        purchasePrice: null
+      })
+    } else {
+      let newCart = await axios.post(`/api/orders/createCartOrder`, {
+        userId: userId
+      })
       let newCartId = newCart.data.id
       console.log(newCart)
-      await axios.post(`/api/orders/${newCartId}/add/${productId}`, {quantity: quantity, purchasePrice: null, userId: userId})
+      await axios.post(`/api/orders/${newCartId}/add/${productId}`, {
+        quantity: quantity,
+        purchasePrice: null,
+        userId: userId
+      })
     }
   } catch (err) {
     console.log(err)
@@ -99,7 +106,6 @@ export const updateCartItemThunk = (
     console.log(err)
   }
 }
-
 
 export default function(
   state = {order: {products: [], status: ''}, user: {}},
