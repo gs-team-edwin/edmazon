@@ -695,3 +695,19 @@ button {
   position: relative;
   top: 0px;
 }
+.order-status-selector {
+  color: var(--dark-color);
+  margin: 5px;
+  padding: 3px;
+  text-decoration: none;
+  background-color: var(--light-color);
+  border-radius: 4px;
+  font-size: 11pt;
+  border: 2px solid darkgray;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  width: 100px;
+  height: 30px;
+  position: relative;
+  top: 0px;
+}
