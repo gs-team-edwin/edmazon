@@ -43,14 +43,16 @@ class ReviewForm extends React.Component {
         <div className="popup">
           <form onSubmit={this.handleSubmit}>
             <h3>Review Products</h3>
-            <div>
-              <label htmlFor="name">STARS:</label>
-              <input
-                type="text"
-                name="stars"
-                onChange={this.handleChange}
-                value={stars}
-              />
+            <div className="form-item">
+              <div className="rate">
+                <label htmlFor="name">STARS</label>
+                <input
+                  type="radio"
+                  name="stars"
+                  onChange={this.handleChange}
+                  value={stars}
+                />
+              </div>
               <label htmlFor="title">Title:</label>
               <input
                 required
@@ -60,10 +62,12 @@ class ReviewForm extends React.Component {
                 value={title}
               />
             </div>
-            <div>
-              <label htmlFor="body">review:</label>
-              <input
+            <div className="form-item">
+              <label htmlFor="body">review</label>
+              <textarea
                 required
+                rows="10"
+                cols="100"
                 type="text"
                 name="body"
                 onChange={this.handleChange}
@@ -72,16 +76,18 @@ class ReviewForm extends React.Component {
             </div>
             <div>
               <div>
-                <button type="submit">Submit</button>
-                <button
-                  className="popup-close-button"
-                  onClick={() => this.closePopup(this.closePopup.bind(this))}
-                >
-                  Close
+                <button className="popup-form-button" type="submit">
+                  Submit
                 </button>
               </div>
             </div>
           </form>
+          <button
+            className="popup-close-button"
+            onClick={() => this.props.closePopup()}
+          >
+            Close
+          </button>
         </div>
       </div>
     )
