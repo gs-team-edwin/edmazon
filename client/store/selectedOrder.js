@@ -28,6 +28,15 @@ export const getCartThunk = userId => async dispatch => {
   }
 }
 
+// export const removeCartItemThunk = productId => async dispatch => {
+//   try {
+//     await axios.delete(`/api/cart/remove/${productId}`)
+//     dispatch(removeCartItem(productId))
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
+
 export default function(
   state = {order: {products: [], status: ''}, user: {}},
   action
