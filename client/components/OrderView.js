@@ -1,10 +1,30 @@
 import OrderItem from './OrderItem'
 import React from 'react'
-import {connect} from 'react-redux'
+import StripeCheckout from 'react-stripe-checkout';
 import {updateStatusThunk} from '../store'
+import {connect} from 'react-redux'
+import axios from 'axios'
 
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 class orderView extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      status: this.props.order.status
+    }
+    this.onToken = this.onToken.bind(this)
+  }
+  async onToken(token) {
+    console.log(token)
+    await axios.post(`/api/orders/${this.props.order.id}`, token)
+    // fetch(`/api/orders/${this.props.order.id}`, {
+    //   method: 'POST',
+    //   body: JSON.stringify(token),
+    // }).then(response => {
+    //   response.json()
+    // });
+  }
+
   render() {
     const {products, status, id} = this.props.order
     const {user, removeItem, userType} = this.props
@@ -18,6 +38,7 @@ class orderView extends React.Component {
         0
       ) / 100
     ).toFixed(2)
+
 
     return (
       <div className="order-view-container">
@@ -95,8 +116,16 @@ class orderView extends React.Component {
                     </button>
                   </div>
                 )}
-              </div>
+              {status === 'cart' && (
+                <div className="order-body-info-block">
+                  <StripeCheckout
+        token={this.onToken}
+        stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
+        amount={Number(parseFloat(subtotal * 1.1 * 100).toFixed(2))}/>
+                </div>
+              )}
             </div>
+          </div>
           </div>
         ) : (
           <div className="order-view">

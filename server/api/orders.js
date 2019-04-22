@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
+const {Order, OrdersProducts, Product, Photo, User} = require('../db/models')
+var stripe = require("stripe")("sk_test_keFS67JeYwCUTOscsQgqorhH00FO37ypvX");
 const isAdmin = require('../middleware/isAdmin')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
@@ -111,3 +112,25 @@ router.put('/:orderId/update/:productId', async (req, res, next) => {
     next(err)
   }
 })
+
+
+router.post('/:id', async (req, res, next) => {
+  try {
+    let id = req.params.id
+    const token = req.body.id
+    const thisOrder = await OrdersProducts.findOne({where: {orderId: id}});
+/// todo fix the total cost hook
+    await stripe.charges.create({
+        amount: 5306,
+        currency: 'usd',
+        description: 'Example charge',
+        source: token,
+        statement_descriptor: 'Custom descriptor',})
+    res.json(201)
+  }
+  catch (err) {
+    next(err)
+  }
+})
+
+
