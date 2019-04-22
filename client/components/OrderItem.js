@@ -11,7 +11,8 @@ class orderItem extends React.Component {
   }
 
   render() {
-    const {product, removeItem, viewType} = this.props
+    console.log('PROPS', this.props)
+    const {product, removeItem, status} = this.props
     const {id, title, price, ordersProducts} = product
     const {quantity} = ordersProducts
     const itemSubtotal = (quantity * price / 100).toFixed(2)
@@ -32,7 +33,7 @@ class orderItem extends React.Component {
           >
             {title}
           </div>
-          {viewType === 'cart' && (
+          {status === 'cart' && (
             <div className="order-cart-buttons">
               <button
                 className="remove-item-button"

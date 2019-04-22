@@ -28,8 +28,8 @@ export default function(state = [], action) {
   switch (action.type) {
     case GET_CART_PRODUCTS:
       return action.products
-    case REMOVE_CART_ITEM: 
-      return state.filter((product) => product.id !== action.productId)
+    case REMOVE_CART_ITEM:
+      return state.filter(product => product.id !== action.productId)
     default:
       return state
   }

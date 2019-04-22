@@ -7,26 +7,35 @@ class orderView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: 'created'
+      status: this.props.order.status
     }
   }
 
   render() {
+    const {products, status} = this.props.order
+    const {user, removeItem, userType} = this.props
+    const {email} = user
+
+    // calculate subtotal
     const subtotal = (
-      this.props.products.reduce(
+      products.reduce(
         (total, product) =>
           total + product.price * product.ordersProducts.quantity,
         0
       ) / 100
     ).toFixed(2)
-    const {user, viewType, products, removeItem} = this.props
+
     return (
       <div className="order-view-container">
         <div className="order-view">
           <div className="order-view-header-container">
-            <div className="order-view-header">
-              {user.email}'s {viewType}
-            </div>
+            {status === 'cart' ? (
+              <div className="order-view-header">{email}'s cart</div>
+            ) : (
+              <div className="order-view-header">
+                Order {this.props.order.id}, user {email}
+              </div>
+            )}
           </div>
           <div className="order-body">
             <div className="order-body-left">
@@ -36,7 +45,7 @@ class orderView extends React.Component {
                     <OrderItem
                       product={product}
                       removeItem={removeItem}
-                      viewType={viewType}
+                      status={status}
                     />
                   </div>
                 ))
@@ -51,13 +60,13 @@ class orderView extends React.Component {
                 <div>TOTAL: ${parseFloat(subtotal * 1.1).toFixed(2)}</div>
                 <div>YOU SAVED: ${parseFloat(subtotal / 4).toFixed(2)}</div>
               </div>
-              {viewType === 'order' && (
+              {status !== 'cart' && (
                 <div className="order-body-info-block">
                   <div className="">Shipping Address</div>
                   <div className="">Payment Information</div>
                 </div>
               )}
-              {viewType === 'order' &&
+              {status !== 'cart' &&
                 userType === 'admin' && (
                   <div className="order-body-info-block">
                     <form>
@@ -87,7 +96,7 @@ class orderView extends React.Component {
                     </form>
                   </div>
                 )}
-              {viewType === 'cart' && (
+              {status === 'cart' && (
                 <div className="order-body-info-block">
                   <button type="button" className="checkout-button">
                     CHECK OUT

@@ -1,22 +1,24 @@
 const router = require('express').Router()
-const {Order, Product, OrdersProducts, Photo} = require('../db/models')
+const {Order, Product, Photo, User} = require('../db/models')
 module.exports = router
 
-router.get('/cart/:id', async (req, res, next) => {
+// /api/orders/id
+// returns a single order with associated user
+router.get('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
-    const cartOrder = await Order.findOne({
+    const order = await Order.findOne({
       where: {
-        userId: id,
-        status: 'cart'
+        id: id
       },
       include: [{model: Product, include: {model: Photo}}]
     })
-    if (cartOrder) {
-      res.json(cartOrder.products)
-    } else {
-      console.log('Cart is empty')
-    }
+    const user = await User.findOne({
+      where: {
+        id: order.userId
+      }
+    })
+    res.json({order, user})
   } catch (err) {
     next(err)
   }
