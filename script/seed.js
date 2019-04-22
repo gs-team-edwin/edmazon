@@ -148,11 +148,17 @@ function productInfoFactory(N) {
 // build reviews array
 function reviewInfoFactory(N) {
   const reviewsArr = []
-  for (let i = 0; i < N; i++) {
+  for (let i = 0; i < N * 2; i++) {
     const reviewTitle = titleCase(
       faker.hacker.adjective() + ' ' + faker.hacker.noun()
     )
     const reviewBody =
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
       faker.hacker.phrase() +
       ' ' +
       faker.hacker.phrase() +
@@ -253,7 +259,7 @@ function productCategoryFactory(N, CATEGORY_COUNT) {
     productCategoryArr.push({productId, categoryId})
 
     // randomly add 1 more category to some products
-    const numberToAdd = getRandomInteger(3)
+    const numberToAdd = getRandomInteger(4) + 1
     for (let x = 0; x < numberToAdd; x++) {
       categoryId = (categoryId + 1) % CATEGORY_COUNT + 1
       productCategoryArr.push({productId, categoryId})
