@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {getCartProductsThunk,removeCartItemThunk} from '../store/cartproducts'
+import {getCartProductsThunk, removeCartItemThunk} from '../store/cartproducts'
 import {connect} from 'react-redux'
 import OrderView from './OrderView'
 
@@ -18,12 +18,16 @@ export class Cart extends Component {
     }
   }
 
-
-
   render() {
     if (this.props.user.id) {
       return (
-      <OrderView products={this.props.cartProducts} user = {this.props.user} viewType = 'Cart' removeItem = {this.props.removeCartItem} />)
+        <OrderView
+          products={this.props.cartProducts}
+          user={this.props.user}
+          viewType="Cart"
+          removeItem={this.props.removeCartItem}
+        />
+      )
     } else {
       return 'Please sign in'
     }
