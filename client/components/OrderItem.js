@@ -1,11 +1,17 @@
 import React from 'react'
 import history from '../history'
 import {connect} from 'react-redux'
-import {removeCartItemThunk} from '../store'
+import {removeCartItemThunk, updateCartItemThunk} from '../store'
 
 class orderItem extends React.Component {
   render() {
-    const {product, removeCartItem, status, orderId} = this.props
+    const {
+      product,
+      removeCartItem,
+      status,
+      orderId,
+      updateCartItem
+    } = this.props
     const {id, title, price, ordersProducts} = product
     const {quantity} = ordersProducts
     const itemSubtotal = (quantity * price / 100).toFixed(2)
@@ -28,6 +34,26 @@ class orderItem extends React.Component {
           </div>
           {status === 'cart' && (
             <div className="order-cart-buttons">
+              <div className="order-qty-change-container">
+                <span className="order-product-change-qty-label">
+                  Change Quantity:
+                </span>
+                <select
+                  onChange={evt => {
+                    evt.preventDefault()
+                    updateCartItem(orderId, id, evt.target.value)
+                  }}
+                  value={quantity}
+                  className="order-product-qty-selector"
+                  name="qty"
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
               <button
                 className="remove-item-button"
                 type="button"
@@ -35,18 +61,6 @@ class orderItem extends React.Component {
               >
                 Remove from cart
               </button>
-              <select
-                onChange={evt => console.log('changed quantity')}
-                value={quantity}
-                className="order-product-qty-selector"
-                name="qty"
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
             </div>
           )}
         </div>
@@ -66,6 +80,8 @@ class orderItem extends React.Component {
 const mapState = state => ({})
 const mapDispatch = dispatch => ({
   removeCartItem: (orderId, productId) =>
-    dispatch(removeCartItemThunk(orderId, productId))
+    dispatch(removeCartItemThunk(orderId, productId)),
+  updateCartItem: (orderId, productId, quantity) =>
+    dispatch(updateCartItemThunk(orderId, productId, quantity))
 })
-export default connect(mapState, mapDispatch)(orderItem)
+export default connect(null, mapDispatch)(orderItem)

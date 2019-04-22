@@ -9,6 +9,8 @@ module.exports = router
 router.get('/:orderId', isLoggedIn, async (req, res, next) => {
   try {
     let orderId = req.params.orderId
+    // WILL ERROR OUT FOR ANON USERS WHEN MIDDLEWARE DISABLED
+    // todo
     let loggedInUser = req.user.id
     let loggedInUserType = req.user.userType
     // get the order's userId
@@ -68,6 +70,39 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
           orderId: orderId
         }
       })
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(401)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// updating quantities from carts, public
+router.put('/:orderId/update/:productId', async (req, res, next) => {
+  try {
+    // WILL BREAK FOR ANON USERS
+    // todo
+    const userId = req.user.id
+    const {productId, orderId} = req.params
+
+    // get the order's userId
+    const order = await Order.findByPk(orderId)
+    const orderUserId = order.dataValues.userId
+
+    // if the logged-in user has access...
+    if (orderUserId === userId) {
+      // update the row
+      await OrdersProducts.update(
+        {quantity: req.body.quantity},
+        {
+          where: {
+            productId: productId,
+            orderId: orderId
+          }
+        }
+      )
       res.sendStatus(200)
     } else {
       res.sendStatus(401)
