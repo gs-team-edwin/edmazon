@@ -8,16 +8,14 @@ class BillingForm extends React.Component {
     this.state = {
       firstName: '',
       lastName: '',
-      address: '',
-      apt: '',
+      address1: '',
+      address2: '',
+      company: '',
       city: '',
       state: '',
       Country: '',
       zip: '',
-      telephone: '',
-      cardNumber: '',
-      nameOnCard: '',
-      expirationDate: ''
+      telephone: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -26,7 +24,6 @@ class BillingForm extends React.Component {
   async handleSubmit(event) {
     try {
       event.preventDefault()
-      console.log(`SUBMITTING`, JSON.stringify(this.state))
       // this.setState({
       //   firstName: '',
       //   lastName: '',
@@ -124,33 +121,6 @@ class BillingForm extends React.Component {
             name="address"
             onChange={this.handleChange}
             value={telephone}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">Card Number:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={cardNumber}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">Name On Card:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={nameOnCard}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">Expiration Date:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={expirationDate}
           />
         </div>
         <div>
