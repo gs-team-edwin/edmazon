@@ -113,19 +113,95 @@ function categoryFactory(CATEGORY_COUNT) {
 function productInfoFactory(N) {
   const productsArr = []
   for (let i = 0; i < N; i++) {
+    let titleNouns = [
+      'Javascript',
+      'Java',
+      'C',
+      'C++',
+      'C#',
+      'Python',
+      'SQL',
+      'PHP',
+      'QBASIC',
+      'Erlang',
+      'Elm',
+      'Coffeescript',
+      'Typescript',
+      'ASP',
+      'COBOL',
+      'Elixr',
+      'FORTRAN',
+      'Haskell',
+      'Lisp',
+      'HTML',
+      'CSS',
+      'Lua',
+      'OCaml',
+      'Ruby',
+      'Visual Basic',
+      'Brainfuck',
+      'Go',
+      '.NET',
+      'RegEx',
+      'Swift',
+      'Shell',
+      'Assembly'
+    ]
+
+    let titleAdjectives = [
+      'Object-Oriented',
+      'Statically-Typed',
+      'Dynamically-Typed',
+      'Functional',
+      'Procedural',
+      'Declarative',
+      'Concurrent',
+      'Concurrent',
+      'Esoteric',
+      'Pure',
+      'Interpreted',
+      'Performant',
+      'Interactive',
+      'Garbage-Collected',
+      'List-Based',
+      'Meta-Programmatic',
+      'Rule-Based',
+      'Reflective',
+      'Imperative',
+      'Embeddable',
+      'Synchronous',
+      'Asynchronous',
+      'First-Order',
+      'Second-Order',
+      'Lazy',
+      'Deterministic',
+      'Monotonic',
+      'Reactive',
+      'Multi-Agent',
+      'Dataflow',
+      'Message-Based',
+      'Sequential',
+      'Stateful',
+      'Stateless',
+      'Shared-State',
+      'High-Level',
+      'Domain-Specific',
+      'Neural',
+      'Backpropagating'
+    ]
     let title =
-      faker.hacker.adjective() +
+      titleAdjectives[getRandomInteger(titleAdjectives.length)] +
       ' ' +
-      faker.hacker.adjective() +
+      titleAdjectives[getRandomInteger(titleAdjectives.length)] +
       ' ' +
-      faker.hacker.noun()
+      titleNouns[getRandomInteger(titleNouns.length)]
     title = titleCase(title)
     const desc = faker.hacker.phrase()
     const description = desc
       .split(' ')
       .map((w, i) => (i === 0 ? titleCase(w) : w))
       .join(' ')
-    const price = getRandomInteger(1000)
+    const price = getRandomInteger(100000)
     // one tenth of products are out of stock
     const isEmpty = getRandomInteger(9)
     let quantityOnHand
