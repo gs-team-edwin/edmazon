@@ -21,7 +21,9 @@ class CartButton extends React.Component {
       <button
         type="button"
         className="cart-button"
-        onClick={() => history.push('/cart')}
+        onClick={() => {
+          if (cartLength > 0) history.push('/cart')
+        }}
       >
         Cart ({cartLength})
       </button>
@@ -38,7 +40,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCartLength: userId => dispatch(getCartLengthThunk())
+    getCartLength: () => dispatch(getCartLengthThunk())
   }
 }
 
