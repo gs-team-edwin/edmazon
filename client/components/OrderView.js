@@ -1,6 +1,8 @@
 import OrderItem from './OrderItem'
 import React from 'react'
+import StripeCheckout from 'react-stripe-checkout';
 import {connect} from 'react-redux'
+import axios from 'axios'
 
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 class orderView extends React.Component {
@@ -9,6 +11,15 @@ class orderView extends React.Component {
     this.state = {
       status: this.props.order.status
     }
+  }
+  onToken = (token) => {
+    console.log(token)
+    fetch(`/api/orders/${this.props.order.id}`, {
+      method: 'POST',
+      body: JSON.stringify(token),
+    }).then(response => {
+      response.json()
+    });
   }
 
   render() {
@@ -24,6 +35,7 @@ class orderView extends React.Component {
         0
       ) / 100
     ).toFixed(2)
+
 
     return (
       <div className="order-view-container">
@@ -98,9 +110,11 @@ class orderView extends React.Component {
                 )}
               {status === 'cart' && (
                 <div className="order-body-info-block">
-                  <button type="button" className="checkout-button">
-                    CHECK OUT
-                  </button>
+                  <StripeCheckout
+        token={this.onToken}
+        stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
+        amount={Number(parseFloat(subtotal * 1.1 * 100).toFixed(2))}
+      />
                 </div>
               )}
             </div>
