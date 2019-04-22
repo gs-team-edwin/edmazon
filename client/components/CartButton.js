@@ -1,26 +1,22 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getCartThunk} from '../store'
+import {getCartLengthThunk} from '../store'
 import history from '../history'
 
 class CartButton extends React.Component {
   componentDidMount() {
-    this.props.getCartThunk()
+    this.props.getCartLength()
   }
 
   componentDidUpdate(prevProps) {
     // if we just logged in...
     if (prevProps.user !== this.props.user) {
-      this.props.getCartThunk()
+      this.props.getCartLength()
     }
   }
 
   render() {
-    console.log('selectedOrder', this.props.selectedOrder)
-    let cartLength = 0
-    if (this.props.products) {
-      cartLength = this.props.products.length
-    }
+    const {cartLength} = this.props
     return (
       <button
         type="button"
@@ -35,14 +31,14 @@ class CartButton extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.selectedOrder.order.products,
+    cartLength: state.cartLength,
     user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCartThunk: userId => dispatch(getCartThunk(userId))
+    getCartLength: userId => dispatch(getCartLengthThunk())
   }
 }
 

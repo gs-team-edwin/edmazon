@@ -1,7 +1,11 @@
 import React from 'react'
 import history from '../history'
 import {connect} from 'react-redux'
-import {removeCartItemThunk, updateCartItemThunk} from '../store'
+import {
+  removeCartItemThunk,
+  updateCartItemThunk,
+  decrementCartLength
+} from '../store'
 
 class orderItem extends React.Component {
   render() {
@@ -10,7 +14,8 @@ class orderItem extends React.Component {
       removeCartItem,
       status,
       orderId,
-      updateCartItem
+      updateCartItem,
+      decrementCart
     } = this.props
     const {id, title, price, ordersProducts} = product
     const {quantity} = ordersProducts
@@ -57,7 +62,10 @@ class orderItem extends React.Component {
               <button
                 className="remove-item-button"
                 type="button"
-                onClick={() => removeCartItem(orderId, id)}
+                onClick={() => {
+                  removeCartItem(orderId, id)
+                  decrementCart()
+                }}
               >
                 Remove from cart
               </button>
@@ -82,6 +90,7 @@ const mapDispatch = dispatch => ({
   removeCartItem: (orderId, productId) =>
     dispatch(removeCartItemThunk(orderId, productId)),
   updateCartItem: (orderId, productId, quantity) =>
-    dispatch(updateCartItemThunk(orderId, productId, quantity))
+    dispatch(updateCartItemThunk(orderId, productId, quantity)),
+  decrementCart: () => dispatch(decrementCartLength())
 })
 export default connect(null, mapDispatch)(orderItem)

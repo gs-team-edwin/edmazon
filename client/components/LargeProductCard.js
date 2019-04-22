@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import history from '../history'
 import {Link} from 'react-router-dom'
 import {ReviewForm} from './'
-import {setPopup, addToCart} from '../store'
+import {setPopup, addToCart, incrementCartLength} from '../store'
 
 class LargeProductCard extends React.Component {
   constructor(props) {
@@ -29,6 +29,7 @@ class LargeProductCard extends React.Component {
       this.state.cartQuantity,
       this.props.user.id
     )
+    this.props.incrementCart()
   }
 
   render() {
@@ -151,6 +152,9 @@ const mapDispatchToProps = dispatch => ({
   },
   addToCart(productId, quantity, userId) {
     dispatch(addToCart(productId, quantity, userId))
+  },
+  incrementCart() {
+    dispatch(incrementCartLength())
   }
 })
 
