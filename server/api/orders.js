@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, Product, OrdersProducts} = require('../db/models')
+const {Order, Product, OrdersProducts, Photo} = require('../db/models')
 module.exports = router
 
 router.get('/cart/:id', async (req, res, next) => {
@@ -10,7 +10,7 @@ router.get('/cart/:id', async (req, res, next) => {
         userId: id,
         status: 'cart'
       },
-      include: [{model: Product}]
+      include: [{model: Product, include: {model: Photo}}]
     })
     if (cartOrder) {
       res.json(cartOrder.products)
@@ -21,4 +21,3 @@ router.get('/cart/:id', async (req, res, next) => {
     next(err)
   }
 })
-

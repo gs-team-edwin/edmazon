@@ -24,7 +24,7 @@ export class Cart extends Component {
         <OrderView
           products={this.props.cartProducts}
           user={this.props.user}
-          viewType="Cart"
+          viewType="cart"
           removeItem={this.props.removeCartItem}
         />
       )

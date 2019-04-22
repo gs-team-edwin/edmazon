@@ -88,11 +88,12 @@ class LargeProductCard extends React.Component {
                   Edit Product Info
                 </button>
               )}
-            <div className="add-to-cart-container">
+            <form className="add-to-cart-container">
               <select
                 onChange={() => console.log('changed selector')}
                 value={1}
                 className="cart-qty-selector"
+                name="qty"
               >
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -107,7 +108,7 @@ class LargeProductCard extends React.Component {
               >
                 Add to cart
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
