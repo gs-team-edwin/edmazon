@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react'
 import {connect} from 'react-redux'
 import history from '../history'
@@ -104,29 +105,31 @@ class LargeProductCard extends React.Component {
                   Edit Product Info
                 </button>
               )}
-            <form className="add-to-cart-container">
-              <select
-                onChange={(evt) => {
-                  this.quantityClickHandler(evt)
-                }}
-                value={this.state.cartQuantity}
-                className="cart-qty-selector"
-                name="qty"
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">4</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <button
-                type="submit"
-                onClick={(evt) => this.submitHandler(evt)}
-                className="large-product-card-button cart"
-              >
-                Add to cart
-              </button>
-            </form>
+            {product.quantityOnHand > 0 && (
+              <form className="add-to-cart-container">
+                <select
+                  onChange={(evt) => {
+                    this.quantityClickHandler(evt)
+                  }}
+                  value={this.state.cartQuantity}
+                  className="cart-qty-selector"
+                  name="qty"
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                <button
+                  type="submit"
+                  onClick={(evt) => this.submitHandler(evt)}
+                  className="large-product-card-button cart"
+                >
+                  Add to cart
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

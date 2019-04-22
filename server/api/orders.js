@@ -1,11 +1,11 @@
 const router = require('express').Router()
 const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
-<<<<<<< HEAD
-=======
 const isAdmin = require('../middleware/isAdmin')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
->>>>>>> e266cc7254315fa19a9bebf96a017109bc84df02
+const isAdmin = require('../middleware/isAdmin')
+const isLoggedIn = require('../middleware/isLoggedIn')
+
 module.exports = router
 
 // returns a single order with associated user
