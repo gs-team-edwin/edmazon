@@ -26,7 +26,6 @@ const SingleUserRow = props => {
             checked={user.userType === 'admin'}
             onChange={evt => {
               const action = evt.target.checked
-              console.log('action: ', action)
 
               if (action) {
                 addAdminPrivelage(user.id)

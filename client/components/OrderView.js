@@ -1,16 +1,10 @@
 import OrderItem from './OrderItem'
 import React from 'react'
 import {connect} from 'react-redux'
+import {updateStatusThunk} from '../store'
 
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 class orderView extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      status: this.props.order.status
-    }
-  }
-
   render() {
     const {products, status, id} = this.props.order
     const {user, removeItem, userType} = this.props
@@ -29,15 +23,19 @@ class orderView extends React.Component {
       <div className="order-view-container">
         {products.length ? (
           <div className="order-view">
-            <div className="order-view-header-container">
-              {status === 'cart' ? (
+            {status === 'cart' ? (
+              <div className="order-view-header-container">
                 <div className="order-view-header">{email}'s cart</div>
-              ) : (
+              </div>
+            ) : (
+              <div className="order-view-header-container">
                 <div className="order-view-header">
-                  Order {this.props.order.id}, user {email}
+                  Order #{this.props.order.id}
                 </div>
-              )}
-            </div>
+                <div className="order-view-header-small">User: {email}</div>
+              </div>
+            )}
+
             <div className="order-body">
               <div className="order-body-left">
                 {products.length ? (
@@ -71,33 +69,23 @@ class orderView extends React.Component {
                 {status !== 'cart' &&
                   userType === 'admin' && (
                     <div className="order-body-info-block">
-                      <form>
-                        <select
-                          onChange={evt =>
-                            this.setState({status: evt.target.value})
-                          }
-                          value={this.state.status}
-                          className="order-status-selector"
-                          name="qty"
-                        >
-                          <option value="created">Created</option>
-                          <option value="processing">Processing</option>
-                          <option value="cancelled">Cancelled</option>
-                          <option value="completed">Completed</option>
-                        </select>
-                        <button
-                          type="submit"
-                          onClick={evt => {
-                            evt.preventDefault()
-                            console.log(
-                              `changing status to ${this.state.status}`
-                            )
-                          }}
-                          className="order-product-change-qty-button"
-                        >
-                          Change Status
-                        </button>
-                      </form>
+                      <select
+                        onChange={evt => {
+                          evt.preventDefault()
+                          this.props.updateStatus(
+                            this.props.order.id,
+                            evt.target.value
+                          )
+                        }}
+                        value={this.props.order.status}
+                        className="order-status-selector"
+                        name="qty"
+                      >
+                        <option value="created">Created</option>
+                        <option value="processing">Processing</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                      </select>
                     </div>
                   )}
                 {status === 'cart' && (
@@ -126,5 +114,8 @@ class orderView extends React.Component {
 const mapState = state => ({
   userType: state.user.userType
 })
-const mapDispatch = dispatch => ({})
+const mapDispatch = dispatch => ({
+  updateStatus: (orderId, status) =>
+    dispatch(updateStatusThunk(orderId, status))
+})
 export default connect(mapState, mapDispatch)(orderView)

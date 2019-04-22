@@ -9,7 +9,10 @@ const SingleOrderRow = ({order}) => {
   const dateString = `${date.getMonth() +
     1}/${date.getDate()}/${date.getFullYear()}`
   return (
-    <div className="order-row">
+    <div
+      className="order-row"
+      onClick={() => history.push(`/orders/${order.id}`)}
+    >
       <span className="order-row-item">{order.id}</span>
       <span className="order-row-item">{dateString}</span>
       <span className="order-row-item">{order.status}</span>

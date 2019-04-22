@@ -3,6 +3,7 @@ const {Category} = require('../db/models')
 const isAdmin = require('../middleware/isAdmin')
 module.exports = router
 
+// get all categories - public
 router.get('/', async (req, res, next) => {
   try {
     const categories = await Category.findAll()

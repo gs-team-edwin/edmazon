@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import {getCartThunk} from '../store'
+import {getOrderThunk} from '../store'
 import {connect} from 'react-redux'
 import OrderView from './OrderView'
 
-export class Cart extends Component {
+export class SingleOrderView extends Component {
   componentDidMount() {
-    this.props.getCartThunk()
+    const {orderId} = this.props.match.params
+    this.props.getOrderThunk(orderId)
   }
 
   render() {
@@ -24,7 +25,7 @@ export class Cart extends Component {
 
 const mapDispatch = dispatch => {
   return {
-    getCartThunk: userId => dispatch(getCartThunk(userId))
+    getOrderThunk: orderId => dispatch(getOrderThunk(orderId))
   }
 }
 
@@ -35,4 +36,4 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Cart)
+export default connect(mapState, mapDispatch)(SingleOrderView)
