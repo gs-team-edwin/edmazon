@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, Product, Photo, User} = require('../db/models')
+const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
 module.exports = router
 
 // /api/orders/id
@@ -27,23 +27,20 @@ router.get('/:orderId', async (req, res, next) => {
 // api/orders/:orderId/remove/:productId
 router.delete('/:orderId/remove/:productId', async (req, res, next) => {
   try {
-    // get the logged in user's id
-    const userId = Number(req.params.userId)
+    const userId = req.user.id
+    const {productId, orderId} = req.params
 
     // get the order's userId
-    const user = await User.findOne({
-      where: {
-        id: order.userId
-      }
-    })
+    const user = await User.findByPk(userId)
 
     // if the logged-in user has access...
 
-    if ((user.id = userId)) {
+    if (user.id === userId) {
       // destroy the item
-      await Product.destroy({
+      await OrdersProducts.destroy({
         where: {
-          id: req.params.productId
+          productId: productId,
+          orderId: orderId
         }
       })
       res.sendStatus(200)
