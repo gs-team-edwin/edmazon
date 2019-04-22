@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {Order, OrdersProducts, Product, Photo, User} = require('../db/models')
-var stripe = require("stripe")("sk_test_keFS67JeYwCUTOscsQgqorhH00FO37ypvX");
+var stripe = require('stripe')('sk_test_keFS67JeYwCUTOscsQgqorhH00FO37ypvX')
 const isAdmin = require('../middleware/isAdmin')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
@@ -80,7 +80,7 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
   }
 })
 
-// api/orders/:orderId/add/:productId 
+// api/orders/:orderId/add/:productId
 // adds a product to an existing order
 // orderId and productId send through req.params
 // quantity, purchaseprice, and userId sent through req.body
@@ -88,15 +88,19 @@ router.post('/:orderId/add/:productId', async (req, res, next) => {
   try {
     const {orderId, productId} = req.params
     const {quantity, purchasePrice, userId} = req.body
-    let newOrdersProducts = await OrdersProducts.create({orderId, productId, quantity, purchasePrice, userId})
+    let newOrdersProducts = await OrdersProducts.create({
+      orderId,
+      productId,
+      quantity,
+      purchasePrice,
+      userId
+    })
     res.json(newOrdersProducts)
-  } catch(err) {
+  } catch (err) {
     next(err)
   }
 })
 
-    
-    
 // updating quantities from carts, public
 router.put('/:orderId/update/:productId', async (req, res, next) => {
   try {
@@ -130,12 +134,14 @@ router.put('/:orderId/update/:productId', async (req, res, next) => {
   }
 })
 
-
 //api/orders/createOrder
 //creates a new order
-router.post('/createCartOrder', async (req, res, next) =>{
+router.post('/createCartOrder', async (req, res, next) => {
   try {
-    let newCartOrder = await Order.create({userId: req.body.userId, status: 'cart'})
+    let newCartOrder = await Order.create({
+      userId: req.body.userId,
+      status: 'cart'
+    })
     res.json(newCartOrder)
   } catch (err) {
     console.log(err)
@@ -146,18 +152,17 @@ router.post('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
     const token = req.body.id
-    const thisOrder = await OrdersProducts.findOne({where: {orderId: id}});
-/// todo fix the total cost hook
+    const thisOrder = await OrdersProducts.findOne({where: {orderId: id}})
+    /// todo fix the total cost hook
     await stripe.charges.create({
-        amount: 5306,
-        currency: 'usd',
-        description: 'Example charge',
-        source: token,
-        statement_descriptor: 'Custom descriptor',})
+      amount: 5306,
+      currency: 'usd',
+      description: 'Example charge',
+      source: token,
+      statement_descriptor: 'Custom descriptor'
+    })
     res.json(201)
-  }
-  catch (err) {
+  } catch (err) {
     next(err)
   }
 })
-
