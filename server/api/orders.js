@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
+const isAdmin = require('../middleware/isAdmin')
+
 module.exports = router
 
 // /api/orders/id
@@ -19,6 +21,16 @@ router.get('/:orderId', async (req, res, next) => {
       }
     })
     res.json({order, user})
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:orderId/status', isAdmin, async (req, res, next) => {
+  try {
+    let orderId = req.params.orderId
+    await Order.update({status: req.body.status}, {where: {id: orderId}})
+    res.sendStatus(200)
   } catch (err) {
     next(err)
   }
