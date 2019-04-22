@@ -1,9 +1,8 @@
 const router = require('express').Router()
 const {Order, Product, OrdersProducts} = require('../db/models')
-const isLoggedIn = require('../middleware/isLoggedIn')
 module.exports = router
 
-// api/cart
+// api/getcartid
 // returns the ID of the user's cart or if none, false
 router.get('/', async (req, res, next) => {
   try {

@@ -80,6 +80,23 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
   }
 })
 
+// api/orders/:orderId/add/:productId 
+// adds a product to an existing order
+// orderId and productId send through req.params
+// quantity, purchaseprice, and userId sent through req.body
+router.post('/:orderId/add/:productId', async (req, res, next) => {
+  try {
+    const {orderId, productId} = req.params
+    const {quantity, purchasePrice, userId} = req.body
+    let newOrdersProducts = await OrdersProducts.create({orderId, productId, quantity, purchasePrice, userId})
+    res.json(newOrdersProducts)
+  } catch(err) {
+    next(err)
+  }
+})
+
+    
+    
 // updating quantities from carts, public
 router.put('/:orderId/update/:productId', async (req, res, next) => {
   try {
@@ -114,6 +131,17 @@ router.put('/:orderId/update/:productId', async (req, res, next) => {
 })
 
 
+//api/orders/createOrder
+//creates a new order
+router.post('/createCartOrder', async (req, res, next) =>{
+  try {
+    let newCartOrder = await Order.create({userId: req.body.userId, status: 'cart'})
+    res.json(newCartOrder)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 router.post('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
@@ -132,5 +160,4 @@ router.post('/:id', async (req, res, next) => {
     next(err)
   }
 })
-
 
