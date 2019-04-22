@@ -19,7 +19,7 @@ const faker = require('faker')
  ***********************************/
 
 const N = 1000
-const PHOTO_COUNT = 5
+const PHOTO_COUNT = 3
 const CATEGORY_COUNT = 5
 
 /***********************************
@@ -127,7 +127,14 @@ function productInfoFactory(N) {
       .map((w, i) => (i === 0 ? titleCase(w) : w))
       .join(' ')
     const price = getRandomInteger(1000)
-    const quantityOnHand = getRandomInteger(100)
+    // one tenth of products are out of stock
+    const isEmpty = getRandomInteger(9)
+    let quantityOnHand
+    if (isEmpty === 0) {
+      quantityOnHand = 0
+    } else {
+      quantityOnHand = getRandomInteger(100)
+    }
     productsArr.push({
       title,
       description,
@@ -141,11 +148,24 @@ function productInfoFactory(N) {
 // build reviews array
 function reviewInfoFactory(N) {
   const reviewsArr = []
-  for (let i = 0; i < N; i++) {
+  for (let i = 0; i < N * 2; i++) {
     const reviewTitle = titleCase(
       faker.hacker.adjective() + ' ' + faker.hacker.noun()
     )
-    const reviewBody = faker.hacker.phrase()
+    const reviewBody =
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase()
     const stars = getRandomInteger(5) + 1
     const productId = getRandomInteger(N) + 1
     const userId = getRandomInteger(N) + 1
@@ -239,7 +259,7 @@ function productCategoryFactory(N, CATEGORY_COUNT) {
     productCategoryArr.push({productId, categoryId})
 
     // randomly add 1 more category to some products
-    const numberToAdd = getRandomInteger(3)
+    const numberToAdd = getRandomInteger(4) + 1
     for (let x = 0; x < numberToAdd; x++) {
       categoryId = (categoryId + 1) % CATEGORY_COUNT + 1
       productCategoryArr.push({productId, categoryId})
@@ -269,7 +289,7 @@ async function ordersProductsFactory(N) {
       // set up the easy stuff
       const orderId = i + 1
       productId = (productId + 1) % N + 1 // make sure we don't duplicate products
-      const quantity = getRandomInteger(4) + 1
+      const quantity = getRandomInteger(5) + 1
 
       // get the purchased status for this order
       // if it's cart, set price to null

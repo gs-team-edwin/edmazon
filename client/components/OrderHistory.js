@@ -39,7 +39,11 @@ class OrderHistory extends React.Component {
             <span className="order-row-item">Checkout Date</span>
             <span className="order-row-item">Status</span>
           </div>
-          {orders.map(order => <SingleOrderRow order={order} key={order.id} />)}
+          {orders.length ? (
+            orders.map(order => <SingleOrderRow order={order} key={order.id} />)
+          ) : (
+            <div className="no-orders-notice"> No orders found! </div>
+          )}
         </div>
         <PaginationButtons
           url={`/user/${userId}/orders/offset/:offset`}

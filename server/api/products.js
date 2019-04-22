@@ -11,11 +11,12 @@ router.get('/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
     const products = await Product.findAll({
+      where: {quantityOnHand: {[Op.gt]: 0}},
       include: [{model: Photo}, {model: Category}],
       limit: PRODUCT_PAGE_SIZE,
       offset: offset
     })
-    const count = await Product.count()
+    const count = await Product.count({where: {quantityOnHand: {[Op.gt]: 0}}})
     res.json({products, count})
   } catch (err) {
     next(err)
@@ -27,10 +28,13 @@ router.get('/search/:term/offset/:offset', async (req, res, next) => {
     let offset = Number(req.params.offset)
     let query = req.params.term
     const products = await Product.findAll({
-      include: [{model: Photo}],
+      include: [{model: Photo}, {model: Category}],
       where: {
         title: {
           [Op.iLike]: `%${query}%`
+        },
+        quantityOnHand: {
+          [Op.gt]: 0
         }
       },
       limit: PRODUCT_PAGE_SIZE,
@@ -40,6 +44,9 @@ router.get('/search/:term/offset/:offset', async (req, res, next) => {
       where: {
         title: {
           [Op.iLike]: `%${query}%`
+        },
+        quantityOnHand: {
+          [Op.gt]: 0
         }
       }
     })
@@ -68,10 +75,13 @@ router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
         found: false
       })
     } else {
-      let count = category.products.length
+      let stockedProducts = category.products.filter(
+        prod => prod.quantityOnHand > 0
+      ) // filter out QoH zero products
+      let count = stockedProducts.length
       res.json({
         count: count,
-        products: category.products.slice(offset, offset + PRODUCT_PAGE_SIZE),
+        products: stockedProducts.slice(offset, offset + PRODUCT_PAGE_SIZE),
         found: true
       })
     }
@@ -86,15 +96,13 @@ router.get('/:id', async (req, res, next) => {
 
     const product = await Product.findOne({
       where: {id},
-      include: [{model: Photo}, {model: Review}]
+      include: [{model: Photo}, {model: Review}, {model: Category}]
     })
     res.json(product)
   } catch (err) {
     next(err)
   }
 })
-
-//THIS NEEDS TO BE IN THE ABLOVE ROUTE
 
 router.post('/:id/reviews', async (req, res, next) => {
   try {

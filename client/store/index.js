@@ -10,10 +10,10 @@ import popup from './popup'
 import products from './products'
 import selectedProduct from './selectedproduct'
 import userorders from './userorders'
-import cartProducts from './cartproducts'
 import categories from './categories'
 import adminorders from './adminorders'
 import adminusers from './adminusers'
+import selectedOrder from './selectedOrder'
 
 const reducer = combineReducers({
   user: user,
@@ -23,8 +23,8 @@ const reducer = combineReducers({
   categories: categories,
   adminOrders: adminorders,
   adminUsers: adminusers,
-  cartProducts: cartProducts,
-  selectedProduct: selectedProduct
+  selectedProduct: selectedProduct,
+  selectedOrder: selectedOrder
 })
 
 const middleware = composeWithDevTools(
@@ -42,3 +42,4 @@ export * from './adminorders'
 export * from './addproduct'
 export * from './adminusers'
 export * from './reviews'
+export * from './selectedOrder'

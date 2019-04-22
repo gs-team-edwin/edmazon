@@ -1,54 +1,118 @@
 import OrderItem from './OrderItem'
 import React from 'react'
+import {connect} from 'react-redux'
 
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
-const orderView = props => {
-  const subtotal = props.products.reduce(
-    (total, amount) => total + amount.price,
-    0
-  )
-  return (
-    <div className="cart-page-width">
-      <div>
-      <div className = "cart-email">{props.user.email}'s {props.viewType}</div>
-        <div>
-          {props.products.length ? (
-            props.products.map(product => (
-              <div key={product.id}>
-                <OrderItem
-                  product={product} removeItem = {props.removeItem}
-                />
+class orderView extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      status: this.props.order.status
+    }
+  }
+
+  render() {
+    const {products, status} = this.props.order
+    const {user, removeItem, userType} = this.props
+    const {email} = user
+
+    // calculate subtotal
+    const subtotal = (
+      products.reduce(
+        (total, product) =>
+          total + product.price * product.ordersProducts.quantity,
+        0
+      ) / 100
+    ).toFixed(2)
+
+    return (
+      <div className="order-view-container">
+        <div className="order-view">
+          <div className="order-view-header-container">
+            {status === 'cart' ? (
+              <div className="order-view-header">{email}'s cart</div>
+            ) : (
+              <div className="order-view-header">
+                Order {this.props.order.id}, user {email}
               </div>
-            ))
-          ) : (
-            <div className="cart-products">No products to show</div>
-          )}
-        </div>
-      </div>
-      <div>
-        <div className="cart-box">
-          SUBTOTAL: ${parseFloat(subtotal).toFixed(2)}
-          TAX: ${parseFloat(subtotal * 0.1).toFixed(2)}
-          TOTAL: ${parseFloat(subtotal * 1.1).toFixed(2)}
-          YOU SAVED: ${parseFloat(subtotal / 4).toFixed(2)}
-        </div>
-        <div className="cart-box">Shipping Address</div>
-        <div className="cart-box">Payment Information</div>
-        <div>
-            <div className="cart-box">
-            Cart Review
-            {props.products.map((product, index) => (
-                <div key={product.id}>
-                <div>
-                    Item {index + 1}: {`$${product.price}`}
-                </div>
-                </div>
-            ))}
+            )}
+          </div>
+          <div className="order-body">
+            <div className="order-body-left">
+              {products.length ? (
+                products.map(product => (
+                  <div key={product.id}>
+                    <OrderItem
+                      product={product}
+                      removeItem={removeItem}
+                      status={status}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="">No products to show</div>
+              )}
             </div>
+            <div className="order-body-right">
+              <div className="order-body-info-block">
+                <div>SUBTOTAL: ${parseFloat(subtotal).toFixed(2)}</div>
+                <div>TAX: ${parseFloat(subtotal * 0.1).toFixed(2)}</div>
+                <div>TOTAL: ${parseFloat(subtotal * 1.1).toFixed(2)}</div>
+                <div>YOU SAVED: ${parseFloat(subtotal / 4).toFixed(2)}</div>
+              </div>
+              {status !== 'cart' && (
+                <div className="order-body-info-block">
+                  <div className="">Shipping Address</div>
+                  <div className="">Payment Information</div>
+                </div>
+              )}
+              {status !== 'cart' &&
+                userType === 'admin' && (
+                  <div className="order-body-info-block">
+                    <form>
+                      <select
+                        onChange={evt =>
+                          this.setState({status: evt.target.value})
+                        }
+                        value={this.state.status}
+                        className="order-status-selector"
+                        name="qty"
+                      >
+                        <option value="created">Created</option>
+                        <option value="processing">Processing</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                      </select>
+                      <button
+                        type="submit"
+                        onClick={evt => {
+                          evt.preventDefault()
+                          console.log(`changing status to ${this.state.status}`)
+                        }}
+                        className="order-product-change-qty-button"
+                      >
+                        Change Status
+                      </button>
+                    </form>
+                  </div>
+                )}
+              {status === 'cart' && (
+                <div className="order-body-info-block">
+                  <button type="button" className="checkout-button">
+                    CHECK OUT
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-export default orderView
+const mapState = state => ({
+  userType: state.user.userType
+})
+const mapDispatch = dispatch => ({})
+export default connect(mapState, mapDispatch)(orderView)

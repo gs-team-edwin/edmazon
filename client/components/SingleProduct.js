@@ -13,23 +13,22 @@ class SingleProduct extends Component {
     const selectedProduct = this.props.selectedProduct
     const {reviews} = this.props.selectedProduct
     return (
-      <div>
-        <div className="product-container">
-          <LargeProductCard
-            product={selectedProduct}
-            productId={this.props.match.params.id}
-          />
-        </div>
-        <div className="review-title">REVIEWS</div>
-        <div className="review-container">
-          {reviews ? (
-            reviews.map(review => (
+      <div className="single-product-container">
+        <LargeProductCard
+          product={selectedProduct}
+          productId={this.props.match.params.id}
+        />
+
+        {reviews && reviews.length ? (
+          <div className="review-container">
+            <div className="review-section-title">REVIEWS</div>
+            {reviews.map(review => (
               <ReviewCard review={review} key={review.id} />
-            ))
-          ) : (
-            <div>no reviews</div>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="review-section-title">No reviews</div>
+        )}
       </div>
     )
   }
