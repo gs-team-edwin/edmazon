@@ -10,7 +10,7 @@ class CartButton extends React.Component {
 
   render() {
     const {cartLength} = this.props
-    return <div className="cart-button">Cart ({cartLength})</div>
+    return <button type = "button" className="cart-button" onClick = {() => history.push('/cart')}>Cart ({cartLength})</button>
   }
 }
 

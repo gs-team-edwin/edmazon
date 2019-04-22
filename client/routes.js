@@ -34,7 +34,7 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/product/:id/newreview" component={ReviewForm} />
-        <Route exact path="/user/:userId/cart" component={Cart} />
+        <Route exact path="/cart" component={Cart} />
         {
           <Route
             exact
