@@ -95,7 +95,6 @@ function categoryFactory(CATEGORY_COUNT) {
     'Majestic',
     'Splendid',
     'Glorious',
-    'Exceptional',
     'Marvelous',
     'Superlative',
     'Unrivaled',
