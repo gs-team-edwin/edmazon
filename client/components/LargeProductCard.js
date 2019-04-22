@@ -58,10 +58,10 @@ const LargeProductCard = props => {
         </button>
         <button
           type="button"
-          onClick={() => console.log('Edit button clicked')}
+          onClick={() => console.log('Add to cart button clicked')}
           className="large-product-card-button"
         >
-          Add to cart!
+          Add to cart
         </button>
       </div>
     </div>

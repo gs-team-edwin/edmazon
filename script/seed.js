@@ -152,7 +152,14 @@ function reviewInfoFactory(N) {
     const reviewTitle = titleCase(
       faker.hacker.adjective() + ' ' + faker.hacker.noun()
     )
-    const reviewBody = faker.hacker.phrase()
+    const reviewBody =
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase() +
+      ' ' +
+      faker.hacker.phrase()
     const stars = getRandomInteger(5) + 1
     const productId = getRandomInteger(N) + 1
     const userId = getRandomInteger(N) + 1

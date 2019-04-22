@@ -452,9 +452,12 @@ button {
   height: 50px;
   background-color: var(--light-accent-color);
 }
-  /* Large Product Card */
-
-
+/* Large Product Card */
+.single-product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .large-product-card {
   border: 2px solid;
   border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
@@ -481,6 +484,7 @@ button {
 }
 .large-product-card-title {
   font-size: 30px;
+  margin-top: 10px;
   margin-bottom: 10px;
   color: var(--title-emphasis-color);
   cursor: pointer;
@@ -520,44 +524,39 @@ button {
   width: 200px;
 }
 /* reviews */
-
+.review-section-title {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .review-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-
 .review-card {
-  border: 8px solid black;
+  border: 2px solid;
   border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
   margin-top: 10px;
   margin-left: 10px;
   border-radius: 4px;
-  padding: 10px;
   width: 800px;
   display: flex;
   flex-direction: row;
+  padding: 10px;
 }
-
-.review-header {
-  font-size: 20px;
-  text-align: center;
-  padding: 20px;
-  margin-bottom: 5px;
-  cursor: pointer;
-}
-
 .review-title {
   font-size: 20px;
-  text-align: center;
-  padding: 20px;
-  margin-bottom: 5px;
-  cursor: pointer;
+}
+.review-date {
+  font-size: 14px;
+  color: rgb(100, 100, 100);
+}
+.review-body {
+  font-size: 12px;
 }
 
-.review-date {
+.star {
   font-size: 20px;
-  text-align: center;
-  padding: 5px;
-  margin-bottom: 5px;
 }
