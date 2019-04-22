@@ -3,7 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import history from '../history'
 import {Link} from 'react-router-dom'
-import {ReviewForm} from './ReviewForm'
+import {ReviewForm} from './'
 import {setPopup, addToCart} from '../store'
 
 class LargeProductCard extends React.Component {
@@ -16,15 +16,19 @@ class LargeProductCard extends React.Component {
     this.quantityClickHandler = this.quantityClickHandler.bind(this)
     this.submitHandler = this.submitHandler.bind(this)
   }
-  
-  quantityClickHandler(evt){
-    evt.preventDefault()  
+
+  quantityClickHandler(evt) {
+    evt.preventDefault()
     this.setState({cartQuantity: evt.target.value})
   }
 
-  submitHandler(evt){
+  submitHandler(evt) {
     evt.preventDefault()
-    this.props.addToCart(this.props.product.id, this.state.cartQuantity, this.props.user.id)
+    this.props.addToCart(
+      this.props.product.id,
+      this.state.cartQuantity,
+      this.props.user.id
+    )
   }
 
   render() {
@@ -103,12 +107,11 @@ class LargeProductCard extends React.Component {
                 >
                   Edit Product Info
                 </button>
-              )
-            }
+              )}
             {product.quantityOnHand > 0 && (
               <form className="add-to-cart-container">
                 <select
-                  onChange={(evt) => {
+                  onChange={evt => {
                     this.quantityClickHandler(evt)
                   }}
                   value={this.state.cartQuantity}
@@ -123,7 +126,7 @@ class LargeProductCard extends React.Component {
                 </select>
                 <button
                   type="submit"
-                  onClick={(evt) => this.submitHandler(evt)}
+                  onClick={evt => this.submitHandler(evt)}
                   className="large-product-card-button cart"
                 >
                   Add to cart
@@ -139,7 +142,7 @@ class LargeProductCard extends React.Component {
 
 const mapState = state => ({
   popup: state.popup,
-  user: state.user,
+  user: state.user
 })
 
 const mapDispatchToProps = dispatch => ({
