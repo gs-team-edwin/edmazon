@@ -14,9 +14,20 @@ export const getOrderThunk = orderId => async dispatch => {
   }
 }
 
+export const updateStatusThunk = (orderId, status) => async dispatch => {
+  try {
+    await axios.put(`/api/orders/${orderId}/status`, {status: status})
+    const res = await axios.get(`/api/orders/${orderId}`)
+    let data = res.data
+    dispatch(setOrder(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export const getCartThunk = () => async dispatch => {
   try {
-    const res = await axios.get(`api/getcartid`)
+    const res = await axios.get(`/api/getcartid`)
     const cartId = res.data
     if (cartId) {
       const res2 = await axios.get(`/api/orders/${cartId}`)
@@ -31,7 +42,7 @@ export const getCartThunk = () => async dispatch => {
 export const removeCartItemThunk = (orderId, productId) => async dispatch => {
   try {
     // do the delete
-    await axios.delete(`api/orders/${orderId}/remove/${productId}`)
+    await axios.delete(`/api/orders/${orderId}/remove/${productId}`)
 
     // get an updated cart
     const res = await axios.get(`/api/getcartid`)

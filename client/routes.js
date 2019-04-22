@@ -14,7 +14,8 @@ import {
   AdminOrdersView,
   SearchResults,
   ReviewForm,
-  AdminUsersView
+  AdminUsersView,
+  SingleOrderView
 } from './components'
 
 import {me} from './store'
@@ -33,8 +34,10 @@ class Routes extends Component {
 
     return (
       <Switch>
+        <Route exact path="/orders/:orderId" component={SingleOrderView} />
         <Route exact path="/product/:id/newreview" component={ReviewForm} />
         <Route exact path="/cart" component={Cart} />
+
         {
           <Route
             exact

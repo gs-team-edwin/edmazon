@@ -1,49 +1,75 @@
 const router = require('express').Router()
 const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
+<<<<<<< HEAD
+=======
+const isAdmin = require('../middleware/isAdmin')
+const isLoggedIn = require('../middleware/isLoggedIn')
+
+>>>>>>> e266cc7254315fa19a9bebf96a017109bc84df02
 module.exports = router
 
-// /api/orders/id
 // returns a single order with associated user
-router.get('/:orderId', async (req, res, next) => {
+router.get('/:orderId', isLoggedIn, async (req, res, next) => {
   try {
     let orderId = req.params.orderId
-    const order = await Order.findOne({
-      where: {
-        id: orderId
-      },
-      include: [{model: Product, include: {model: Photo}}]
-    })
-    const user = await User.findOne({
-      where: {
-        id: order.userId
-      }
-    })
-    res.json({order, user})
+    let loggedInUser = req.user.id
+    let loggedInUserType = req.user.userType
+    // get the order's userId
+    const order = await Order.findByPk(orderId)
+    const orderUserId = order.dataValues.userId
+
+    if (loggedInUser === orderUserId || loggedInUserType === 'admin') {
+      let orderId = req.params.orderId
+      const order = await Order.findOne({
+        where: {
+          id: orderId
+        },
+        include: [{model: Product, include: {model: Photo}}]
+      })
+      const user = await User.findOne({
+        where: {
+          id: order.userId
+        }
+      })
+      res.json({order, user})
+    } else {
+      res.sendStatus(401)
+    }
   } catch (err) {
     next(err)
   }
 })
 
-// api/orders/:orderId/remove/:productId
+// update order status, admin only
+router.put('/:orderId/status', isLoggedIn, isAdmin, async (req, res, next) => {
+  try {
+    let orderId = req.params.orderId
+    await Order.update({status: req.body.status}, {where: {id: orderId}})
+    res.sendStatus(200)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// deleting products from carts, public
 router.delete('/:orderId/remove/:productId', async (req, res, next) => {
   try {
-    // get the logged in user's id
-    const userId = Number(req.params.userId)
+    // WILL BREAK FOR ANON USERS
+    // todo
+    const userId = req.user.id
+    const {productId, orderId} = req.params
 
     // get the order's userId
-    const user = await User.findOne({
-      where: {
-        id: order.userId
-      }
-    })
+    const order = await Order.findByPk(orderId)
+    const orderUserId = order.dataValues.userId
 
     // if the logged-in user has access...
-
-    if ((user.id = userId)) {
+    if (orderUserId === userId) {
       // destroy the item
-      await Product.destroy({
+      await OrdersProducts.destroy({
         where: {
-          id: req.params.productId
+          productId: productId,
+          orderId: orderId
         }
       })
       res.sendStatus(200)

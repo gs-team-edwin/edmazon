@@ -1,13 +1,24 @@
 import OrderItem from './OrderItem'
 import React from 'react'
 import {connect} from 'react-redux'
+import {updateStatusThunk} from '../store'
 
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 class orderView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.order.status
+      status: ''
+    }
+  }
+
+  componentDidMount() {
+    this.setState({status: this.props.order.status})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.order.status !== this.props.order.status) {
+      this.setState({status: this.props.order.status})
     }
   }
 
@@ -29,15 +40,19 @@ class orderView extends React.Component {
       <div className="order-view-container">
         {products.length ? (
           <div className="order-view">
-            <div className="order-view-header-container">
-              {status === 'cart' ? (
+            {status === 'cart' ? (
+              <div className="order-view-header-container">
                 <div className="order-view-header">{email}'s cart</div>
-              ) : (
+              </div>
+            ) : (
+              <div className="order-view-header-container">
                 <div className="order-view-header">
-                  Order {this.props.order.id}, user {email}
+                  Order #{this.props.order.id}
                 </div>
-              )}
-            </div>
+                <div className="order-view-header-small">User: {email}</div>
+              </div>
+            )}
+
             <div className="order-body">
               <div className="order-body-left">
                 {products.length ? (
@@ -92,6 +107,10 @@ class orderView extends React.Component {
                             console.log(
                               `changing status to ${this.state.status}`
                             )
+                            this.props.updateStatus(
+                              this.props.order.id,
+                              this.state.status
+                            )
                           }}
                           className="order-product-change-qty-button"
                         >
@@ -126,5 +145,8 @@ class orderView extends React.Component {
 const mapState = state => ({
   userType: state.user.userType
 })
-const mapDispatch = dispatch => ({})
+const mapDispatch = dispatch => ({
+  updateStatus: (orderId, status) =>
+    dispatch(updateStatusThunk(orderId, status))
+})
 export default connect(mapState, mapDispatch)(orderView)

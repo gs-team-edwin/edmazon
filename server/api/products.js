@@ -3,10 +3,12 @@ const {Product, Photo, Review} = require('../db/models')
 const {Category} = require('../db/models')
 const {Op} = require('sequelize')
 const isAdmin = require('../middleware/isAdmin')
+const isLoggedIn = require('../middleware/isLoggedIn')
 module.exports = router
 
 const PRODUCT_PAGE_SIZE = 12
 
+// get all products, public
 router.get('/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
@@ -23,6 +25,7 @@ router.get('/offset/:offset', async (req, res, next) => {
   }
 })
 
+// search for products, public
 router.get('/search/:term/offset/:offset', async (req, res, next) => {
   try {
     let offset = Number(req.params.offset)
@@ -57,6 +60,7 @@ router.get('/search/:term/offset/:offset', async (req, res, next) => {
   }
 })
 
+// get products by category, public
 router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
   try {
     let id = Number(req.params.categoryId)
@@ -90,6 +94,7 @@ router.get('/categories/:categoryId/offset/:offset', async (req, res, next) => {
   }
 })
 
+// get product by id, public
 router.get('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
@@ -104,7 +109,8 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/:id/reviews', async (req, res, next) => {
+// post a review, users only
+router.post('/:id/reviews', isLoggedIn, async (req, res, next) => {
   try {
     const review = await Review.create(req.body)
     res.json(review)
@@ -113,7 +119,8 @@ router.post('/:id/reviews', async (req, res, next) => {
   }
 })
 
-router.post('/admin/add', async (req, res, next) => {
+// add products, admin only
+router.post('/admin/add', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     await Product.create(req.body)
   } catch (err) {
