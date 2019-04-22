@@ -3,19 +3,32 @@ import React from 'react'
 import {connect} from 'react-redux'
 import history from '../history'
 import {Link} from 'react-router-dom'
-import {ReviewForm} from './'
-import {setPopup} from '../store'
+import {ReviewForm} from './ReviewForm'
+import {setPopup, addToCart} from '../store'
 
 class LargeProductCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedPhoto: 1
+      selectedPhoto: 1,
+      cartQuantity: 1
     }
+    this.quantityClickHandler = this.quantityClickHandler.bind(this)
+    this.submitHandler = this.submitHandler.bind(this)
   }
+  
+  quantityClickHandler(evt){
+    evt.preventDefault()  
+    this.setState({cartQuantity: evt.target.value})
+  }
+
+  submitHandler(evt){
+    evt.preventDefault()
+    this.props.addToCart(this.props.product.id, this.state.cartQuantity, this.props.user.id)
+  }
+
   render() {
     const {product, openReviewPopup, popup, user} = this.props
-
     return (
       <div className="large-product-card">
         {product.photos && (
@@ -77,7 +90,7 @@ class LargeProductCard extends React.Component {
                 onClick={() => openReviewPopup()}
                 className="large-product-card-button"
               >
-                Write Reivew
+                Write Review
               </button>
             )}
             {popup === 'review' && <ReviewForm productId={product.id} />}
@@ -90,12 +103,15 @@ class LargeProductCard extends React.Component {
                 >
                   Edit Product Info
                 </button>
-              )}
+              )
+            }
             {product.quantityOnHand > 0 && (
               <form className="add-to-cart-container">
                 <select
-                  onChange={() => console.log('changed selector')}
-                  value={1}
+                  onChange={(evt) => {
+                    this.quantityClickHandler(evt)
+                  }}
+                  value={this.state.cartQuantity}
                   className="cart-qty-selector"
                   name="qty"
                 >
@@ -106,8 +122,8 @@ class LargeProductCard extends React.Component {
                   <option value="5">5</option>
                 </select>
                 <button
-                  type="button"
-                  onClick={() => console.log('Add to cart button clicked')}
+                  type="submit"
+                  onClick={(evt) => this.submitHandler(evt)}
                   className="large-product-card-button cart"
                 >
                   Add to cart
@@ -123,12 +139,15 @@ class LargeProductCard extends React.Component {
 
 const mapState = state => ({
   popup: state.popup,
-  user: state.user
+  user: state.user,
 })
 
 const mapDispatchToProps = dispatch => ({
   openReviewPopup() {
     dispatch(setPopup('review'))
+  },
+  addToCart(productId, quantity, userId) {
+    dispatch(addToCart(productId, quantity, userId))
   }
 })
 
