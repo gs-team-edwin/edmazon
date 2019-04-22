@@ -408,50 +408,6 @@ button {
   font-size: 25pt;
 }
 
-/* CART */
-.cart-products {
-  display: flex;
-  width: 450px;
-  border: 3px solid rgb(0, 0, 0);
-  padding: 20px;
-  margin: 20px;
-  height: 100px;
-  background-color: var(--light-accent-color);
-}
-.cart-box {
-  display: flex;
-  width: 300px;
-  padding: 20px;
-  border: 3px solid rgb(0, 0, 0);
-  margin: 20px;
-  height: 170px;
-  background-color: var(--light-accent-color);
-}
-.cart-total {
-  width: 300px;
-  padding: 20px;
-  margin: 20px;
-  height: 450px;
-  background-color: var(--light-accent-color);
-  border: 3px solid rgb(0, 0, 0);
-}
-.cart-page-width {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.cart-email {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 300px;
-  padding: 20px;
-  border: 3px solid rgb(0, 0, 0);
-  margin: 20px;
-  height: 50px;
-  background-color: var(--light-accent-color);
-}
 /* Large Product Card */
 .single-product-container {
   display: flex;
@@ -616,4 +572,64 @@ button {
 }
 .star {
   font-size: 20px;
+}
+
+/* ORDER VIEW  */
+.order-view-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.order-view {
+  width: 800px;
+}
+.order-view-header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.order-view-header {
+  font-size: 18px;
+  margin-top: 10px;
+}
+.order-body {
+  display: flex;
+  flex-direction: row;
+}
+.order-body-left {
+  flex: 2;
+  padding: 10px;
+}
+.order-body-right {
+  flex: 1;
+}
+.order-body-info-block {
+  padding: 10px;
+}
+.cart-product {
+  border: 2px solid;
+  border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.remove-item-button {
+  color: var(--dark-color);
+  margin: 5px;
+  padding: 8px;
+  text-decoration: none;
+  background-color: var(--light-accent-color);
+  border-radius: 4px;
+  font-size: 10pt;
+  border: none;
+}
+.checkout-button {
+  color: var(--dark-color);
+  margin: 5px;
+  padding: 8px;
+  text-decoration: none;
+  background-color: var(--light-accent-color);
+  border-radius: 4px;
+  font-size: 10pt;
+  border: none;
 }
