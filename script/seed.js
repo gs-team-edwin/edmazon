@@ -280,13 +280,14 @@ function orderFactory(N) {
     }
     // if status is cart, checkout date is null
     let checkoutDate
+    let tracking
     if (status === 'cart') {
       checkoutDate = null
+      tracking = null
     } else {
       checkoutDate = randomDate()
+      tracking = faker.random.uuid()
     }
-
-    const tracking = faker.random.uuid()
 
     orders.push({
       userId,
