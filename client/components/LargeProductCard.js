@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react'
 import {connect} from 'react-redux'
 import history from '../history'
@@ -13,6 +14,7 @@ class LargeProductCard extends React.Component {
     }
   }
   render() {
+    console.log('PROPS', this.props)
     const {product, openReviewPopup, popup, user} = this.props
 
     return (
@@ -90,27 +92,29 @@ class LargeProductCard extends React.Component {
                   Edit Product Info
                 </button>
               )}
-            <form className="add-to-cart-container">
-              <select
-                onChange={() => console.log('changed selector')}
-                value={1}
-                className="cart-qty-selector"
-                name="qty"
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">4</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <button
-                type="button"
-                onClick={() => console.log('Add to cart button clicked')}
-                className="large-product-card-button cart"
-              >
-                Add to cart
-              </button>
-            </form>
+            {product.quantityOnHand > 0 && (
+              <form className="add-to-cart-container">
+                <select
+                  onChange={() => console.log('changed selector')}
+                  value={1}
+                  className="cart-qty-selector"
+                  name="qty"
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">4</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => console.log('Add to cart button clicked')}
+                  className="large-product-card-button cart"
+                >
+                  Add to cart
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

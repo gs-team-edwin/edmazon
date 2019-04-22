@@ -187,7 +187,9 @@ function productInfoFactory(N) {
       'High-Level',
       'Domain-Specific',
       'Neural',
-      'Backpropagating'
+      'Backpropagating',
+      'Whitehat',
+      'Blackhat'
     ]
     let title =
       titleAdjectives[getRandomInteger(titleAdjectives.length)] +
