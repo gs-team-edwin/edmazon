@@ -587,12 +587,17 @@ button {
 }
 .order-view-header-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .order-view-header {
   font-size: 18px;
   margin-top: 10px;
+}
+.order-view-header-small {
+  font-size: 14px;
+  margin-top: 0px;
 }
 .order-body {
   display: flex;

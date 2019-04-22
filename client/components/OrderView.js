@@ -29,15 +29,19 @@ class orderView extends React.Component {
       <div className="order-view-container">
         {products.length ? (
           <div className="order-view">
-            <div className="order-view-header-container">
-              {status === 'cart' ? (
+            {status === 'cart' ? (
+              <div className="order-view-header-container">
                 <div className="order-view-header">{email}'s cart</div>
-              ) : (
+              </div>
+            ) : (
+              <div className="order-view-header-container">
                 <div className="order-view-header">
-                  Order {this.props.order.id}, user {email}
+                  Order #{this.props.order.id}
                 </div>
-              )}
-            </div>
+                <div className="order-view-header-small">User: {email}</div>
+              </div>
+            )}
+
             <div className="order-body">
               <div className="order-body-left">
                 {products.length ? (
