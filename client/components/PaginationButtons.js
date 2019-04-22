@@ -26,7 +26,8 @@ const PaginationButtons = props => {
       </button>
       <div className="page-count-container">
         <div className="page-count-line">
-          {offset} to {offset + pageSize > count ? count : offset + pageSize}
+          {offset + 1} to{' '}
+          {offset + pageSize > count ? count : offset + pageSize}
         </div>
         <div className="page-count-line">of {count}</div>
       </div>
