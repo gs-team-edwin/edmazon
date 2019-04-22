@@ -16,7 +16,7 @@ export const getOrderThunk = orderId => async dispatch => {
 
 export const getCartThunk = () => async dispatch => {
   try {
-    const res = await axios.get(`api/cart`)
+    const res = await axios.get(`api/getcartid`)
     const cartId = res.data
     if (cartId) {
       const res2 = await axios.get(`/api/orders/${cartId}`)
@@ -34,7 +34,7 @@ export const removeCartItemThunk = (orderId, productId) => async dispatch => {
     await axios.delete(`api/orders/${orderId}/remove/${productId}`)
 
     // get an updated cart
-    const res = await axios.get(`api/cart/`)
+    const res = await axios.get(`api/getcartid`)
     const cartId = res.data
     if (cartId) {
       const res2 = await axios.get(`/api/orders/${cartId}`)

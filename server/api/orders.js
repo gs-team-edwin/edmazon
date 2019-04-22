@@ -27,12 +27,29 @@ router.get('/:orderId', async (req, res, next) => {
 // api/orders/:orderId/remove/:productId
 router.delete('/:orderId/remove/:productId', async (req, res, next) => {
   try {
-    await Product.destroy({
+    // get the logged in user's id
+    const userId = Number(req.params.userId)
+
+    // get the order's userId
+    const user = await User.findOne({
       where: {
-        id: req.params.productId
+        id: order.userId
       }
     })
-    res.sendStatus(200)
+
+    // if the logged-in user has access...
+
+    if ((user.id = userId)) {
+      // destroy the item
+      await Product.destroy({
+        where: {
+          id: req.params.productId
+        }
+      })
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(401)
+    }
   } catch (err) {
     next(err)
   }
