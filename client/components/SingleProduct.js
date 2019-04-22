@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getSingleProduct} from '../store/selectedproduct'
+import {LargeProductCard, ReviewCard} from './'
 import history from '../history'
 
 class SingleProduct extends Component {
@@ -10,46 +11,24 @@ class SingleProduct extends Component {
   }
   render() {
     const selectedProduct = this.props.selectedProduct
+    const {reviews} = this.props.selectedProduct
     return (
       <div>
-        <h1>{selectedProduct.title}</h1>
-        <ul>
-          <h2>${selectedProduct.price}.00</h2>
-        </ul>
-        <ul>
-          {this.props.selectedProduct && this.props.selectedProduct.photos ? (
-            <img src={`${this.props.selectedProduct.photos[0].photoUrl}`} />
-          ) : (
-            <div />
-          )}
-        </ul>
-        <div>
-          <ul>{selectedProduct.description}</ul>
+        <div className="product-container">
+          <LargeProductCard
+            product={selectedProduct}
+            productId={this.props.match.params.id}
+          />
         </div>
-        <ul>
-          <h2>REVIEWS</h2>
-          {this.props.selectedProduct && this.props.selectedProduct.reviews ? (
-            this.props.selectedProduct.reviews.map(review => (
-              <div key={review.id}>
-                <h4>{review.title}</h4>
-                <div>{review.body}</div>
-              </div>
+        <div className="review-title">REVIEWS</div>
+        <div className="review-container">
+          {reviews ? (
+            reviews.map(review => (
+              <ReviewCard review={review} key={review.id} />
             ))
           ) : (
-            <div />
+            <div>no reviews</div>
           )}
-        </ul>
-        <div>
-          <ul>
-            <button
-              type="button"
-              onClick={() =>
-                history.push(`/product/${this.props.match.params.id}/newreview`)
-              }
-            >
-              Write Reivew
-            </button>
-          </ul>
         </div>
       </div>
     )
