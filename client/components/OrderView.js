@@ -7,7 +7,19 @@ class orderView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.order.status
+      status: ''
+    }
+  }
+
+  componentDidMount() {
+    this.setState({status: this.props.order.status})
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log('STATE', this.state)
+
+    if (prevProps.order.status !== this.props.order.status) {
+      this.setState({status: this.props.order.status})
     }
   }
 

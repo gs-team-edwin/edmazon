@@ -5,7 +5,6 @@ import OrderView from './OrderView'
 
 export class SingleOrderView extends Component {
   componentDidMount() {
-    console.log('IN THE SINGLE ORDER VIEW CONSTRUCTOR')
     const {orderId} = this.props.match.params
     this.props.getOrderThunk(orderId)
   }
