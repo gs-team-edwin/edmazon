@@ -624,19 +624,20 @@ button {
   justify-content: flex-start;
 }
 .order-product-image {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 5px;
 }
 .order-product-left {
 }
-.order-product-cetner {
+.order-product-center {
 }
 .order-product-right {
   flex: 3;
 }
 .order-inner-product-title {
   margin-left: 10px;
+  margin-bottom: 10px;
   font-size: 18px;
   color: var(--title-emphasis-color);
   text-decoration: none;
@@ -656,7 +657,7 @@ button {
 }
 .remove-item-button {
   color: var(--dark-color);
-  margin: 5px;
+  margin-bottom: 10px;
   padding: 8px;
   text-decoration: none;
   background-color: var(--light-accent-color);
@@ -674,17 +675,15 @@ button {
   font-size: 10pt;
   border: none;
 }
-.order-product-change-qty-button {
-  color: var(--dark-color);
-  margin: 5px;
-  padding: 8px;
-  text-decoration: none;
-  background-color: var(--light-accent-color);
-  border-radius: 4px;
-  font-size: 10pt;
-  border: none;
+.order-product-change-qty-label {
+  font-size: 16px;
+  margin-left: auto;
+}
+.order-qty-change-container {
+  margin-bottom: 10px;
 }
 .order-product-qty-selector {
+  display: inline;
   color: var(--dark-color);
   margin: 5px;
   padding: 3px;
@@ -693,10 +692,10 @@ button {
   border-radius: 4px;
   font-size: 11pt;
   border: 2px solid darkgray;
-  margin-top: 0px;
+  /* margin-top: 0px;
   margin-bottom: 5px;
   width: 40px;
-  height: 30px;
+  height: 30px; */
   position: relative;
   top: 0px;
 }
@@ -718,4 +717,42 @@ button {
 }
 .order-cart-buttons {
   margin-left: 10px;
+}
+
+.rate {
+  float: left;
+  height: 46px;
+  padding: 0 10px;
+  margin: 0;
+  padding: 0;
+}
+.rate:not(:checked) > input {
+  position: absolute;
+  top: -9999px;
+}
+.rate:not(:checked) > label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ccc;
+}
+.rate:not(:checked) > label:before {
+  content: '★ ';
+}
+.rate > input:checked ~ label {
+  color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: #deb217;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: #c59b08;
 }

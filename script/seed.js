@@ -88,7 +88,6 @@ function categoryFactory(CATEGORY_COUNT) {
   const categoryWords = shuffle([
     'Extraordinary',
     'Impressive',
-    'Superlative',
     'Exceptional',
     'Delightful',
     'Magnificent',
@@ -203,7 +202,7 @@ function productInfoFactory(N) {
       .split(' ')
       .map((w, i) => (i === 0 ? titleCase(w) : w))
       .join(' ')
-    const price = getRandomInteger(100000)
+    const price = getRandomInteger(1000000)
     // one tenth of products are out of stock
     const isEmpty = getRandomInteger(9)
     let quantityOnHand
@@ -280,13 +279,14 @@ function orderFactory(N) {
     }
     // if status is cart, checkout date is null
     let checkoutDate
+    let tracking
     if (status === 'cart') {
       checkoutDate = null
+      tracking = null
     } else {
       checkoutDate = randomDate()
+      tracking = faker.random.uuid()
     }
-
-    const tracking = faker.random.uuid()
 
     orders.push({
       userId,

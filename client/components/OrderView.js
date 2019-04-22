@@ -1,25 +1,28 @@
 import OrderItem from './OrderItem'
 import React from 'react'
-import {connect} from 'react-redux'
+import StripeCheckout from 'react-stripe-checkout';
 import {updateStatusThunk} from '../store'
+import {connect} from 'react-redux'
+import axios from 'axios'
 
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 class orderView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: ''
+      status: this.props.order.status
     }
+    this.onToken = this.onToken.bind(this)
   }
-
-  componentDidMount() {
-    this.setState({status: this.props.order.status})
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.order.status !== this.props.order.status) {
-      this.setState({status: this.props.order.status})
-    }
+  async onToken(token) {
+    console.log(token)
+    await axios.post(`/api/orders/${this.props.order.id}`, token)
+    // fetch(`/api/orders/${this.props.order.id}`, {
+    //   method: 'POST',
+    //   body: JSON.stringify(token),
+    // }).then(response => {
+    //   response.json()
+    // });
   }
 
   render() {
@@ -35,6 +38,7 @@ class orderView extends React.Component {
         0
       ) / 100
     ).toFixed(2)
+
 
     return (
       <div className="order-view-container">
@@ -86,37 +90,23 @@ class orderView extends React.Component {
                 {status !== 'cart' &&
                   userType === 'admin' && (
                     <div className="order-body-info-block">
-                      <form>
-                        <select
-                          onChange={evt =>
-                            this.setState({status: evt.target.value})
-                          }
-                          value={this.state.status}
-                          className="order-status-selector"
-                          name="qty"
-                        >
-                          <option value="created">Created</option>
-                          <option value="processing">Processing</option>
-                          <option value="cancelled">Cancelled</option>
-                          <option value="completed">Completed</option>
-                        </select>
-                        <button
-                          type="submit"
-                          onClick={evt => {
-                            evt.preventDefault()
-                            console.log(
-                              `changing status to ${this.state.status}`
-                            )
-                            this.props.updateStatus(
-                              this.props.order.id,
-                              this.state.status
-                            )
-                          }}
-                          className="order-product-change-qty-button"
-                        >
-                          Change Status
-                        </button>
-                      </form>
+                      <select
+                        onChange={evt => {
+                          evt.preventDefault()
+                          this.props.updateStatus(
+                            this.props.order.id,
+                            evt.target.value
+                          )
+                        }}
+                        value={this.props.order.status}
+                        className="order-status-selector"
+                        name="qty"
+                      >
+                        <option value="created">Created</option>
+                        <option value="processing">Processing</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                      </select>
                     </div>
                   )}
                 {status === 'cart' && (
@@ -126,8 +116,16 @@ class orderView extends React.Component {
                     </button>
                   </div>
                 )}
-              </div>
+              {status === 'cart' && (
+                <div className="order-body-info-block">
+                  <StripeCheckout
+        token={this.onToken}
+        stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
+        amount={Number(parseFloat(subtotal * 1.1 * 100).toFixed(2))}/>
+                </div>
+              )}
             </div>
+          </div>
           </div>
         ) : (
           <div className="order-view">

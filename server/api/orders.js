@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
+const {Order, OrdersProducts, Product, Photo, User} = require('../db/models')
+var stripe = require("stripe")("sk_test_keFS67JeYwCUTOscsQgqorhH00FO37ypvX");
 const isAdmin = require('../middleware/isAdmin')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
@@ -9,6 +10,8 @@ module.exports = router
 router.get('/:orderId', isLoggedIn, async (req, res, next) => {
   try {
     let orderId = req.params.orderId
+    // WILL ERROR OUT FOR ANON USERS WHEN MIDDLEWARE DISABLED
+    // todo
     let loggedInUser = req.user.id
     let loggedInUserType = req.user.userType
     // get the order's userId
@@ -16,7 +19,6 @@ router.get('/:orderId', isLoggedIn, async (req, res, next) => {
     const orderUserId = order.dataValues.userId
 
     if (loggedInUser === orderUserId || loggedInUserType === 'admin') {
-      let orderId = req.params.orderId
       const order = await Order.findOne({
         where: {
           id: orderId
@@ -88,6 +90,41 @@ router.post('/:orderId/add/:productId', async (req, res, next) => {
     const {quantity, purchasePrice, userId} = req.body
     let newOrdersProducts = await OrdersProducts.create({orderId, productId, quantity, purchasePrice, userId})
     res.json(newOrdersProducts)
+  } catch(err) {
+    next(err)
+  }
+})
+
+    
+    
+// updating quantities from carts, public
+router.put('/:orderId/update/:productId', async (req, res, next) => {
+  try {
+    // WILL BREAK FOR ANON USERS
+    // todo
+    const userId = req.user.id
+    const {productId, orderId} = req.params
+
+    // get the order's userId
+    const order = await Order.findByPk(orderId)
+    const orderUserId = order.dataValues.userId
+
+    // if the logged-in user has access...
+    if (orderUserId === userId) {
+      // update the row
+      await OrdersProducts.update(
+        {quantity: req.body.quantity},
+        {
+          where: {
+            productId: productId,
+            orderId: orderId
+          }
+        }
+      )
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(401)
+    }
   } catch (err) {
     next(err)
   }
@@ -102,6 +139,25 @@ router.post('/createCartOrder', async (req, res, next) =>{
     res.json(newCartOrder)
   } catch (err) {
     console.log(err)
+  }
+})
+
+router.post('/:id', async (req, res, next) => {
+  try {
+    let id = req.params.id
+    const token = req.body.id
+    const thisOrder = await OrdersProducts.findOne({where: {orderId: id}});
+/// todo fix the total cost hook
+    await stripe.charges.create({
+        amount: 5306,
+        currency: 'usd',
+        description: 'Example charge',
+        source: token,
+        statement_descriptor: 'Custom descriptor',})
+    res.json(201)
+  }
+  catch (err) {
+    next(err)
   }
 })
 

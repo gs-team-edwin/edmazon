@@ -57,6 +57,7 @@ export const removeCartItemThunk = (orderId, productId) => async dispatch => {
   }
 }
 
+
 export const addToCart = (productId, quantity, userId) => async dispatch => {
   try {
     const res = await axios.get(`/api/getcartid`)
@@ -69,6 +70,30 @@ export const addToCart = (productId, quantity, userId) => async dispatch => {
       let newCartId = newCart.data.id
       console.log(newCart)
       await axios.post(`/api/orders/${newCartId}/add/${productId}`, {quantity: quantity, purchasePrice: null, userId: userId})
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const updateCartItemThunk = (
+  orderId,
+  productId,
+  quantity
+) => async dispatch => {
+  try {
+    // do the delete
+    await axios.put(`/api/orders/${orderId}/update/${productId}`, {
+      quantity: quantity
+    })
+
+    // get an updated cart
+    const res = await axios.get(`/api/getcartid`)
+    const cartId = res.data
+    if (cartId) {
+      const res2 = await axios.get(`/api/orders/${cartId}`)
+      let data = res2.data
+      dispatch(setOrder(data))
     }
   } catch (err) {
     console.log(err)
