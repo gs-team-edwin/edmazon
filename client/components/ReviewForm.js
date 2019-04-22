@@ -3,8 +3,6 @@ import {connect} from 'react-redux'
 import {writeReview, closePopup} from '../store'
 //update order History with addreses
 
-//STILL NEEDS WORK
-
 class ReviewForm extends React.Component {
   constructor() {
     super()
@@ -72,10 +70,15 @@ class ReviewForm extends React.Component {
                 value={body}
               />
             </div>
-
             <div>
               <div>
                 <button type="submit">Submit</button>
+                <button
+                  className="popup-close-button"
+                  onClick={() => this.closePopup(this.closePopup.bind(this))}
+                >
+                  Close
+                </button>
               </div>
             </div>
           </form>
@@ -91,5 +94,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(null, mapDispatchToProps)(ReviewForm)
-
-//export default ReviewForm
