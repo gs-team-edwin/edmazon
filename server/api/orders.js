@@ -16,7 +16,6 @@ router.get('/:orderId', isLoggedIn, async (req, res, next) => {
     const orderUserId = order.dataValues.userId
 
     if (loggedInUser === orderUserId || loggedInUserType === 'admin') {
-      let orderId = req.params.orderId
       const order = await Order.findOne({
         where: {
           id: orderId

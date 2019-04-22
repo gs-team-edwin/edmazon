@@ -86,37 +86,23 @@ class orderView extends React.Component {
                 {status !== 'cart' &&
                   userType === 'admin' && (
                     <div className="order-body-info-block">
-                      <form>
-                        <select
-                          onChange={evt =>
-                            this.setState({status: evt.target.value})
-                          }
-                          value={this.state.status}
-                          className="order-status-selector"
-                          name="qty"
-                        >
-                          <option value="created">Created</option>
-                          <option value="processing">Processing</option>
-                          <option value="cancelled">Cancelled</option>
-                          <option value="completed">Completed</option>
-                        </select>
-                        <button
-                          type="submit"
-                          onClick={evt => {
-                            evt.preventDefault()
-                            console.log(
-                              `changing status to ${this.state.status}`
-                            )
-                            this.props.updateStatus(
-                              this.props.order.id,
-                              this.state.status
-                            )
-                          }}
-                          className="order-product-change-qty-button"
-                        >
-                          Change Status
-                        </button>
-                      </form>
+                      <select
+                        onChange={evt => {
+                          evt.preventDefault()
+                          this.props.updateStatus(
+                            this.props.order.id,
+                            evt.target.value
+                          )
+                        }}
+                        value={this.state.status}
+                        className="order-status-selector"
+                        name="qty"
+                      >
+                        <option value="created">Created</option>
+                        <option value="processing">Processing</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                      </select>
                     </div>
                   )}
                 {status === 'cart' && (
