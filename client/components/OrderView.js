@@ -1,6 +1,7 @@
+/* eslint-disable complexity */
 import OrderItem from './OrderItem'
 import React from 'react'
-import StripeCheckout from 'react-stripe-checkout';
+import StripeCheckout from 'react-stripe-checkout'
 import {updateStatusThunk} from '../store'
 import {connect} from 'react-redux'
 import axios from 'axios'
@@ -9,9 +10,6 @@ import axios from 'axios'
 class orderView extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      status: this.props.order.status
-    }
     this.onToken = this.onToken.bind(this)
   }
   async onToken(token) {
@@ -38,7 +36,6 @@ class orderView extends React.Component {
         0
       ) / 100
     ).toFixed(2)
-
 
     return (
       <div className="order-view-container">
@@ -116,16 +113,19 @@ class orderView extends React.Component {
                     </button>
                   </div>
                 )}
-              {status === 'cart' && (
-                <div className="order-body-info-block">
-                  <StripeCheckout
-        token={this.onToken}
-        stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
-        amount={Number(parseFloat(subtotal * 1.1 * 100).toFixed(2))}/>
-                </div>
-              )}
+                {status === 'cart' && (
+                  <div className="order-body-info-block">
+                    <StripeCheckout
+                      token={this.onToken}
+                      stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
+                      amount={Number(
+                        parseFloat(subtotal * 1.1 * 100).toFixed(2)
+                      )}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
           </div>
         ) : (
           <div className="order-view">
