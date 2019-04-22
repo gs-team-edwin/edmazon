@@ -1,10 +1,11 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import history from '../history'
 
 const orderItem = props => {
   const {product, removeItem, viewType} = props
-  const {id, title, price} = product
-  console.log(product)
+  const {id, title, price, ordersProducts} = product
+  const {quantity} = ordersProducts
+  const itemSubtotal = (quantity * price / 100).toFixed(2)
   return (
     <div className="order-product">
       <div className="order-product-left">
@@ -16,10 +17,12 @@ const orderItem = props => {
         )}
       </div>
       <div className="order-product-center">
-        <Link to={`/product/${id}`}>{title}</Link>
-        <div> ${price}</div>
-      </div>
-      <div className="order-product-right">
+        <div
+          className="order-inner-product-title"
+          onClick={() => history.push(`/product/${id}`)}
+        >
+          {title}
+        </div>
         {viewType && (
           <div className="order-cart-buttons">
             <button
@@ -52,6 +55,14 @@ const orderItem = props => {
             </form>
           </div>
         )}
+      </div>
+      <div className="order-product-right">
+        <div className="order-product-math">
+          <div>${(price / 100).toFixed(2)}</div>
+          <div>x {quantity}</div>
+          <hr className="math-hr" />
+          <div>${itemSubtotal}</div>
+        </div>
       </div>
     </div>
   )

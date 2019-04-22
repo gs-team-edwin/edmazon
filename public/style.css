@@ -448,9 +448,11 @@ button {
   margin-left: 20px;
   width: 100%;
   justify-content: space-between;
+  /* align-items: center; */
 }
 .large-product-card-title {
-  font-size: 30px;
+  font-size: 26px;
+  /* text-align: center; */
   margin-top: 10px;
   margin-bottom: 10px;
   color: var(--title-emphasis-color);
@@ -614,7 +616,7 @@ button {
   padding: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .order-product-image {
   width: 100px;
@@ -626,6 +628,25 @@ button {
 .order-product-cetner {
 }
 .order-product-right {
+  flex: 3;
+}
+.order-inner-product-title {
+  margin-left: 10px;
+  font-size: 18px;
+  color: var(--title-emphasis-color);
+  text-decoration: none;
+  cursor: pointer;
+}
+.order-product-math {
+  font-size: 20px;
+  text-align: right;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-left: auto;
+  width: 100px;
+}
+.math-hr {
+  width: 70px;
 }
 .remove-item-button {
   color: var(--dark-color);
