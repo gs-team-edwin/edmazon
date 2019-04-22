@@ -116,7 +116,7 @@ router.post('/:id/reviews', async (req, res, next) => {
 router.post('/admin/add', async (req, res, next) => {
   try {
     await Product.create(req.body)
-  } catch (error) {
-    next(error)
+  } catch (err) {
+    next(err)
   }
 })

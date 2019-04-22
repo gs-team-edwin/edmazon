@@ -441,7 +441,19 @@ button {
   justify-content: space-around;
 }
 
-/* Large Product Card */
+.cart-email {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 300px;
+  padding: 20px;
+  border: 3px solid rgb(0, 0, 0);
+  margin: 20px;
+  height: 50px;
+  background-color: var(--light-accent-color);
+}
+  /* Large Product Card */
+
 
 .large-product-card {
   border: 2px solid;
