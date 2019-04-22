@@ -3,7 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import history from '../history'
 import {Link} from 'react-router-dom'
-import {ReviewForm} from './'
+import {ReviewForm} from './ReviewForm'
 import {setPopup, addToCart} from '../store'
 
 class LargeProductCard extends React.Component {
@@ -16,7 +16,6 @@ class LargeProductCard extends React.Component {
     this.quantityClickHandler = this.quantityClickHandler.bind(this)
     this.submitHandler = this.submitHandler.bind(this)
   }
-
   
   quantityClickHandler(evt){
     evt.preventDefault()  
@@ -91,7 +90,7 @@ class LargeProductCard extends React.Component {
                 onClick={() => openReviewPopup()}
                 className="large-product-card-button"
               >
-                Write Reivew
+                Write Review
               </button>
             )}
             {popup === 'review' && <ReviewForm productId={product.id} />}
@@ -104,7 +103,8 @@ class LargeProductCard extends React.Component {
                 >
                   Edit Product Info
                 </button>
-              )}
+              )
+            }
             {product.quantityOnHand > 0 && (
               <form className="add-to-cart-container">
                 <select
@@ -139,7 +139,7 @@ class LargeProductCard extends React.Component {
 
 const mapState = state => ({
   popup: state.popup,
-  user: state.user
+  user: state.user,
 })
 
 const mapDispatchToProps = dispatch => ({

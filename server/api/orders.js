@@ -3,9 +3,6 @@ const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
 const isAdmin = require('../middleware/isAdmin')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
-const isAdmin = require('../middleware/isAdmin')
-const isLoggedIn = require('../middleware/isLoggedIn')
-
 module.exports = router
 
 // returns a single order with associated user
@@ -84,13 +81,12 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
 // api/orders/:orderId/add/:productId 
 // adds a product to an existing order
 // orderId and productId send through req.params
-// quantity and purchaseprice sent through req.body
+// quantity, purchaseprice, and userId sent through req.body
 router.post('/:orderId/add/:productId', async (req, res, next) => {
   try {
-    console.log("here I am! post orders!")
     const {orderId, productId} = req.params
-    const {quantity, purchasePrice} = req.body
-    let newOrdersProducts = await OrdersProducts.create({orderId, productId, quantity, purchasePrice})
+    const {quantity, purchasePrice, userId} = req.body
+    let newOrdersProducts = await OrdersProducts.create({orderId, productId, quantity, purchasePrice, userId})
     res.json(newOrdersProducts)
   } catch (err) {
     next(err)

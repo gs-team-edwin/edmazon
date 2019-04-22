@@ -30,7 +30,7 @@ export class Cart extends Component {
 
 const mapDispatch = dispatch => {
   return {
-    getCartThunk: userId => dispatch(getCartThunk(userId))
+    getCartThunk: () => dispatch(getCartThunk())
   }
 }
 

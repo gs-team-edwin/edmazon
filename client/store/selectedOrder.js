@@ -59,17 +59,16 @@ export const removeCartItemThunk = (orderId, productId) => async dispatch => {
 
 export const addToCart = (productId, quantity, userId) => async dispatch => {
   try {
-    console.log('here')
     const res = await axios.get(`/api/getcartid`)
     const cartId = res.data
     if(cartId) {
-      console.log('in cart id', cartId)
       await axios.post(`/api/orders/${cartId}/add/${productId}`, {quantity: quantity, purchasePrice: null})
     }
     else {
-      let newCart = await axios.post(`api/orders/createCartOrder`, userId)
+      let newCart = await axios.post(`/api/orders/createCartOrder`, {userId: userId})
       let newCartId = newCart.data.id
-      await axios.post(`/api/orders/${newCartId}/add/${productId}`, quantity)
+      console.log(newCart)
+      await axios.post(`/api/orders/${newCartId}/add/${productId}`, {quantity: quantity, purchasePrice: null, userId: userId})
     }
   } catch (err) {
     console.log(err)
