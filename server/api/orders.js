@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, Product, Photo, User} = require('../db/models')
+const {Order, Product, Photo, User, OrdersProducts} = require('../db/models')
 module.exports = router
 
 // /api/orders/id
@@ -54,3 +54,32 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
     next(err)
   }
 })
+
+// api/orders/:orderId/add/:productId 
+// adds a product to an existing order
+// orderId and productId send through req.params
+// quantity and purchaseprice sent through req.body
+router.post('/:orderId/add/:productId', async (req, res, next) => {
+  try {
+    console.log("here I am! post orders!")
+    const {orderId, productId} = req.params
+    const {quantity, purchasePrice} = req.body
+    let newOrdersProducts = await OrdersProducts.create({orderId, productId, quantity, purchasePrice})
+    res.json(newOrdersProducts)
+  } catch (err) {
+    next(err)
+  }
+})
+
+
+//api/orders/createOrder
+//creates a new order
+router.post('/createCartOrder', async (req, res, next) =>{
+  try {
+    let newCartOrder = await Order.create({userId: req.body.userId, status: 'cart'})
+    res.json(newCartOrder)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
