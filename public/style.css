@@ -711,3 +711,6 @@ button {
   position: relative;
   top: 0px;
 }
+.order-cart-buttons {
+  margin-left: 10px;
+}
