@@ -121,11 +121,11 @@ class orderView extends React.Component {
                   <StripeCheckout
         token={this.onToken}
         stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
-        amount={Number(parseFloat(subtotal * 1.1 * 100).toFixed(2))}
-      />
+        amount={Number(parseFloat(subtotal * 1.1 * 100).toFixed(2))}/>
                 </div>
               )}
             </div>
+          </div>
           </div>
         ) : (
           <div className="order-view">
