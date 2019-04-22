@@ -4,13 +4,6 @@ import {connect} from 'react-redux'
 import {removeCartItemThunk} from '../store'
 
 class orderItem extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      quantity: this.props.product.ordersProducts.quantity
-    }
-  }
-
   render() {
     const {product, removeCartItem, status, orderId} = this.props
     const {id, title, price, ordersProducts} = product
@@ -42,30 +35,18 @@ class orderItem extends React.Component {
               >
                 Remove from cart
               </button>
-              <form>
-                <select
-                  onChange={evt => this.setState({quantity: evt.target.value})}
-                  value={this.state.quantity}
-                  className="order-product-qty-selector"
-                  name="qty"
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-                <button
-                  type="submit"
-                  onClick={evt => {
-                    evt.preventDefault()
-                    console.log(`changed quantity to ${this.state.quantity}`)
-                  }}
-                  className="order-product-change-qty-button"
-                >
-                  Change Quantity
-                </button>
-              </form>
+              <select
+                onChange={evt => console.log('changed quantity')}
+                value={quantity}
+                className="order-product-qty-selector"
+                name="qty"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
             </div>
           )}
         </div>

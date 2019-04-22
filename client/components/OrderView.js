@@ -5,23 +5,6 @@ import {updateStatusThunk} from '../store'
 
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 class orderView extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      status: ''
-    }
-  }
-
-  componentDidMount() {
-    this.setState({status: this.props.order.status})
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.order.status !== this.props.order.status) {
-      this.setState({status: this.props.order.status})
-    }
-  }
-
   render() {
     const {products, status, id} = this.props.order
     const {user, removeItem, userType} = this.props
@@ -94,7 +77,7 @@ class orderView extends React.Component {
                             evt.target.value
                           )
                         }}
-                        value={this.state.status}
+                        value={this.props.order.status}
                         className="order-status-selector"
                         name="qty"
                       >
