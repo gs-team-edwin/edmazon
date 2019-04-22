@@ -8,6 +8,13 @@ class CartButton extends React.Component {
     this.props.getCartThunk()
   }
 
+  componentDidUpdate(prevProps) {
+    // if we just logged in...
+    if (prevProps.user !== this.props.user) {
+      this.props.getCartThunk()
+    }
+  }
+
   render() {
     console.log('selectedOrder', this.props.selectedOrder)
     let cartLength = 0
@@ -28,7 +35,8 @@ class CartButton extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.selectedOrder.order.products
+    products: state.selectedOrder.order.products,
+    user: state.user
   }
 }
 
