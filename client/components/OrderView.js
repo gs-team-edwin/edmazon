@@ -12,7 +12,7 @@ class orderView extends React.Component {
   }
 
   render() {
-    const {products, status} = this.props.order
+    const {products, status, id} = this.props.order
     const {user, removeItem, userType} = this.props
     const {email} = user
 
@@ -46,6 +46,7 @@ class orderView extends React.Component {
                       product={product}
                       removeItem={removeItem}
                       status={status}
+                      orderId={id}
                     />
                   </div>
                 ))

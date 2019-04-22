@@ -1,6 +1,7 @@
 import React from 'react'
 import history from '../history'
 import {connect} from 'react-redux'
+import {removeCartItemThunk} from '../store'
 
 class orderItem extends React.Component {
   constructor(props) {
@@ -11,8 +12,7 @@ class orderItem extends React.Component {
   }
 
   render() {
-    console.log('PROPS', this.props)
-    const {product, removeItem, status} = this.props
+    const {product, removeCartItem, status, orderId} = this.props
     const {id, title, price, ordersProducts} = product
     const {quantity} = ordersProducts
     const itemSubtotal = (quantity * price / 100).toFixed(2)
@@ -38,7 +38,7 @@ class orderItem extends React.Component {
               <button
                 className="remove-item-button"
                 type="button"
-                onClick={() => removeItem(id)}
+                onClick={() => removeCartItem(orderId, id)}
               >
                 Remove from cart
               </button>
@@ -83,5 +83,8 @@ class orderItem extends React.Component {
 }
 
 const mapState = state => ({})
-const mapDispatch = dispatch => ({})
+const mapDispatch = dispatch => ({
+  removeCartItem: (orderId, productId) =>
+    dispatch(removeCartItemThunk(orderId, productId))
+})
 export default connect(mapState, mapDispatch)(orderItem)

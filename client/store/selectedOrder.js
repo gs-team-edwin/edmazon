@@ -14,9 +14,9 @@ export const getOrderThunk = orderId => async dispatch => {
   }
 }
 
-export const getCartThunk = userId => async dispatch => {
+export const getCartThunk = () => async dispatch => {
   try {
-    const res = await axios.get(`api/cart/${userId}`)
+    const res = await axios.get(`api/cart`)
     const cartId = res.data
     if (cartId) {
       const res2 = await axios.get(`/api/orders/${cartId}`)
@@ -28,14 +28,23 @@ export const getCartThunk = userId => async dispatch => {
   }
 }
 
-// export const removeCartItemThunk = productId => async dispatch => {
-//   try {
-//     await axios.delete(`/api/cart/remove/${productId}`)
-//     dispatch(removeCartItem(productId))
-//   } catch (err) {
-//     console.log(err)
-//   }
-// }
+export const removeCartItemThunk = (orderId, productId) => async dispatch => {
+  try {
+    // do the delete
+    await axios.delete(`api/orders/${orderId}/remove/${productId}`)
+
+    // get an updated cart
+    const res = await axios.get(`api/cart/`)
+    const cartId = res.data
+    if (cartId) {
+      const res2 = await axios.get(`/api/orders/${cartId}`)
+      let data = res2.data
+      dispatch(setOrder(data))
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 export default function(
   state = {order: {products: [], status: ''}, user: {}},

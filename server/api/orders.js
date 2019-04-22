@@ -4,12 +4,12 @@ module.exports = router
 
 // /api/orders/id
 // returns a single order with associated user
-router.get('/:id', async (req, res, next) => {
+router.get('/:orderId', async (req, res, next) => {
   try {
-    let id = req.params.id
+    let orderId = req.params.orderId
     const order = await Order.findOne({
       where: {
-        id: id
+        id: orderId
       },
       include: [{model: Product, include: {model: Photo}}]
     })
@@ -19,6 +19,20 @@ router.get('/:id', async (req, res, next) => {
       }
     })
     res.json({order, user})
+  } catch (err) {
+    next(err)
+  }
+})
+
+// api/orders/:orderId/remove/:productId
+router.delete('/:orderId/remove/:productId', async (req, res, next) => {
+  try {
+    await Product.destroy({
+      where: {
+        id: req.params.productId
+      }
+    })
+    res.sendStatus(200)
   } catch (err) {
     next(err)
   }

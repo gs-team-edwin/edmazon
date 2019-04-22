@@ -1,20 +1,18 @@
 import React, {Component} from 'react'
-import {getCartThunk, removeCartItemThunk} from '../store'
+import {getCartThunk} from '../store'
 import {connect} from 'react-redux'
 import OrderView from './OrderView'
 
 export class Cart extends Component {
   componentDidMount() {
     if (this.props.user.id) {
-      let userId = this.props.user.id
-      this.props.getCartThunk(userId)
+      this.props.getCartThunk()
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.user.id !== this.props.user.id && this.props.user.id) {
-      let userId = this.props.user.id
-      this.props.getCartThunk(userId)
+      this.props.getCartThunk()
     }
   }
 
@@ -24,7 +22,6 @@ export class Cart extends Component {
         <OrderView
           order={this.props.selectedOrder.order}
           user={this.props.selectedOrder.user}
-          removeItem={this.props.removeCartItem}
         />
       )
     } else {
@@ -35,8 +32,6 @@ export class Cart extends Component {
 
 const mapDispatch = dispatch => {
   return {
-    // getCartProducts: userId => dispatch(getCartProductsThunk(userId)),
-    removeCartItem: productId => dispatch(removeCartItemThunk(productId)),
     getCartThunk: userId => dispatch(getCartThunk(userId))
   }
 }
