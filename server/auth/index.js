@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+/* eslint-disable max-statements */
 const router = require('express').Router()
 const User = require('../db/models/user')
 const {Order, Product, OrdersProducts} = require('../db/models')
@@ -58,7 +60,7 @@ router.post('/login', async (req, res, next) => {
       if (foundCartOrder) {
         // if we did find an order
         newCartId = foundCartOrder.id
-        newCardProductIDs = foundCartOrder.products.map(product => product.id)
+        newCartProductIDs = foundCartOrder.products.map(product => product.id)
       } else {
         // if there was no cart order create one
         const newCartOrder = await Order.create({
@@ -70,7 +72,8 @@ router.post('/login', async (req, res, next) => {
 
       // now that we definitely have an orderId for a target cart
       // move products into it
-      for (let oldProduct of oldCartProducts) {
+      for (let i = 0; i < oldCartProducts.length; i += 1) {
+        const oldProduct = oldCartProducts[i]
         // only add if not already in there...
         if (!newCartProductIDs.includes(oldProduct.id)) {
           await OrdersProducts.create({
@@ -81,6 +84,8 @@ router.post('/login', async (req, res, next) => {
             userId: userId,
             sessionID: null
           })
+        } else {
+          // TODO update quantity to whichever is bigger?
         }
       }
     }
