@@ -1,5 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {Redirect} from 'react-router'
 import {writeReview, closePopup} from '../store'
 //update order History with addreses
 
@@ -17,7 +19,7 @@ class ReviewForm extends React.Component {
 
   async handleSubmit(event) {
     try {
-      event.preventDefault()
+      // event.preventDefault()  //REMOVED THIS TO POST REVIEW.
       await this.props.writeReview(this.props.productId, {
         stars: this.state.stars,
         title: this.state.title,
@@ -38,14 +40,58 @@ class ReviewForm extends React.Component {
   }
   render() {
     const {stars, title, body} = this.state
+    const {productId} = this.props
+
+    console.log(this.props)
     return (
       <div className="popup-outer-container">
         <div className="popup">
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit} method="POST">
             <h3>Review Products</h3>
             <div className="form-item">
+              <label htmlFor="stars">STARS</label>
+              <select
+                type="radio"
+                name="stars"
+                onChange={this.handleChange}
+                value={stars}
+              >
+                <option value={stars}>1</option>
+                <option value={stars}>2</option>
+                <option value={stars}>3</option>
+                <option value={stars}>4</option>
+                <option value={stars}>5</option>
+              </select>
               <div className="rate">
-                <label htmlFor="name">STARS</label>
+                <label htmlFor="stars">STARS</label>
+                <input
+                  type="radio"
+                  name="stars"
+                  onChange={this.handleChange}
+                  value={stars}
+                />
+                <label htmlFor="stars">STARS</label>
+                <input
+                  type="radio"
+                  name="stars"
+                  onChange={this.handleChange}
+                  value={stars}
+                />
+                <label htmlFor="stars">STARS</label>
+                <input
+                  type="radio"
+                  name="stars"
+                  onChange={this.handleChange}
+                  value={stars}
+                />
+                <label htmlFor="stars">STARS</label>
+                <input
+                  type="radio"
+                  name="stars"
+                  onChange={this.handleChange}
+                  value={stars}
+                />
+                <label htmlFor="stars">STARS</label>
                 <input
                   type="radio"
                   name="stars"
