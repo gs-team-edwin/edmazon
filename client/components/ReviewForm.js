@@ -19,7 +19,7 @@ class ReviewForm extends React.Component {
 
   async handleSubmit(event) {
     try {
-      // event.preventDefault()  //REMOVED THIS TO POST REVIEW.
+      event.preventDefault() //REMOVED THIS TO POST REVIEW.
       await this.props.writeReview(this.props.productId, {
         stars: this.state.stars,
         title: this.state.title,
