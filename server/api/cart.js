@@ -44,15 +44,30 @@ router.get('/', async (req, res, next) => {
 // get length of cart
 router.get('/length', async (req, res, next) => {
   try {
-    // THIS WILL ERROR OUT FOR NON-LOGGED-IN USERS
-    // todo
-    let userId = req.user.id
-    const cartOrder = await Order.findOne({
-      where: {
-        userId: userId,
-        status: 'cart'
-      }
-    })
+    let cartOrder
+    // if logged in...
+    if (req.user) {
+      let userId = req.user.id
+      cartOrder = await Order.findOne({
+        where: {
+          userId: userId,
+          status: 'cart'
+        }
+      })
+    }
+
+    // if this is not a logged-in user
+    if (!req.user) {
+      let sessionID = req.sessionID
+      cartOrder = await Order.findOne({
+        where: {
+          sessionID: sessionID,
+          status: 'cart'
+        }
+      })
+    }
+
+    // get and return the length
     if (cartOrder) {
       const length = await OrdersProducts.count({
         where: {orderId: cartOrder.id}
