@@ -6,6 +6,7 @@ const SET_ADMIN_USERS = 'SET_ADMIN_USERS'
 const DELETE_USER = 'DELETE_USER'
 const ADD_ADMIN = 'ADD_ADMIN'
 const REMOVE_ADMIN = 'REMOVE_ADMIN'
+const FLAG_RESET = 'FLAG_RESET'
 
 //ACTION CREATORS
 const setAdminUsers = (users, count) => ({
@@ -23,6 +24,10 @@ const giveAdmin = userId => ({
 })
 const takeAdmin = userId => ({
   type: REMOVE_ADMIN,
+  userId
+})
+const flagReset = userId => ({
+  type: FLAG_RESET,
   userId
 })
 
@@ -66,6 +71,15 @@ export const removeAdmin = userId => async dispatch => {
   }
 }
 
+export const flagResetThunk = userId => async dispatch => {
+  try {
+    await axios.put(`/auth/flag`, {userId})
+    dispatch(flagReset(userId))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 //reducer
 export default function(state = {count: 0, users: []}, action) {
   switch (action.type) {
@@ -91,6 +105,18 @@ export default function(state = {count: 0, users: []}, action) {
             return {
               ...user,
               userType: 'user'
+            }
+          } else return user
+        })
+      }
+    case FLAG_RESET:
+      return {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.userId) {
+            return {
+              ...user,
+              resetPassword: true
             }
           } else return user
         })

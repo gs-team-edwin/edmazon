@@ -3,6 +3,8 @@
 const router = require('express').Router()
 const User = require('../db/models/user')
 const {Order, Product, OrdersProducts} = require('../db/models')
+const isAdmin = require('../middleware/isAdmin')
+const isLoggedIn = require('../middleware/isLoggedIn')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -158,3 +160,25 @@ router.get('/me', (req, res) => {
 })
 
 router.use('/google', require('./google'))
+
+router.put('/change', isLoggedIn, async (req, res, next) => {
+  try {
+    console.log('in the password change route')
+    await User.update({password: req.body.password}, {where: {id: req.user.id}})
+    // TODO -- get this to re-salt everything or whatever
+    res.sendStatus(201)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/flag', isAdmin, async (req, res, next) => {
+  try {
+    console.log('req.body.userId', req.body.userId)
+    await User.update({resetPassword: true}, {where: {id: req.body.userId}})
+
+    res.sendStatus(201)
+  } catch (err) {
+    next(err)
+  }
+})

@@ -1,6 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getAdminUsers, deleteUser, addAdmin, removeAdmin} from '../store'
+import {
+  getAdminUsers,
+  deleteUser,
+  addAdmin,
+  removeAdmin,
+  flagResetThunk
+} from '../store'
 
 import history from '../history'
 import {PaginationButtons} from './'
@@ -11,7 +17,8 @@ const SingleUserRow = props => {
     deleteThisUser,
     globalUserId,
     addAdminPrivelage,
-    removeAdminPrivelage
+    removeAdminPrivelage,
+    requirePasswordReset
   } = props
   return (
     <div className="user-row">
@@ -36,11 +43,23 @@ const SingleUserRow = props => {
           />
         )}
       </span>
-      {/* <span className="user-row-item">
-        <button type="button" className="user-row-button">
-          Reset Password
-        </button>
-      </span> */}
+      {console.log('user', user)}
+      <span className="user-row-item">
+        {!user.resetPassword ? (
+          <button
+            type="button"
+            className="user-row-button"
+            onClick={evt => {
+              evt.preventDefault()
+              requirePasswordReset(user.id)
+            }}
+          >
+            Reset Password
+          </button>
+        ) : (
+          <div className="user-row-text">Reset Requested</div>
+        )}
+      </span>
       <span className="user-row-item">
         {globalUserId === user.id ? (
           <span className="user-row-text">Current User</span>
@@ -82,7 +101,8 @@ class AdminUsersView extends React.Component {
       count,
       deleteThisUser,
       addAdminPrivelage,
-      removeAdminPrivelage
+      removeAdminPrivelage,
+      requirePasswordReset
     } = this.props
     const {offset} = this.props.match.params
     return (
@@ -95,7 +115,7 @@ class AdminUsersView extends React.Component {
           <div className="user-row header">
             <span className="user-row-item large">User Email</span>
             <span className="user-row-item">Admin?</span>
-            {/* <span className="user-row-item">Reset Password</span> */}
+            <span className="user-row-item">Reset Password</span>
             <span className="user-row-item">Delete</span>
             <span className="user-row-item">View orders</span>
           </div>
@@ -108,6 +128,7 @@ class AdminUsersView extends React.Component {
               globalUserId={this.props.user.id}
               addAdminPrivelage={addAdminPrivelage}
               removeAdminPrivelage={removeAdminPrivelage}
+              requirePasswordReset={requirePasswordReset}
             />
           ))}
         </div>
@@ -141,6 +162,9 @@ const mapDispatch = dispatch => {
     },
     removeAdminPrivelage: userId => {
       dispatch(removeAdmin(userId))
+    },
+    requirePasswordReset: userId => {
+      dispatch(flagResetThunk(userId))
     }
   }
 }

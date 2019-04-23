@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {} from '../store'
+import {closePopup, changePasswordThunk} from '../store'
 
 class ResetPasswordPopup extends React.Component {
   constructor() {
@@ -17,6 +17,7 @@ class ResetPasswordPopup extends React.Component {
   }
   render() {
     const {password} = this.state
+    const {closePopup, changePassword} = this.props
 
     return (
       <div className="popup-outer-container">
@@ -24,6 +25,8 @@ class ResetPasswordPopup extends React.Component {
           <form
             onSubmit={evt => {
               evt.preventDefault()
+              changePassword(password)
+              closePopup()
             }}
             method="POST"
           >
@@ -50,7 +53,8 @@ class ResetPasswordPopup extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  changePassword: password => dispatch(changePassword(password))
+  changePassword: password => dispatch(changePasswordThunk(password)),
+  closePopup: () => dispatch(closePopup())
 })
 
 export default connect(null, mapDispatchToProps)(ResetPasswordPopup)

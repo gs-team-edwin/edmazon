@@ -57,6 +57,17 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const changePasswordThunk = password => async dispatch => {
+  try {
+    console.log('changing password thunk now')
+    await axios.put(`/auth/change`, {password: password})
+    const res = await axios.get('/auth/me')
+    dispatch(getUser(res.data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
