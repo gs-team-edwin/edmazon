@@ -451,11 +451,6 @@ async function seed() {
   console.log(`seeded ${photosProducts.length} photosProducts rows`)
 
   console.log(`seeded successfully`)
-
-  // TODO
-  // HOW TO DO EAGER LOADING
-  // let results = await Product.findByPk(1, {include: [{model: Photo}]})
-  // console.log('results', results)
 }
 
 // We've separated the `seed` function from the `runSeed` function.
