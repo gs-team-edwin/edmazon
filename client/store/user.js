@@ -34,6 +34,7 @@ export const auth = (email, password, method) => async dispatch => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
+    history.go(0)
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
@@ -49,6 +50,7 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
+    history.go(0)
   } catch (err) {
     console.error(err)
   }

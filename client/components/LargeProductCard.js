@@ -5,7 +5,7 @@ import history from '../history'
 import {Link} from 'react-router-dom'
 import {ReviewForm} from './'
 import {setPopup, addToCart, incrementCartLength, getCartThunk} from '../store'
-import { EditProduct } from './EditProduct';
+import EditProduct from './EditProduct';
 
 class LargeProductCard extends React.Component {
   constructor(props) {

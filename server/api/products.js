@@ -121,7 +121,7 @@ router.post('/:id/reviews', isLoggedIn, async (req, res, next) => {
 // add products, admin only
 router.post('/admin/add', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
-    let {title, description, price, quantityOnHand, photo, categories} = req.body
+    let {title, description, price, quantityOnHand, photo} = req.body
     let newProduct = await Product.create({title, description, price, quantityOnHand})
     if (photo) {
       let newPhoto = await Photo.create({photoUrl: photo})
@@ -148,5 +148,20 @@ router.post('/admin/add', isLoggedIn, isAdmin, async (req, res, next) => {
     res.json(newProduct)
   } catch (err) {
     next(err)
+  }
+})
+
+router.put('/:productId/edit', async (req, res, next) => {
+  try {
+    let {title, description, price, quantityOnHand, photo} = req.body
+    await Product.update({title, description, price, quantityOnHand}, 
+      {where: {id: req.params.productId}})
+    if (photo) {
+      let newPhoto = await Photo.create({photoUrl: photo})
+      await PhotosProducts.create({productId: req.params.productId, photoId: newPhoto.id})
+    }
+    res.sendStatus(200)
+  } catch (err) {
+    console.log(err)
   }
 })

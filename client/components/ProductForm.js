@@ -78,7 +78,7 @@ class productForm extends Component {
               />
             </div>
             <div className="form-item">
-              <small>Photo</small>
+              <small>Add Photo</small>
               <input
                 onChange={evt => this.handleChange(evt)}
                 name="photo"
@@ -103,7 +103,7 @@ class productForm extends Component {
             <button
               className="popup-close-button"
               type="button"
-              onClick={this.props.closePopup}
+              onClick={() => this.props.closePopup()}
             >
               Close
             </button>

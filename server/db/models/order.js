@@ -5,10 +5,8 @@ const Order = db.define('order', {
   userId: {
     type: Sequelize.INTEGER
   },
-  sessionId: {
-    type: Sequelize.INTEGER
-    // so that seeding works, disabling until we know what this looks like
-    // allowNull: false
+  sessionID: {
+    type: Sequelize.STRING
   },
   status: {
     type: Sequelize.ENUM([
@@ -25,7 +23,37 @@ const Order = db.define('order', {
   // milliseconds since Unix epoch
   checkoutDate: {
     type: Sequelize.DATE
-  }
+  },
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
+  address1: {
+    type: Sequelize.STRING
+  },
+  address2: {
+    type: Sequelize.STRING
+  },
+  company: {
+    type: Sequelize.STRING
+  },
+  city: {
+    type: Sequelize.STRING
+  },
+  state: {
+    type: Sequelize.STRING
+  },
+  Country: {
+    type: Sequelize.STRING
+  },
+  zip: {
+    type: Sequelize.STRING
+  },
+  telephone: {
+    type: Sequelize.STRING
+  },
 })
 
 module.exports = Order

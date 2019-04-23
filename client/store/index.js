@@ -14,7 +14,6 @@ import categories from './categories'
 import adminorders from './adminorders'
 import adminusers from './adminusers'
 import selectedOrder from './selectedOrder'
-import reviews from './reviews'
 import cartLength from './cartLength'
 import addProduct from './addproduct'
 
@@ -28,7 +27,6 @@ const reducer = combineReducers({
   adminUsers: adminusers,
   selectedProduct: selectedProduct,
   selectedOrder: selectedOrder,
-  reviews: reviews,
   cartLength: cartLength,
   addedProductId: addProduct
 })
@@ -47,6 +45,5 @@ export * from './userorders'
 export * from './adminorders'
 export * from './addproduct'
 export * from './adminusers'
-export * from './reviews'
 export * from './selectedOrder'
 export * from './cartLength'

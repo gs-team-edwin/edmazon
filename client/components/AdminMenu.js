@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
 import history from '../history'
+import {connect} from 'react-redux'
+import { setPopup } from '../store';
+import AddProduct from './AddProduct'
 
-export default class AdminMenu extends Component {
+class AdminMenu extends Component {
   render() {
     return (
       <div>
@@ -10,10 +13,11 @@ export default class AdminMenu extends Component {
           <button
             type="button"
             className="admin-button"
-            onClick={() => history.push('/addproduct')}
+            onClick={() => this.props.openAddPopup()}
           >
             Add Product
           </button>
+          {this.props.popup === 'addProduct' && <AddProduct />}
           <button
             type="button"
             className="admin-button"
@@ -33,3 +37,17 @@ export default class AdminMenu extends Component {
     )
   }
 }
+
+const mapDispatch = dispatch => {
+  return {
+    openAddPopup: () => dispatch(setPopup('addProduct'))
+  }
+}
+
+const mapState = state => {
+  return {
+    popup: state.popup
+  }
+}
+
+export default connect(mapState, mapDispatch)(AdminMenu)

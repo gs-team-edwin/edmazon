@@ -164,8 +164,6 @@ function productInfoFactory(N) {
       'Interactive',
       'Garbage-Collected',
       'List-Based',
-      'Meta-Programmatic',
-      'Rule-Based',
       'Reflective',
       'Imperative',
       'Embeddable',
@@ -188,8 +186,6 @@ function productInfoFactory(N) {
       'Domain-Specific',
       'Neural',
       'Backpropagating',
-      'Whitehat',
-      'Blackhat',
       'Unit-Tested'
     ]
     let title =
@@ -384,7 +380,8 @@ async function ordersProductsFactory(N) {
           const productObject = await Product.findByPk(productId)
           purchasePrice = productObject.dataValues.price
         } else {
-          purchasePrice = getRandomInteger(1000)
+          // use a small value to make the price changes very obvious
+          purchasePrice = getRandomInteger(100)
         }
       }
       ordersProductsArr.push({orderId, productId, quantity, purchasePrice})

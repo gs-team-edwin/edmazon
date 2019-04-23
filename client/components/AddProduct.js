@@ -4,7 +4,7 @@ import {addProductThunkCreator} from '../store'
 import ProductForm from './ProductForm'
 import history from '../history'
 
-export class AddProduct extends Component {
+class AddProduct extends Component {
   constructor() {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)

@@ -9,16 +9,12 @@ export class Cart extends Component {
   }
 
   render() {
-    if (this.props.user.id) {
-      return (
-        <OrderView
-          order={this.props.selectedOrder.order}
-          user={this.props.selectedOrder.user}
-        />
-      )
-    } else {
-      return 'Please sign in'
-    }
+    return (
+      <OrderView
+        order={this.props.selectedOrder.order}
+        user={this.props.selectedOrder.user}
+      />
+    )
   }
 }
 

@@ -7,18 +7,30 @@ const isLoggedIn = require('../middleware/isLoggedIn')
 module.exports = router
 
 // returns a single order with associated user
-router.get('/:orderId', isLoggedIn, async (req, res, next) => {
+// Do not need to rewrite to support anon users because anon users will never need to access it
+router.get('/:orderId', async (req, res, next) => {
   try {
     let orderId = req.params.orderId
-    // WILL ERROR OUT FOR ANON USERS WHEN MIDDLEWARE DISABLED
-    // todo
-    let loggedInUser = req.user.id
-    let loggedInUserType = req.user.userType
+    // set our IDs
+    let loggedInUserId
+    let loggedInUserType
+    let sessionID
+    if (req.user) {
+      loggedInUserId = req.user.id
+      loggedInUserType = req.user.userType
+    } else {
+      sessionID = req.sessionID
+    }
     // get the order's userId
     const order = await Order.findByPk(orderId)
     const orderUserId = order.dataValues.userId
+    const orderSessionID = order.dataValues.sessionID
 
-    if (loggedInUser === orderUserId || loggedInUserType === 'admin') {
+    if (
+      loggedInUserId === orderUserId ||
+      loggedInUserType === 'admin' ||
+      sessionID === orderSessionID
+    ) {
       const order = await Order.findOne({
         where: {
           id: orderId
@@ -53,17 +65,24 @@ router.put('/:orderId/status', isLoggedIn, isAdmin, async (req, res, next) => {
 // deleting products from carts, public
 router.delete('/:orderId/remove/:productId', async (req, res, next) => {
   try {
-    // WILL BREAK FOR ANON USERS
-    // todo
-    const userId = req.user.id
     const {productId, orderId} = req.params
 
-    // get the order's userId
+    // set our IDs
+    let userId
+    let sessionID
+    if (req.user) {
+      userId = req.user.id
+    } else {
+      sessionID = req.sessionID
+    }
+
+    // get the order's userId and sessionID
     const order = await Order.findByPk(orderId)
     const orderUserId = order.dataValues.userId
+    const orderSessionID = order.dataValues.sessionID
 
-    // if the logged-in user has access...
-    if (orderUserId === userId) {
+    // if the user has access...
+    if (orderUserId === userId || orderSessionID === sessionID) {
       // destroy the item
       await OrdersProducts.destroy({
         where: {
@@ -84,18 +103,41 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
 // adds a product to an existing order
 // orderId and productId send through req.params
 // quantity, purchaseprice, and userId sent through req.body
+// TODO security for this route
 router.post('/:orderId/add/:productId', async (req, res, next) => {
   try {
     const {orderId, productId} = req.params
-    const {quantity, purchasePrice, userId} = req.body
-    let newOrdersProducts = await OrdersProducts.create({
-      orderId,
-      productId,
-      quantity,
-      purchasePrice,
-      userId
-    })
-    res.json(newOrdersProducts)
+    const {quantity, purchasePrice} = req.body
+
+    // set our IDs
+    let userId = null
+    let sessionID = null
+    if (req.user) {
+      userId = req.user.id
+    } else {
+      sessionID = req.sessionID
+    }
+
+    // get the order's userId and sessionID
+    const order = await Order.findByPk(orderId)
+    const orderUserId = order.dataValues.userId
+    const orderSessionID = order.dataValues.sessionID
+
+    // security
+    if (orderUserId === userId || orderSessionID === sessionID) {
+      // todo remove purchase price here
+      await OrdersProducts.create({
+        orderId,
+        productId,
+        quantity,
+        purchasePrice,
+        userId,
+        sessionID
+      })
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(401)
+    }
   } catch (err) {
     next(err)
   }
@@ -104,17 +146,24 @@ router.post('/:orderId/add/:productId', async (req, res, next) => {
 // updating quantities from carts, public
 router.put('/:orderId/update/:productId', async (req, res, next) => {
   try {
-    // WILL BREAK FOR ANON USERS
-    // todo
-    const userId = req.user.id
     const {productId, orderId} = req.params
 
-    // get the order's userId
+    // set our IDs
+    let userId
+    let sessionID
+    if (req.user) {
+      userId = req.user.id
+    } else {
+      sessionID = req.sessionID
+    }
+
+    // get the order's userId and sessionID
     const order = await Order.findByPk(orderId)
     const orderUserId = order.dataValues.userId
+    const orderSessionID = order.dataValues.sessionID
 
     // if the logged-in user has access...
-    if (orderUserId === userId) {
+    if (orderUserId === userId || orderSessionID === sessionID) {
       // update the row
       await OrdersProducts.update(
         {quantity: req.body.quantity},
@@ -138,31 +187,70 @@ router.put('/:orderId/update/:productId', async (req, res, next) => {
 //creates a new order
 router.post('/createCartOrder', async (req, res, next) => {
   try {
-    let newCartOrder = await Order.create({
-      userId: req.body.userId,
-      status: 'cart'
-    })
+    let newCartOrder
+    if (req.user) {
+      newCartOrder = await Order.create({
+        userId: req.user.id,
+        status: 'cart'
+      })
+    } else {
+      newCartOrder = await Order.create({
+        sessionID: req.sessionID,
+        status: 'cart'
+      })
+    }
+
     res.json(newCartOrder)
   } catch (err) {
     console.log(err)
   }
 })
 
-router.post('/:id', async (req, res, next) => {
+router.post('/:id/address', async (req, res, next) => {
+  try {
+    let id = req.params.id
+    const tracking = "dfavrrawfferwavscgrasg"
+    const checkoutDate = new Date()
+    Order.update({...req.body, tracking, checkoutDate}, {where: {id}})
+    res.sendStatus(201)
+  }
+  catch(err){
+    console.log(err)
+  }
+})
+
+
+router.put('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
     const token = req.body.id
-    const thisOrder = await OrdersProducts.findOne({where: {orderId: id}})
+    let orderSetPrice = await Order.findOne({where: {id}, 
+    include: [{model: Product}]})
+    let totalPrice = 0 
+    console.log(orderSetPrice.products.length)
+    for (let i = 0; i < orderSetPrice.products.length; i++) {
+      let quantity = orderSetPrice.products[i].ordersProducts.quantity
+      let unitPrice = orderSetPrice.products[i].price
+      let currentQuantity = orderSetPrice.products[i].quantityOnHand
+      totalPrice += quantity*unitPrice
+      console.log(unitPrice)
+      await OrdersProducts.update({purchasePrice: quantity*unitPrice}, {where: {productId: orderSetPrice.products[i].id}, orderId: id})
+      await Product.update({quantityOnHand: currentQuantity-quantity}, {where: {id: orderSetPrice.products[i].id}})
+    }
+    let pricePlusTax = Math.round(totalPrice*1.1)
     /// todo fix the total cost hook
     await stripe.charges.create({
-      amount: 5306,
+      amount: pricePlusTax,
       currency: 'usd',
       description: 'Example charge',
       source: token,
       statement_descriptor: 'Custom descriptor'
     })
-    res.json(201)
-  } catch (err) {
-    next(err)
+    await Order.update({status: 'processing'}, {where: {id}})
+    res.sendStatus(201)
+  }
+  catch (err){
+    console.log(err)
   }
 })
+
