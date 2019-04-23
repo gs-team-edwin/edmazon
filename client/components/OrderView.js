@@ -13,12 +13,10 @@ class orderView extends React.Component {
     super(props)
   }
 
-
   render() {
-
-    const {products, status, id} = this.props.order
+    const {status, id} = this.props.order
+    let {products} = this.props.order
     const {user, removeItem, userType, popup} = this.props
-
 
     let email = ''
     if (user) email = user.email
@@ -85,15 +83,20 @@ class orderView extends React.Component {
                 </div>
                 {status !== 'cart' && (
                   <div className="order-body-info-block">
-                    <div> 
-                    <div className="">Shipping Address:</div>
-                    <p>{this.props.order.firstName} {this.props.order.lastName}</p>
-                    <p>{this.props.order.address1}</p>
-                    <p>{this.props.order.address2}</p>
-                    <p>{this.props.order.company}</p>
-                    <p>{this.props.order.city}, {this.props.order.state} {this.props.order.zip}</p>
-                    <p>{this.props.order.Country}</p>
-                    <p>{this.props.order.telephone}</p>
+                    <div>
+                      <div className="">Shipping Address:</div>
+                      <p>
+                        {this.props.order.firstName} {this.props.order.lastName}
+                      </p>
+                      <p>{this.props.order.address1}</p>
+                      <p>{this.props.order.address2}</p>
+                      <p>{this.props.order.company}</p>
+                      <p>
+                        {this.props.order.city}, {this.props.order.state}{' '}
+                        {this.props.order.zip}
+                      </p>
+                      <p>{this.props.order.Country}</p>
+                      <p>{this.props.order.telephone}</p>
                     </div>
                   </div>
                 )}
@@ -121,19 +124,22 @@ class orderView extends React.Component {
                   )}
                 {status === 'cart' && (
                   <div className="order-body-info-block">
-                    <button type="button" onClick={()=>this.props.openCheckoutPopUp()} className="checkout-button">
+                    <button
+                      type="button"
+                      onClick={() => this.props.openCheckoutPopUp()}
+                      className="checkout-button"
+                    >
                       CHECK OUT
                     </button>
                   </div>
                 )}
-                {popup === 'checkout' && (<BillingForm orderId={id} cost={Number(
-                        parseFloat(subtotal * 1.1 * 100).toFixed(2)
-                      )}/>)}
-                {status === 'cart' && (
-                  <div className="order-body-info-block">
-                    
-                  </div>
+                {popup === 'checkout' && (
+                  <BillingForm
+                    orderId={id}
+                    cost={Number(parseFloat(subtotal * 1.1 * 100).toFixed(2))}
+                  />
                 )}
+                {status === 'cart' && <div className="order-body-info-block" />}
               </div>
             </div>
           </div>

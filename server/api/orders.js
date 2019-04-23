@@ -103,7 +103,6 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
 // adds a product to an existing order
 // orderId and productId send through req.params
 // quantity, purchaseprice, and userId sent through req.body
-// TODO security for this route
 router.post('/:orderId/add/:productId', async (req, res, next) => {
   try {
     const {orderId, productId} = req.params
@@ -125,12 +124,12 @@ router.post('/:orderId/add/:productId', async (req, res, next) => {
 
     // security
     if (orderUserId === userId || orderSessionID === sessionID) {
-      // todo remove purchase price here
       await OrdersProducts.create({
         orderId,
         productId,
         quantity,
-        purchasePrice,
+        // ok to leave in for now, our view logic take care of this
+        // purchasePrice,
         userId,
         sessionID
       })
@@ -242,7 +241,6 @@ router.put('/:id', async (req, res, next) => {
       )
     }
     let pricePlusTax = Math.round(totalPrice * 1.1)
-    /// todo fix the total cost hook
     await stripe.charges.create({
       amount: pricePlusTax,
       currency: 'usd',
