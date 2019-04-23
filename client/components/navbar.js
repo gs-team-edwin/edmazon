@@ -7,10 +7,21 @@ import {SearchBar, CartButton} from './index'
 import history from '../history'
 
 class Navbar extends React.Component {
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     // close the popup if we have successfully logged in
-    if (this.props.isLoggedIn) {
+    if (
+      prevProps.isLoggedIn !== this.props.isLoggedIn &&
+      this.props.isLoggedIn
+    ) {
       this.props.closePopup()
+    }
+
+    // open the reset popup if needed
+    if (
+      prevProps.resetPasswordFlag !== this.props.resetPasswordFlag &&
+      this.props.resetPasswordFlag
+    ) {
+      this.props.openResetPopup()
     }
   }
 
@@ -85,7 +96,8 @@ const mapState = state => {
     isLoggedIn: !!state.user.id,
     userType: state.user.userType,
     userId: state.user.id,
-    userEmail: state.user.email
+    userEmail: state.user.email,
+    resetPasswordFlag: state.user.resetPassword
   }
 }
 
@@ -102,6 +114,9 @@ const mapDispatch = dispatch => {
     },
     closePopup() {
       dispatch(closePopup())
+    },
+    openResetPopup() {
+      dispatch(setPopup('reset'))
     }
   }
 }

@@ -19,7 +19,7 @@ import {
 } from './components'
 
 import {me} from './store'
-import {Redirect} from 'react-router' //TODO fix back button bug.
+import {Redirect} from 'react-router'
 
 /**
  * COMPONENT

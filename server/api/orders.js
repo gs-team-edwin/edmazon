@@ -103,7 +103,6 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
 // adds a product to an existing order
 // orderId and productId send through req.params
 // quantity, purchaseprice, and userId sent through req.body
-// TODO security for this route
 router.post('/:orderId/add/:productId', async (req, res, next) => {
   try {
     const {orderId, productId} = req.params
@@ -125,12 +124,12 @@ router.post('/:orderId/add/:productId', async (req, res, next) => {
 
     // security
     if (orderUserId === userId || orderSessionID === sessionID) {
-      // todo remove purchase price here
       await OrdersProducts.create({
         orderId,
         productId,
         quantity,
-        purchasePrice,
+        // ok to leave in for now, our view logic take care of this
+        // purchasePrice,
         userId,
         sessionID
       })
@@ -209,36 +208,39 @@ router.post('/createCartOrder', async (req, res, next) => {
 router.post('/:id/address', async (req, res, next) => {
   try {
     let id = req.params.id
-    const tracking = "dfavrrawfferwavscgrasg"
+    const tracking = 'dfavrrawfferwavscgrasg'
     const checkoutDate = new Date()
     Order.update({...req.body, tracking, checkoutDate}, {where: {id}})
     res.sendStatus(201)
-  }
-  catch(err){
+  } catch (err) {
     console.log(err)
   }
 })
-
 
 router.put('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
     const token = req.body.id
-    let orderSetPrice = await Order.findOne({where: {id}, 
-    include: [{model: Product}]})
-    let totalPrice = 0 
-    console.log(orderSetPrice.products.length)
+    let orderSetPrice = await Order.findOne({
+      where: {id},
+      include: [{model: Product}]
+    })
+    let totalPrice = 0
     for (let i = 0; i < orderSetPrice.products.length; i++) {
       let quantity = orderSetPrice.products[i].ordersProducts.quantity
       let unitPrice = orderSetPrice.products[i].price
       let currentQuantity = orderSetPrice.products[i].quantityOnHand
-      totalPrice += quantity*unitPrice
-      console.log(unitPrice)
-      await OrdersProducts.update({purchasePrice: quantity*unitPrice}, {where: {productId: orderSetPrice.products[i].id}, orderId: id})
-      await Product.update({quantityOnHand: currentQuantity-quantity}, {where: {id: orderSetPrice.products[i].id}})
+      totalPrice += quantity * unitPrice
+      await OrdersProducts.update(
+        {purchasePrice: quantity * unitPrice},
+        {where: {productId: orderSetPrice.products[i].id}, orderId: id}
+      )
+      await Product.update(
+        {quantityOnHand: currentQuantity - quantity},
+        {where: {id: orderSetPrice.products[i].id}}
+      )
     }
-    let pricePlusTax = Math.round(totalPrice*1.1)
-    /// todo fix the total cost hook
+    let pricePlusTax = Math.round(totalPrice * 1.1)
     await stripe.charges.create({
       amount: pricePlusTax,
       currency: 'usd',
@@ -248,9 +250,7 @@ router.put('/:id', async (req, res, next) => {
     })
     await Order.update({status: 'processing'}, {where: {id}})
     res.sendStatus(201)
-  }
-  catch (err){
+  } catch (err) {
     console.log(err)
   }
 })
-
