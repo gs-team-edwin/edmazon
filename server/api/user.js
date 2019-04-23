@@ -6,8 +6,8 @@ module.exports = router
 
 router.get('/test', (req, res, next) => {
   try {
-    console.log(req)
-    res.json(req.sessionID)
+    console.log(req.sessionID)
+    res.json({sessionId: req.sessionID, session: req.session})
   } catch (err) {
     next(err)
   }
