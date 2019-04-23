@@ -1,34 +1,41 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import axios from 'axios'
+import {closePopup, purchaseThunk} from '../store'
+import StripeCheckout from 'react-stripe-checkout'
+import history from '../history'
 //update order History with addreses
 
 class BillingForm extends React.Component {
   constructor() {
     super()
     this.state = {
-      firstName: '',
-      lastName: '',
-      address1: '',
-      address2: '',
-      company: '',
-      city: '',
-      state: '',
-      Country: '',
-      zip: '',
-      telephone: ''
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
+        company: '',
+        city: '',
+        state: '',
+        Country: '',
+        zip: '',
+        telephone: ''
     }
+    this.onToken = this.onToken.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
-
+  async onToken(token) {
+    console.log('ontoken happened')
+    await this.props.payForProducts(this.props.orderId, token, this.state)
+    this.props.closePopup()
+    // await this.props.confirmOrder(this.props.orderId, this.state)
+  }
   async handleSubmit(event) {
     try {
       event.preventDefault()
-      // this.setState({
-      //   firstName: '',
-      //   lastName: '',
-      //   address: ''
-      // })
+      
+
     } catch (err) {
       console.log(err)
     }
@@ -36,108 +43,117 @@ class BillingForm extends React.Component {
 
   handleChange = event => {
     this.setState({
-      firstName: event.targe.value
+      [event.target.name]: event.target.value
     })
   }
   render() {
-    const {firstName, lastName, address} = this.state
+    let subTotal = this.props.cost
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h1>Shipping & Billing Address</h1>
-        <div>
-          <label htmlFor="name">firstName:</label>
-          <input
-            type="text"
-            name="name"
-            onChange={this.handleChange}
-            value={firstName}
-          />
-          <label htmlFor="name">lastName:</label>
-          <input
-            type="text"
-            name="name"
-            onChange={this.handleChange}
-            value={lastName}
-          />
+      <div className="popup-outer-container">
+        <div className="popup">
+          <form onSubmit={this.handleSubmit}>
+            <h1>Shipping and Billing Address</h1>
+            <div>
+              <label htmlFor="name">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                onChange={this.handleChange}
+              />
+              <label htmlFor="name">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="adress">Address</label>
+              <input
+                type="text"
+                name="address1"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="adress">Address</label>
+              <input
+                type="text"
+                name="address2"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="adress">Company</label>
+              <input
+                type="text"
+                name="company"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="adress">City</label>
+              <input
+                type="text"
+                name="city"
+                onChange={this.handleChange}
+              />
+              <label htmlFor="adress">State</label>
+              <input
+                type="text"
+                name="state"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="adress">Country</label>
+              <input
+                type="text"
+                name="country"
+                onChange={this.handleChange}
+              />
+              <label htmlFor="adress">Zip</label>
+              <input
+                type="text"
+                name="zip"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="adress">Telephone</label>
+              <input
+                type="text"
+                name="telephone"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+            
+            
+              <div>
+              </div>
+            </div>
+          </form>
+          <StripeCheckout
+                      token={this.onToken}
+                      stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
+                      amount={subTotal}
+                    />
+          
+          <button type="button" onClick={()=>this.props.closePopup()}>Cancel</button>
         </div>
-        <div>
-          <label htmlFor="adress">Adrress:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={address}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">Apt:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={apt}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">City:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={city}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">State:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={state}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">Country:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={country}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">Zip:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={zip}
-          />
-        </div>
-        <div>
-          <label htmlFor="adress">telephone:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={this.handleChange}
-            value={telephone}
-          />
-        </div>
-        <div>
-          <div>
-            <button type="submit">Submit</button>
-          </div>
-        </div>
-      </form>
+      </div>
     )
   }
 }
 
-// const mapDispatchToProps = dispatch => ({
-//   //placeholder,
-
-//});
-
-//export default connect(null, mapDispatchToProps)(BillingForm)
-
-export default BillingForm
+const mapState = state => ({
+  popup: state.popup
+})
+const mapDispatch = dispatch => {
+  return {
+    payForProducts: (id, token, address) => dispatch(purchaseThunk(id, token, address)),
+    closePopup: () => dispatch(closePopup())
+  }
+}
+export default connect(mapState, mapDispatch)(BillingForm)

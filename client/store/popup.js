@@ -7,7 +7,7 @@ export const setPopup = popupName => ({type: SET_POPUP, popupName})
 export const closePopup = () => ({type: CLOSE_POPUP})
 
 //initial state
-// it's allowed to be 'login', 'signup', 'review'
+// it's allowed to be 'login', 'signup', 'review', 'checkout'
 const DEFAULT_POPUP = false
 
 export default function(state = DEFAULT_POPUP, action) {

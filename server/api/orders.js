@@ -206,6 +206,19 @@ router.post('/createCartOrder', async (req, res, next) => {
   }
 })
 
+router.post('/:id/address', async (req, res, next) => {
+  try {
+    let id = req.params.id
+    const tracking = "dfavrrawfferwavscgrasg"
+    const checkoutDate = new Date()
+    Order.update({...req.body, tracking, checkoutDate}, {where: {id}})
+    res.sendStatus(201)
+  }
+  catch(err){
+    console.log(err)
+  }
+})
+
 
 router.put('/:id', async (req, res, next) => {
   try {
@@ -234,6 +247,7 @@ router.put('/:id', async (req, res, next) => {
       statement_descriptor: 'Custom descriptor'
     })
     await Order.update({status: 'processing'}, {where: {id}})
+    res.sendStatus(201)
   }
   catch (err){
     console.log(err)
