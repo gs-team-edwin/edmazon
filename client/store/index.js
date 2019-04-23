@@ -14,6 +14,7 @@ import categories from './categories'
 import adminorders from './adminorders'
 import adminusers from './adminusers'
 import selectedOrder from './selectedOrder'
+import cartLength from './cartLength'
 
 const reducer = combineReducers({
   user: user,
@@ -24,7 +25,8 @@ const reducer = combineReducers({
   adminOrders: adminorders,
   adminUsers: adminusers,
   selectedProduct: selectedProduct,
-  selectedOrder: selectedOrder
+  selectedOrder: selectedOrder,
+  cartLength: cartLength
 })
 
 const middleware = composeWithDevTools(
@@ -43,3 +45,4 @@ export * from './addproduct'
 export * from './adminusers'
 export * from './reviews'
 export * from './selectedOrder'
+export * from './cartLength'
