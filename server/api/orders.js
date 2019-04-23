@@ -118,16 +118,26 @@ router.post('/:orderId/add/:productId', async (req, res, next) => {
       sessionID = req.sessionID
     }
 
-    // todo remove purchaseprice here
-    let newOrdersProducts = await OrdersProducts.create({
-      orderId,
-      productId,
-      quantity,
-      purchasePrice,
-      userId,
-      sessionID
-    })
-    res.json(newOrdersProducts)
+    // get the order's userId and sessionID
+    const order = await Order.findByPk(orderId)
+    const orderUserId = order.dataValues.userId
+    const orderSessionID = order.dataValues.sessionID
+
+    // security
+    if (orderUserId === userId || orderSessionID === sessionID) {
+      // todo remove purchaseprice here
+      let newOrdersProducts = await OrdersProducts.create({
+        orderId,
+        productId,
+        quantity,
+        purchasePrice,
+        userId,
+        sessionID
+      })
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(401)
+    }
   } catch (err) {
     next(err)
   }
