@@ -2,6 +2,10 @@ const router = require('express').Router()
 const {Order, Product, OrdersProducts} = require('../db/models')
 module.exports = router
 
+router.get('/test', (req, res, next) => {
+  res.json(req.sessionID)
+})
+
 // api/cart
 // returns the ID of the user's cart or if none, false
 router.get('/', async (req, res, next) => {
@@ -74,7 +78,7 @@ router.get('/length', async (req, res, next) => {
       })
       res.json(length)
     } else {
-      res.json(false)
+      res.json(0)
     }
   } catch (err) {
     next(err)

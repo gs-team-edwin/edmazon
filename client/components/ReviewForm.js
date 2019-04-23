@@ -19,7 +19,6 @@ class ReviewForm extends React.Component {
 
   async handleSubmit(event) {
     try {
-      // event.preventDefault()  //REMOVED THIS TO POST REVIEW.
       await this.props.writeReview(this.props.productId, {
         stars: this.state.stars,
         title: this.state.title,
@@ -42,7 +41,6 @@ class ReviewForm extends React.Component {
     const {stars, title, body} = this.state
     const {productId} = this.props
 
-    console.log(this.props)
     return (
       <div className="popup-outer-container">
         <div className="popup">
@@ -56,11 +54,11 @@ class ReviewForm extends React.Component {
                 onChange={this.handleChange}
                 value={stars}
               >
-                <option value={stars}>1</option>
-                <option value={stars}>2</option>
-                <option value={stars}>3</option>
-                <option value={stars}>4</option>
-                <option value={stars}>5</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
               </select>
               <div className="rate">
                 <label htmlFor="stars">STARS</label>

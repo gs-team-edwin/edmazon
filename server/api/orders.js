@@ -125,8 +125,8 @@ router.post('/:orderId/add/:productId', async (req, res, next) => {
 
     // security
     if (orderUserId === userId || orderSessionID === sessionID) {
-      // todo remove purchaseprice here
-      let newOrdersProducts = await OrdersProducts.create({
+      // todo remove purchase price here
+      await OrdersProducts.create({
         orderId,
         productId,
         quantity,
