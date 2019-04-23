@@ -147,7 +147,9 @@ function productInfoFactory(N) {
       'Swift',
       'Shell',
       'Assembly',
-      'Befunge'
+      'Befunge',
+      'BASIC',
+      'Pascal'
     ]
 
     let titleAdjectives = [
