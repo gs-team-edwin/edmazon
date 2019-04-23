@@ -1,8 +1,9 @@
 /* eslint-disable complexity */
 import OrderItem from './OrderItem'
 import React from 'react'
-import StripeCheckout from 'react-stripe-checkout'
-import {updateStatusThunk, purchaseThunk} from '../store'
+
+import {updateStatusThunk, setPopup} from '../store'
+import {BillingForm} from './'
 import {connect} from 'react-redux'
 import axios from 'axios'
 
@@ -10,16 +11,14 @@ import axios from 'axios'
 class orderView extends React.Component {
   constructor(props) {
     super(props)
-    this.onToken = this.onToken.bind(this)
-  }
-  async onToken(token) {
-    await this.props.payForProducts(this.props.order.id, token)
   }
 
+
   render() {
-    const {status, id} = this.props.order
-    let {products} = this.props.order
-    const {user, removeItem, userType} = this.props
+
+    const {products, status, id} = this.props.order
+    const {user, removeItem, userType, popup} = this.props
+
 
     let email = ''
     if (user) email = user.email
@@ -86,8 +85,16 @@ class orderView extends React.Component {
                 </div>
                 {status !== 'cart' && (
                   <div className="order-body-info-block">
-                    <div className="">Shipping Address</div>
-                    <div className="">Payment Information</div>
+                    <div> 
+                    <div className="">Shipping Address:</div>
+                    <p>{this.props.order.firstName} {this.props.order.lastName}</p>
+                    <p>{this.props.order.address1}</p>
+                    <p>{this.props.order.address2}</p>
+                    <p>{this.props.order.company}</p>
+                    <p>{this.props.order.city}, {this.props.order.state} {this.props.order.zip}</p>
+                    <p>{this.props.order.Country}</p>
+                    <p>{this.props.order.telephone}</p>
+                    </div>
                   </div>
                 )}
                 {status !== 'cart' &&
@@ -114,20 +121,17 @@ class orderView extends React.Component {
                   )}
                 {status === 'cart' && (
                   <div className="order-body-info-block">
-                    <button type="button" className="checkout-button">
+                    <button type="button" onClick={()=>this.props.openCheckoutPopUp()} className="checkout-button">
                       CHECK OUT
                     </button>
                   </div>
                 )}
+                {popup === 'checkout' && (<BillingForm orderId={id} cost={Number(
+                        parseFloat(subtotal * 1.1 * 100).toFixed(2)
+                      )}/>)}
                 {status === 'cart' && (
                   <div className="order-body-info-block">
-                    <StripeCheckout
-                      token={this.onToken}
-                      stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
-                      amount={Number(
-                        parseFloat(subtotal * 1.1 * 100).toFixed(2)
-                      )}
-                    />
+                    
                   </div>
                 )}
               </div>
@@ -147,13 +151,14 @@ class orderView extends React.Component {
 }
 
 const mapState = state => ({
-  userType: state.user.userType
+  userType: state.user.userType,
+  popup: state.popup
 })
 const mapDispatch = dispatch => {
   return {
     updateStatus: (orderId, status) =>
       dispatch(updateStatusThunk(orderId, status)),
-    payForProducts: (id, token) => dispatch(purchaseThunk(id, token))
+    openCheckoutPopUp: () => dispatch(setPopup('checkout'))
   }
 }
 export default connect(mapState, mapDispatch)(orderView)
