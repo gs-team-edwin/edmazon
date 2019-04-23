@@ -210,34 +210,19 @@ router.post('/createCartOrder', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
+    const token = req.body.id
     let orderSetPrice = await Order.findOne({where: {id}, 
-    include: [{model: Product}]}) 
+    include: [{model: Product}]})
+    let totalPrice = 0 
+    console.log(orderSetPrice.products.length)
     for (let i = 0; i < orderSetPrice.products.length; i++) {
       let quantity = orderSetPrice.products[i].ordersProducts.quantity
       let unitPrice = orderSetPrice.products[i].price
       let currentQuantity = orderSetPrice.products[i].quantityOnHand
-      orderSetPrice.products[i].ordersProducts.update(
-        {purchasePrice: quantity*unitPrice}
-      )
-      orderSetPrice.products[i].update(
-        {quantityOnHand: currentQuantity - quantity}
-      )
-    }
-  }
-  catch (err){
-    console.log(err)
-  }
-})
-
-router.post('/:id', async (req, res, next) => {
-  try {
-    let id = req.params.id
-    const token = req.body.id
-    const theseOrders = await Order.findOne({where: {id}, 
-      include: [{model: Product}]}) 
-    let totalPrice = 0
-    for (let i = 0; i<theseOrders.products.length; i++){
-      totalPrice += theseOrders.products[i].price * theseOrders.products[i].ordersProducts.quantity
+      totalPrice += quantity*unitPrice
+      console.log(unitPrice)
+      await OrdersProducts.update({purchasePrice: quantity*unitPrice}, {where: {productId: orderSetPrice.products[i].id}, orderId: id})
+      await Product.update({quantityOnHand: currentQuantity-quantity}, {where: {id: orderSetPrice.products[i].id}})
     }
     let pricePlusTax = Math.round(totalPrice*1.1)
     /// todo fix the total cost hook
@@ -248,9 +233,10 @@ router.post('/:id', async (req, res, next) => {
       source: token,
       statement_descriptor: 'Custom descriptor'
     })
-    await 
-    res.json(201)
-  } catch (err) {
-    next(err)
+    await Order.update({status: 'processing'}, {where: {id}})
+  }
+  catch (err){
+    console.log(err)
   }
 })
+
