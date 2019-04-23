@@ -2,6 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth, closePopup, removeUser} from '../store'
+import history from '../history'
+import {Link} from 'react-router-dom'
 
 class AuthForm extends React.Component {
   render() {
@@ -32,10 +34,14 @@ class AuthForm extends React.Component {
           <button
             className="popup-form-button google"
             type="button"
-            href="/auth/google"
-          >
-            {displayName} with Google
+            // href="/auth/google"
+            onClick={()=>{closePopup();
+              history.push("/auth/google");
+              history.push("/auth/google");}}>
+              {displayName} with Google
           </button>
+        
+            
           <button
             className="popup-close-button"
             type="button"
