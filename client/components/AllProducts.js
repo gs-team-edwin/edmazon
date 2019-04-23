@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/'
-import {PaginationButtons, SmallProductCard} from './'
+import {PaginationButtons, SmallProductCard, Carousel} from './'
 import history from '../history'
 
 class AllProducts extends Component {
@@ -15,6 +15,7 @@ class AllProducts extends Component {
     const offset = Number(this.props.match.params.offset)
     return (
       <div>
+        <Carousel />
         <div className="product-container">
           {products.map(product => (
             <SmallProductCard product={product} key={product.id} />

@@ -718,3 +718,17 @@ button {
 .order-cart-buttons {
   margin-left: 10px;
 }
+
+.carousel-img {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  float: center;
+}
+
+/* .carousel-img-main {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  float: center;
+} */
