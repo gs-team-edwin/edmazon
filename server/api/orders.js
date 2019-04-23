@@ -181,9 +181,10 @@ router.post('/:id', async (req, res, next) => {
     for (let i = 0; i<theseOrders.products.length; i++){
       totalPrice += theseOrders.products[i].price * theseOrders.products[i].ordersProducts.quantity
     }
+    let pricePlusTax = Math.round(totalPrice*1.1)
     /// todo fix the total cost hook
     await stripe.charges.create({
-      amount: totalPrice,
+      amount: pricePlusTax,
       currency: 'usd',
       description: 'Example charge',
       source: token,
