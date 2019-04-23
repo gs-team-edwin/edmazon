@@ -164,8 +164,6 @@ function productInfoFactory(N) {
       'Interactive',
       'Garbage-Collected',
       'List-Based',
-      'Meta-Programmatic',
-      'Rule-Based',
       'Reflective',
       'Imperative',
       'Embeddable',
@@ -188,8 +186,6 @@ function productInfoFactory(N) {
       'Domain-Specific',
       'Neural',
       'Backpropagating',
-      'Whitehat',
-      'Blackhat',
       'Unit-Tested'
     ]
     let title =

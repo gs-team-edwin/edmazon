@@ -7,9 +7,6 @@ module.exports = router
 
 router.post('/login', async (req, res, next) => {
   try {
-    console.log('in the login route')
-    console.log('sessionID', req.sessionID)
-
     // see if this guest has a cart order
     // and store it
     let sessionID = req.sessionID
@@ -27,7 +24,6 @@ router.post('/login', async (req, res, next) => {
         quantity: product.ordersProducts.quantity
       }))
     }
-    console.log('oldCartProducts', oldCartProducts)
 
     // ^^ What we do before login ^^
     // vv Boilermaker's login code vv
@@ -39,55 +35,66 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else {
-      req.login(user, err => (err ? next(err) : res.json(user)))
+      // req.login(user, err => (err ? next(err) : res.json(user)))
 
-      // ^^ Boilermaker's login code ^^
-      // vv What we do after login vv
+      req.login(user, async err => {
+        if (err) {
+          next(err)
 
-      // does user have a cart?
-      // and what are its products?
-      let newCartId = null
-      let newCartProductIDs = []
-      const userId = req.user.id
-      let foundCartOrder = await Order.findOne({
-        where: {
-          userId: userId,
-          status: 'cart'
-        },
-        include: [{model: Product}]
-      })
-
-      if (foundCartOrder) {
-        // if we did find an order
-        newCartId = foundCartOrder.id
-        newCartProductIDs = foundCartOrder.products.map(product => product.id)
-      } else {
-        // if there was no cart order create one
-        const newCartOrder = await Order.create({
-          userId: userId,
-          status: 'cart'
-        })
-        newCartId = newCartOrder.data.id
-      }
-
-      // now that we definitely have an orderId for a target cart
-      // move products into it
-      for (let i = 0; i < oldCartProducts.length; i += 1) {
-        const oldProduct = oldCartProducts[i]
-        // only add if not already in there...
-        if (!newCartProductIDs.includes(oldProduct.id)) {
-          await OrdersProducts.create({
-            orderId: newCartId,
-            productId: oldProduct.id,
-            quantity: oldProduct.quantity,
-            purchasePrice: null,
-            userId: userId,
-            sessionID: null
-          })
+          // logged in!
         } else {
-          // TODO update quantity to whichever is bigger?
+          // vv What we do after login vv
+
+          // does user have a cart?
+          // and what are its products?
+          let newCartId = null
+          let newCartProductIDs = []
+          const userId = req.user.id
+          let foundCartOrder = await Order.findOne({
+            where: {
+              userId: userId,
+              status: 'cart'
+            },
+            include: [{model: Product}]
+          })
+
+          if (foundCartOrder) {
+            // if we did find an order
+            newCartId = foundCartOrder.id
+            newCartProductIDs = foundCartOrder.products.map(
+              product => product.id
+            )
+          } else {
+            // if there was no cart order create one
+            const newCartOrder = await Order.create({
+              userId: userId,
+              status: 'cart'
+            })
+            newCartId = newCartOrder.data.id
+          }
+
+          // now that we definitely have an orderId for a target cart
+          // move products into it
+          for (let i = 0; i < oldCartProducts.length; i += 1) {
+            const oldProduct = oldCartProducts[i]
+            // only add if not already in there...
+            if (!newCartProductIDs.includes(oldProduct.id)) {
+              await OrdersProducts.create({
+                orderId: newCartId,
+                productId: oldProduct.id,
+                quantity: oldProduct.quantity,
+                purchasePrice: null,
+                userId: userId,
+                sessionID: null
+              })
+            } else {
+              // TODO update quantity to whichever is bigger?
+            }
+          }
+          // Send the user back to the client
+          res.json(user)
         }
-      }
+      })
     }
   } catch (err) {
     next(err)
