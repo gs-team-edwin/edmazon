@@ -720,15 +720,12 @@ button {
 }
 
 .carousel-img {
-  width: 200px;
-  height: 200px;
   position: relative;
+  height: 200px;
   float: center;
+  padding: 1px;
+  border: 1px solid grey;
+  background-color: orange;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
-
-/* .carousel-img-main {
-  width: 200px;
-  height: 200px;
-  position: relative;
-  float: center;
-} */
