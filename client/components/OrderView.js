@@ -15,11 +15,23 @@ class orderView extends React.Component {
 
 
   render() {
+
     const {products, status, id} = this.props.order
     const {user, removeItem, userType, popup} = this.props
 
+
     let email = ''
     if (user) email = user.email
+
+    // if this is a checked out order
+    // fix the prices to whatever they were historically
+    if (status !== 'cart') {
+      products = products.map(product => {
+        product.price = product.ordersProducts.purchasePrice
+
+        return product
+      })
+    }
 
     // calculate subtotal
     const subtotal = (
