@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {getProductByCategory} from '../store/'
 import {PaginationButtons, SmallProductCard} from './'
-import history from '../history'
 
 class CategoryProducts extends Component {
   componentDidMount() {

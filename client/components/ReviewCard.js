@@ -1,7 +1,5 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
-import history from '../history'
-import {Link} from 'react-router-dom'
 
 const ReviewCard = props => {
   const {review} = props

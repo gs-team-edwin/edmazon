@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {getSingleProduct} from '../store'
+import {getSingleProduct} from '../store/selectedproduct'
 import {LargeProductCard, ReviewCard} from './'
-import history from '../history'
 
 class SingleProduct extends Component {
   componentDidMount() {
