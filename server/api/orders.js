@@ -3,7 +3,8 @@ const {Order, OrdersProducts, Product, Photo, User} = require('../db/models')
 var stripe = require('stripe')('sk_test_keFS67JeYwCUTOscsQgqorhH00FO37ypvX')
 const isAdmin = require('../middleware/isAdmin')
 const isLoggedIn = require('../middleware/isLoggedIn')
-
+const nodemailer = require('nodemailer')
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
 module.exports = router
 
 // returns a single order with associated user
@@ -217,6 +218,7 @@ router.post('/:id/address', async (req, res, next) => {
   }
 })
 
+// this is a checkout route
 router.put('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
@@ -249,6 +251,30 @@ router.put('/:id', async (req, res, next) => {
       statement_descriptor: 'Custom descriptor'
     })
     await Order.update({status: 'processing'}, {where: {id}})
+
+    // send an email
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'edmazon.prime@gmail.com',
+        pass: process.env.GMAIL_PASSWORD
+      }
+    })
+    var mailOptions = {
+      from: 'edmazon.prime@gmail.com',
+      to: 'jkurinsky@gmail.com',
+      subject: 'Your order is processing',
+      text: 'Your edmazon order is processing, thanks for your business'
+    }
+
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error)
+      } else {
+        console.log('Email sent: ' + info.response)
+      }
+    })
+
     res.sendStatus(201)
   } catch (err) {
     console.log(err)
