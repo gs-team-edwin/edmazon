@@ -28,6 +28,17 @@ export const writeReview = (product, review) => async dispatch => {
   }
 }
 
+export const editProductThunkCreator = (productInfo) => async dispatch => {
+  try {
+    let productId = productInfo.product.id
+    await axios.put(`/api/products/${productId}/edit`, productInfo)
+    const res = await axios.get(`/api/products/${productId}`)
+    dispatch(selectProduct(res.data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 //reducer
 export default function(state = {}, action) {
   switch (action.type) {

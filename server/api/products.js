@@ -1,6 +1,5 @@
 const router = require('express').Router()
-const {Product, Photo, Review} = require('../db/models')
-const {Category} = require('../db/models')
+const {Product, Photo, Review, PhotosProducts, ProductsCategories, Category} = require('../db/models')
 const {Op} = require('sequelize')
 const isAdmin = require('../middleware/isAdmin')
 const isLoggedIn = require('../middleware/isLoggedIn')
@@ -122,8 +121,47 @@ router.post('/:id/reviews', isLoggedIn, async (req, res, next) => {
 // add products, admin only
 router.post('/admin/add', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
-    await Product.create(req.body)
+    let {title, description, price, quantityOnHand, photo} = req.body
+    let newProduct = await Product.create({title, description, price, quantityOnHand})
+    if (photo) {
+      let newPhoto = await Photo.create({photoUrl: photo})
+      await PhotosProducts.create({productId: newProduct.id, photoId: newPhoto.id})
+    }
+    else {
+      await PhotosProducts.create({productId: newProduct.id, photoId: 1})
+    }
+
+    // if(categories){
+    //   let categoryArray = categories.split(', ')
+    //   for (let i = 0; i < categoryArray.length; i++) {
+    //     let singleCategory = await Category.findOne({where: {name: categoryArray[i]} })
+    //     if (singleCategory) {
+    //       await ProductsCategories.create({categoryId: singleCategory.id, productId: newProduct.id})
+    //     }
+    //     else{
+    //       let newCategory = await Category.create({name: element})
+    //       await ProductsCategories.create({categoryId: newCategory.id, productId: newProduct.id})
+    //     }
+    //   }
+    // }
+
+    res.json(newProduct)
   } catch (err) {
     next(err)
+  }
+})
+
+router.put('/:productId/edit', async (req, res, next) => {
+  try {
+    let {title, description, price, quantityOnHand, photo} = req.body
+    await Product.update({title, description, price, quantityOnHand}, 
+      {where: {id: req.params.productId}})
+    if (photo) {
+      let newPhoto = await Photo.create({photoUrl: photo})
+      await PhotosProducts.create({productId: req.params.productId, photoId: newPhoto.id})
+    }
+    res.sendStatus(200)
+  } catch (err) {
+    console.log(err)
   }
 })

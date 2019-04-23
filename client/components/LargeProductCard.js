@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import history from '../history'
 import {ReviewForm} from './'
 import {setPopup, addToCart, incrementCartLength, getCartThunk} from '../store'
+import EditProduct from './EditProduct';
 
 class LargeProductCard extends React.Component {
   constructor(props) {
@@ -27,7 +28,11 @@ class LargeProductCard extends React.Component {
 
   submitHandler(evt) {
     evt.preventDefault()
-    this.props.addToCart(this.props.product.id, this.state.cartQuantity)
+    this.props.addToCart(
+      this.props.product.id,
+      this.state.cartQuantity,
+      this.props.user.id
+    )
     this.props.incrementCart()
   }
 
@@ -87,7 +92,6 @@ class LargeProductCard extends React.Component {
           <div className="large-product-card-description">
             {product.description}
           </div>
-
           <div className="large-product-card-button-container">
             {user.id && (
               <button
@@ -103,12 +107,13 @@ class LargeProductCard extends React.Component {
               user.userType === 'admin' && (
                 <button
                   type="button"
-                  onClick={() => console.log('Edit button clicked')}
+                  onClick={() => this.props.openEditPopup()}
                   className="large-product-card-button"
                 >
                   Edit Product Info
                 </button>
               )}
+              {this.props.popup === 'edit' && <EditProduct product={product} />}
             {product.quantityOnHand > 0 &&
               !cartProducts.includes(Number(productId)) && (
                 <form className="add-to-cart-container">
@@ -154,14 +159,17 @@ const mapDispatchToProps = dispatch => ({
   openReviewPopup() {
     dispatch(setPopup('review'))
   },
-  addToCart(productId, quantity) {
-    dispatch(addToCart(productId, quantity))
+  addToCart(productId, quantity, userId) {
+    dispatch(addToCart(productId, quantity, userId))
   },
   incrementCart() {
     dispatch(incrementCartLength())
   },
   getCart() {
     dispatch(getCartThunk())
+  },
+  openEditPopup() {
+    dispatch(setPopup('edit'))
   }
 })
 

@@ -1,50 +1,35 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {addProductThunkCreator} from '../store/addproduct'
+import {addProductThunkCreator} from '../store'
+import ProductForm from './ProductForm'
+import history from '../history'
 
-export class AddProduct extends Component {
+class AddProduct extends Component {
   constructor() {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)
   }
+
+  componentDidUpdate() {
+    let newProductId = this.props.newProductId
+    history.push(`/product/${newProductId}`)
+  }
+
   handleSubmit(evt) {
     evt.preventDefault()
     const title = evt.target.title.value
     const description = evt.target.description.value
-    const price = evt.target.price.value
-    const quantity = evt.target.quantity.value
-    this.props.addProduct({title, description, price, quantity})
+    const price = evt.target.price.value * 100
+    const quantityOnHand = evt.target.quantityOnHand.value
+    const photo = evt.target.photo.value
+    //const categories = evt.target.categories
+    this.props.addProduct({title, description, price, quantityOnHand, photo})
   }
+
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit} name={name}>
-          <div className="form-item">
-            <small>Title</small>
-            <input name="title" type="text" />
-          </div>
-          <div className="form-item">
-            <small>Description</small>
-            <input name="description" type="text" />
-          </div>
-          <div className="form-item">
-            <small>Price</small>
-            <input name="price" type="text" />
-          </div>
-          <div className="form-item">
-            <small>Quantity</small>
-            <input name="quantity" type="text" />
-          </div>
-          <div className="form-item">
-            <small>Upload Photo</small>
-            <input name="photo" type="file" />
-          </div>
-          <div className="form-item">
-            <button className="admin-button" type="submit">
-              Submit
-            </button>
-          </div>
-        </form>
+        <ProductForm handleSubmit = {this.handleSubmit} />
       </div>
     )
   }
@@ -56,4 +41,10 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(null, mapDispatch)(AddProduct)
+const mapState = state => {
+  return {
+    newProductId: state.addedProductId
+  }
+}
+
+export default connect(mapState, mapDispatch)(AddProduct)
