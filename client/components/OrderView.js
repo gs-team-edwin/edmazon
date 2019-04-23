@@ -13,13 +13,15 @@ class orderView extends React.Component {
     this.onToken = this.onToken.bind(this)
   }
   async onToken(token) {
-      await this.props.payForProducts(this.props.order.id, token)
+    await this.props.payForProducts(this.props.order.id, token)
   }
 
   render() {
     const {products, status, id} = this.props.order
     const {user, removeItem, userType} = this.props
-    const {email} = user
+
+    let email = ''
+    if (user) email = user.email
 
     // calculate subtotal
     const subtotal = (
@@ -36,7 +38,7 @@ class orderView extends React.Component {
           <div className="order-view">
             {status === 'cart' ? (
               <div className="order-view-header-container">
-                <div className="order-view-header">{email}'s cart</div>
+                <div className="order-view-header">Cart</div>
               </div>
             ) : (
               <div className="order-view-header-container">
@@ -139,9 +141,8 @@ const mapState = state => ({
 const mapDispatch = dispatch => {
   return {
     updateStatus: (orderId, status) =>
-    dispatch(updateStatusThunk(orderId, status)),
-  payForProducts: (id, token) => dispatch(purchaseThunk(id, token))
+      dispatch(updateStatusThunk(orderId, status)),
+    payForProducts: (id, token) => dispatch(purchaseThunk(id, token))
   }
-  
 }
 export default connect(mapState, mapDispatch)(orderView)

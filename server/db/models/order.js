@@ -5,10 +5,8 @@ const Order = db.define('order', {
   userId: {
     type: Sequelize.INTEGER
   },
-  sessionId: {
-    type: Sequelize.INTEGER
-    // so that seeding works, disabling until we know what this looks like
-    // allowNull: false
+  sessionID: {
+    type: Sequelize.STRING
   },
   status: {
     type: Sequelize.ENUM([

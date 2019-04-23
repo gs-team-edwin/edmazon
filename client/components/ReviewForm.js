@@ -19,7 +19,6 @@ class ReviewForm extends React.Component {
 
   async handleSubmit(event) {
     try {
-      // event.preventDefault()  //REMOVED THIS TO POST REVIEW.
       await this.props.writeReview(this.props.productId, {
         stars: this.state.stars,
         title: this.state.title,
@@ -41,7 +40,6 @@ class ReviewForm extends React.Component {
   render() {
     const {stars, title, body} = this.state
 
-    console.log(this.props)
     return (
       <div className="popup-outer-container">
         <div className="popup">
