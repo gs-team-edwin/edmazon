@@ -39,16 +39,16 @@ class ReviewForm extends React.Component {
   }
   render() {
     const {stars, title, body} = this.state
-    const {productId} = this.props
 
     return (
       <div className="popup-outer-container">
         <div className="popup">
           <form onSubmit={this.handleSubmit} method="POST">
-            <h3>Review Products</h3>
+            <h3>Write Review</h3>
             <div className="form-item">
               <label htmlFor="stars">STARS</label>
               <select
+                className="star-select"
                 type="radio"
                 name="stars"
                 onChange={this.handleChange}
@@ -60,43 +60,6 @@ class ReviewForm extends React.Component {
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select>
-              <div className="rate">
-                <label htmlFor="stars">STARS</label>
-                <input
-                  type="radio"
-                  name="stars"
-                  onChange={this.handleChange}
-                  value={stars}
-                />
-                <label htmlFor="stars">STARS</label>
-                <input
-                  type="radio"
-                  name="stars"
-                  onChange={this.handleChange}
-                  value={stars}
-                />
-                <label htmlFor="stars">STARS</label>
-                <input
-                  type="radio"
-                  name="stars"
-                  onChange={this.handleChange}
-                  value={stars}
-                />
-                <label htmlFor="stars">STARS</label>
-                <input
-                  type="radio"
-                  name="stars"
-                  onChange={this.handleChange}
-                  value={stars}
-                />
-                <label htmlFor="stars">STARS</label>
-                <input
-                  type="radio"
-                  name="stars"
-                  onChange={this.handleChange}
-                  value={stars}
-                />
-              </div>
               <label htmlFor="title">Title:</label>
               <input
                 required
