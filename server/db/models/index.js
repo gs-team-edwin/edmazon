@@ -11,7 +11,6 @@ const PhotosProducts = require('./PhotosProducts')
 /**
  * TODO
  * Session has been commented out as this is provided; cannot get working defining it manually
- *
  */
 
 // Order.belongsTo(Session)

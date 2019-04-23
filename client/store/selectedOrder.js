@@ -59,7 +59,7 @@ export const removeCartItemThunk = (orderId, productId) => async dispatch => {
   }
 }
 
-export const addToCart = (productId, quantity, userId) => async dispatch => {
+export const addToCart = (productId, quantity) => async dispatch => {
   try {
     const res = await axios.get(`/api/cart`)
     const cartId = res.data
@@ -70,14 +70,11 @@ export const addToCart = (productId, quantity, userId) => async dispatch => {
       })
       history.push(`/cart`)
     } else {
-      let newCart = await axios.post(`/api/orders/createCartOrder`, {
-        userId: userId
-      })
+      let newCart = await axios.post(`/api/orders/createCartOrder`, {})
       let newCartId = newCart.data.id
       await axios.post(`/api/orders/${newCartId}/add/${productId}`, {
         quantity: quantity,
-        purchasePrice: null,
-        userId: userId
+        purchasePrice: null
       })
       history.push(`/cart`)
     }
@@ -113,8 +110,6 @@ export const updateCartItemThunk = (
 export const purchaseThunk = (orderId, token) => 
   async dispatch => {
     try {
-      await axios.post(`/api/orders/${orderId}`, token)
-      await axios.put(`/api/orders/${orderId}/status`, "processing")
       await axios.put(`/api/orders/${orderId}`, token)
       const res = await axios.get(`/api/orders/${orderId}`)
       let data = res.data
