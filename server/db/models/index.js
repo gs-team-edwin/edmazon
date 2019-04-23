@@ -5,7 +5,7 @@ const Order = require('./order')
 const Photo = require('./photo')
 const Product = require('./product')
 const Review = require('./review')
-// const Session = require('./session')
+const Session = require('./session')
 const ProductsCategories = require('./ProductsCategories')
 const PhotosProducts = require('./PhotosProducts')
 /**
@@ -45,7 +45,7 @@ module.exports = {
   Photo,
   Product,
   Review,
-  // Session,
+  Session,
   ProductsCategories,
   PhotosProducts
 }
