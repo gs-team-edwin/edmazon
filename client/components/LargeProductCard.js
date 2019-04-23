@@ -34,7 +34,6 @@ class LargeProductCard extends React.Component {
       this.props.user.id
     )
     this.props.incrementCart()
-    history.push(`/cart`)
   }
 
   render() {

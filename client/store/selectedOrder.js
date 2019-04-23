@@ -1,4 +1,6 @@
 import axios from 'axios'
+import history from '../history'
+import incrementCartLength from './'
 
 const SET_SELECTED_ORDER = 'SET_SELECTED_ORDER'
 
@@ -66,17 +68,18 @@ export const addToCart = (productId, quantity, userId) => async dispatch => {
         quantity: quantity,
         purchasePrice: null
       })
+      history.push(`/cart`)
     } else {
       let newCart = await axios.post(`/api/orders/createCartOrder`, {
         userId: userId
       })
       let newCartId = newCart.data.id
-      console.log(newCart)
       await axios.post(`/api/orders/${newCartId}/add/${productId}`, {
         quantity: quantity,
         purchasePrice: null,
         userId: userId
       })
+      history.push(`/cart`)
     }
   } catch (err) {
     console.log(err)

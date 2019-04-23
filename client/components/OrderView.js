@@ -131,7 +131,7 @@ class orderView extends React.Component {
           <div className="order-view">
             <div className="order-view-header-container">
               {' '}
-              <div className="order-view-header">No Products Found</div>
+              <div className="order-view-header">Cart Empty!</div>
             </div>
           </div>
         )}
