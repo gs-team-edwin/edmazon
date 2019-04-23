@@ -19,20 +19,12 @@ class BillingForm extends React.Component {
       telephone: ''
     }
     this.onToken = this.onToken.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
   async onToken(token) {
     await this.props.payForProducts(this.props.orderId, token, this.state)
     this.props.closePopup()
     // await this.props.confirmOrder(this.props.orderId, this.state)
-  }
-  async handleSubmit(event) {
-    try {
-      event.preventDefault()
-    } catch (err) {
-      console.log(err)
-    }
   }
 
   handleChange = event => {

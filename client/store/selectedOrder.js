@@ -107,19 +107,19 @@ export const updateCartItemThunk = (
   }
 }
 
-export const purchaseThunk = (orderId, token, addressParams) => 
-  async dispatch => {
-    try {
-      await axios.post(`/api/orders/${orderId}/address`, addressParams)
-      await axios.put(`/api/orders/${orderId}`, token)
-      const res = await axios.get(`/api/orders/${orderId}`)
-      let data = res.data
-      dispatch(setOrder(data))
-      
-      
-    }
-    catch (err) {
-      console.log(err) 
+export const purchaseThunk = (
+  orderId,
+  token,
+  addressParams
+) => async dispatch => {
+  try {
+    await axios.post(`/api/orders/${orderId}/address`, addressParams)
+    await axios.put(`/api/orders/${orderId}`, token)
+    const res = await axios.get(`/api/orders/${orderId}`)
+    let data = res.data
+    dispatch(setOrder(data))
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -134,7 +134,6 @@ export const purchaseThunk = (orderId, token, addressParams) =>
 //     console.log(err)
 //   }
 // }
-
 
 export default function(
   state = {order: {products: [], status: ''}, user: {}},
