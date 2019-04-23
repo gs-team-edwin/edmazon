@@ -144,7 +144,8 @@ function productInfoFactory(N) {
       'RegEx',
       'Swift',
       'Shell',
-      'Assembly'
+      'Assembly',
+      'Befunge'
     ]
 
     let titleAdjectives = [
@@ -188,7 +189,8 @@ function productInfoFactory(N) {
       'Neural',
       'Backpropagating',
       'Whitehat',
-      'Blackhat'
+      'Blackhat',
+      'Unit-Tested'
     ]
     let title =
       titleAdjectives[getRandomInteger(titleAdjectives.length)] +

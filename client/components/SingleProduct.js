@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getSingleProduct} from '../store/selectedproduct'
+import {getSingleProduct} from '../store'
 import {LargeProductCard, ReviewCard} from './'
 import history from '../history'
 
