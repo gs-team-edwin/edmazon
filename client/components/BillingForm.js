@@ -31,15 +31,7 @@ class BillingForm extends React.Component {
     this.props.closePopup()
     // await this.props.confirmOrder(this.props.orderId, this.state)
   }
-  async handleSubmit(event) {
-    try {
-      event.preventDefault()
-      
 
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   handleChange = event => {
     this.setState({
