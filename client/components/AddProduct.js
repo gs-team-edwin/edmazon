@@ -12,7 +12,6 @@ class AddProduct extends Component {
 
   componentDidUpdate() {
     let newProductId = this.props.newProductId
-    console.log(newProductId)
     history.push(`/product/${newProductId}`)
   }
 
