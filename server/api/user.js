@@ -4,15 +4,6 @@ const isLoggedIn = require('../middleware/isLoggedIn')
 const {Op} = require('sequelize')
 module.exports = router
 
-router.get('/test', (req, res, next) => {
-  try {
-    console.log(req.sessionID)
-    res.json({sessionId: req.sessionID, session: req.session})
-  } catch (err) {
-    next(err)
-  }
-})
-
 router.get(
   '/:userId/orders/offset/:offset',
   isLoggedIn,
