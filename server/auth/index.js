@@ -35,8 +35,6 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else {
-      // req.login(user, err => (err ? next(err) : res.json(user)))
-
       req.login(user, async err => {
         if (err) {
           next(err)
@@ -103,8 +101,43 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
+    // Store the session ID
+    let sessionID = req.sessionID
+
+    // make the new user
     const user = await User.create(req.body)
-    req.login(user, err => (err ? next(err) : res.json(user)))
+    req.login(user, async err => {
+      if (err) {
+        next(err)
+      } else {
+        // is there an old cart order
+        const oldCartOrder = await Order.findOne({
+          where: {
+            sessionID: sessionID,
+            status: 'cart'
+          }
+        })
+        // if the non-logged-in user had a cart
+        // get rid of its session ID and add a userId
+        if (oldCartOrder) {
+          await Order.update(
+            {
+              sessionID: null,
+              userId: req.user.id
+            },
+            {
+              where: {
+                sessionID: sessionID,
+                status: 'cart'
+              }
+            }
+          )
+        }
+
+        // send back the user
+        res.json(user)
+      }
+    })
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')
