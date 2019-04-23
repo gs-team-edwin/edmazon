@@ -52,8 +52,6 @@ export const deleteUser = userId => async dispatch => {
 }
 export const addAdmin = userId => async dispatch => {
   try {
-    console.log('removing admin thunk')
-
     const url = `/api/admin/users/${userId}/`
     await axios.put(url, {userType: 'admin'})
     dispatch(giveAdmin(userId))

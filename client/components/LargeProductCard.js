@@ -35,7 +35,6 @@ class LargeProductCard extends React.Component {
   render() {
     const {product, openReviewPopup, popup, user, cartProducts} = this.props
     const productId = product.id
-    console.log('cartProducts: ', cartProducts)
     return (
       <div className="large-product-card">
         {product.photos && (

@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
 const router = require('express').Router()
@@ -65,12 +66,15 @@ router.post('/login', async (req, res, next) => {
               product => product.id
             )
           } else {
-            // if there was no cart order create one
-            const newCartOrder = await Order.create({
-              userId: userId,
-              status: 'cart'
-            })
-            newCartId = newCartOrder.data.id
+            // if there was stuff in the old cart...
+            if (oldCartProducts.length > 0) {
+              // if there was no cart order create one
+              const newCartOrder = await Order.create({
+                userId: userId,
+                status: 'cart'
+              })
+              newCartId = newCartOrder.data.id
+            }
           }
 
           // now that we definitely have an orderId for a target cart
@@ -163,9 +167,10 @@ router.use('/google', require('./google'))
 
 router.put('/change', isLoggedIn, async (req, res, next) => {
   try {
-    console.log('in the password change route')
-    await User.update({password: req.body.password}, {where: {id: req.user.id}})
-    // TODO -- get this to re-salt everything or whatever
+    await User.findOne({where: {id: req.user.id}}).then(user =>
+      user.update({password: req.body.password, resetPassword: false}).then()
+    )
+
     res.sendStatus(201)
   } catch (err) {
     next(err)
@@ -174,9 +179,7 @@ router.put('/change', isLoggedIn, async (req, res, next) => {
 
 router.put('/flag', isAdmin, async (req, res, next) => {
   try {
-    console.log('req.body.userId', req.body.userId)
     await User.update({resetPassword: true}, {where: {id: req.body.userId}})
-
     res.sendStatus(201)
   } catch (err) {
     next(err)

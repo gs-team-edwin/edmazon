@@ -43,7 +43,6 @@ const SingleUserRow = props => {
           />
         )}
       </span>
-      {console.log('user', user)}
       <span className="user-row-item">
         {!user.resetPassword ? (
           <button
