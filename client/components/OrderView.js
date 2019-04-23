@@ -28,7 +28,6 @@ class orderView extends React.Component {
     // fix the prices to whatever they were historically
     if (status !== 'cart') {
       products = products.map(product => {
-        console.log('PRODUCT', product)
         product.price = product.ordersProducts.purchasePrice
 
         return product
