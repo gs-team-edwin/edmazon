@@ -34,7 +34,6 @@ export const auth = (email, password, method) => async dispatch => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
-    console.log('AUTH RES', res)
     if (!res.data.resetPassword) {
       history.go(0)
     }

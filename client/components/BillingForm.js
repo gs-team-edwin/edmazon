@@ -23,7 +23,6 @@ class BillingForm extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
   async onToken(token) {
-    console.log('ontoken happened')
     await this.props.payForProducts(this.props.orderId, token, this.state)
     this.props.closePopup()
     // await this.props.confirmOrder(this.props.orderId, this.state)
