@@ -130,7 +130,7 @@ function productInfoFactory(N) {
       'Typescript',
       'ASP',
       'COBOL',
-      'Elixr',
+      'Elixir',
       'FORTRAN',
       'Haskell',
       'Lisp',
