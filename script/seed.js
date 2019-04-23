@@ -375,8 +375,8 @@ async function ordersProductsFactory(N) {
       if (orderStatus === 'cart') {
         purchasePrice = null
       } else {
-        let priceChangeChance = getRandomInteger(10)
-        if (priceChangeChance < 3) {
+        let priceChangeChance = getRandomInteger(11)
+        if (priceChangeChance < 5) {
           const productObject = await Product.findByPk(productId)
           purchasePrice = productObject.dataValues.price
         } else {
