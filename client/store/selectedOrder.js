@@ -107,6 +107,22 @@ export const updateCartItemThunk = (
   }
 }
 
+export const purchaseThunk = (orderId, token) => 
+  async dispatch => {
+    try {
+      await axios.post(`/api/orders/${orderId}`, token)
+      await axios.put(`/api/orders/${orderId}/status`, "processing")
+      await axios.put(`/api/orders/${orderId}`, token)
+      const res = await axios.get(`/api/orders/${orderId}`)
+      let data = res.data
+      dispatch(setOrder(data))
+    }
+    catch (err) {
+      console.log(err) 
+  }
+}
+
+
 export default function(
   state = {order: {products: [], status: ''}, user: {}},
   action

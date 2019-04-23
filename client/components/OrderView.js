@@ -2,7 +2,7 @@
 import OrderItem from './OrderItem'
 import React from 'react'
 import StripeCheckout from 'react-stripe-checkout'
-import {updateStatusThunk} from '../store'
+import {updateStatusThunk, purchaseThunk} from '../store'
 import {connect} from 'react-redux'
 import axios from 'axios'
 
@@ -13,14 +13,7 @@ class orderView extends React.Component {
     this.onToken = this.onToken.bind(this)
   }
   async onToken(token) {
-    console.log(token)
-    await axios.post(`/api/orders/${this.props.order.id}`, token)
-    // fetch(`/api/orders/${this.props.order.id}`, {
-    //   method: 'POST',
-    //   body: JSON.stringify(token),
-    // }).then(response => {
-    //   response.json()
-    // });
+      await this.props.payForProducts(this.props.order.id, token)
   }
 
   render() {
@@ -143,8 +136,12 @@ class orderView extends React.Component {
 const mapState = state => ({
   userType: state.user.userType
 })
-const mapDispatch = dispatch => ({
-  updateStatus: (orderId, status) =>
-    dispatch(updateStatusThunk(orderId, status))
-})
+const mapDispatch = dispatch => {
+  return {
+    updateStatus: (orderId, status) =>
+    dispatch(updateStatusThunk(orderId, status)),
+  payForProducts: (id, token) => dispatch(purchaseThunk(id, token))
+  }
+  
+}
 export default connect(mapState, mapDispatch)(orderView)

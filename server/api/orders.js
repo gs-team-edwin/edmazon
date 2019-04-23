@@ -148,19 +148,48 @@ router.post('/createCartOrder', async (req, res, next) => {
   }
 })
 
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    let id = req.params.id
+    let orderSetPrice = await Order.findOne({where: {id}, 
+    include: [{model: Product}]}) 
+    for (let i = 0; i < orderSetPrice.products.length; i++) {
+      let quantity = orderSetPrice.products[i].ordersProducts.quantity
+      let unitPrice = orderSetPrice.products[i].price
+      let currentQuantity = orderSetPrice.products[i].quantityOnHand
+      orderSetPrice.products[i].ordersProducts.update(
+        {purchasePrice: quantity*unitPrice}
+      )
+      orderSetPrice.products[i].update(
+        {quantityOnHand: currentQuantity - quantity}
+      )
+    }
+  }
+  catch (err){
+    console.log(err)
+  }
+})
+
 router.post('/:id', async (req, res, next) => {
   try {
     let id = req.params.id
     const token = req.body.id
-    const thisOrder = await OrdersProducts.findOne({where: {orderId: id}})
+    const theseOrders = await Order.findOne({where: {id}, 
+      include: [{model: Product}]}) 
+    let totalPrice = 0
+    for (let i = 0; i<theseOrders.products.length; i++){
+      totalPrice += theseOrders.products[i].price * theseOrders.products[i].ordersProducts.quantity
+    }
     /// todo fix the total cost hook
     await stripe.charges.create({
-      amount: 5306,
+      amount: totalPrice,
       currency: 'usd',
       description: 'Example charge',
       source: token,
       statement_descriptor: 'Custom descriptor'
     })
+    await 
     res.json(201)
   } catch (err) {
     next(err)
