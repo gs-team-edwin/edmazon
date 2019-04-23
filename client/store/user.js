@@ -34,7 +34,10 @@ export const auth = (email, password, method) => async dispatch => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
-    history.go(0)
+    console.log('AUTH RES', res)
+    if (!res.data.resetPassword) {
+      history.go(0)
+    }
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
@@ -50,6 +53,18 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
+    history.go(0)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const changePasswordThunk = password => async dispatch => {
+  try {
+    console.log('changing password thunk')
+    await axios.put(`/auth/change`, {password: password})
+    const res = await axios.get('/auth/me')
+    dispatch(getUser(res.data))
     history.go(0)
   } catch (err) {
     console.error(err)

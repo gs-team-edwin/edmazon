@@ -1,6 +1,5 @@
-import React, {Component} from 'react'
+import React from 'react'
 import history from '../history'
-import {Link} from 'react-router-dom'
 
 const SmallProductCard = props => {
   const {product} = props

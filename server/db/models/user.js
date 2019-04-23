@@ -34,6 +34,11 @@ const User = db.define('user', {
     type: Sequelize.ENUM('admin', 'user'),
     allowNull: true,
     defaultValue: 'user'
+  },
+  resetPassword: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 })
 

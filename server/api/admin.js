@@ -96,7 +96,7 @@ router.get(
     try {
       const offset = Number(req.params.offset)
       const users = await User.findAll({
-        attributes: ['id', 'email', 'userType'],
+        attributes: ['id', 'email', 'userType', 'resetPassword'],
         limit: 20,
         offset: offset,
         order: [['id', 'ASC']]

@@ -76,9 +76,11 @@ function userInfoFactory(N) {
     }
     emailArr.push(email)
     const password = '123456'
-    usersArr.push({email, password, userType: 'user'})
+    const resetPassword = getRandomInteger(10) === 0
+    usersArr.push({email, password, userType: 'user', resetPassword})
   }
-  usersArr[0].userType = 'admin' // set the first user to admin
+  usersArr[0].userType = 'admin'
+  usersArr[0].resetPassword = false // set the first user to admin
   return usersArr
 }
 
@@ -128,7 +130,7 @@ function productInfoFactory(N) {
       'Typescript',
       'ASP',
       'COBOL',
-      'Elixr',
+      'Elixir',
       'FORTRAN',
       'Haskell',
       'Lisp',
@@ -145,7 +147,9 @@ function productInfoFactory(N) {
       'Swift',
       'Shell',
       'Assembly',
-      'Befunge'
+      'Befunge',
+      'BASIC',
+      'Pascal'
     ]
 
     let titleAdjectives = [
@@ -449,11 +453,6 @@ async function seed() {
   console.log(`seeded ${photosProducts.length} photosProducts rows`)
 
   console.log(`seeded successfully`)
-
-  // TODO
-  // HOW TO DO EAGER LOADING
-  // let results = await Product.findByPk(1, {include: [{model: Photo}]})
-  // console.log('results', results)
 }
 
 // We've separated the `seed` function from the `runSeed` function.
