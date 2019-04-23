@@ -79,6 +79,7 @@ function userInfoFactory(N) {
     const resetPassword = getRandomInteger(10) === 0
     usersArr.push({email, password, userType: 'user', resetPassword})
   }
+  usersArr[0].email = 'admin@admin.com'
   usersArr[0].userType = 'admin'
   usersArr[0].resetPassword = false // set the first user to admin
   return usersArr
