@@ -9,7 +9,7 @@ class ReviewForm extends React.Component {
   constructor() {
     super()
     this.state = {
-      stars: 0,
+      stars: 5,
       title: '',
       body: ''
     }
@@ -50,17 +50,18 @@ class ReviewForm extends React.Component {
             <div className="form-item">
               <label htmlFor="stars">STARS</label>
               <select
+                required
                 className="star-select"
                 type="radio"
                 name="stars"
                 onChange={this.handleChange}
                 value={stars}
               >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
                 <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
               </select>
               <label htmlFor="title">Title:</label>
               <input
