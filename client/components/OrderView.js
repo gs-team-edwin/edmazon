@@ -5,14 +5,9 @@ import React from 'react'
 import {updateStatusThunk, setPopup} from '../store'
 import {BillingForm} from './'
 import {connect} from 'react-redux'
-import axios from 'axios'
 
 //takes 4 props: state user object, viewType (just a string e.g. 'cart', 'order history'), products array, and removeItem function to be passed down to the OrderItem view
 class orderView extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const {status, id} = this.props.order
     let {products} = this.props.order

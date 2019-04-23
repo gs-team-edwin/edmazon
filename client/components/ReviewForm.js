@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {Redirect} from 'react-router'
 import {writeReview, closePopup} from '../store'
 //update order History with addreses
@@ -19,7 +18,6 @@ class ReviewForm extends React.Component {
 
   async handleSubmit(event) {
     try {
-
       event.preventDefault() //REMOVED THIS TO POST REVIEW.
 
       await this.props.writeReview(this.props.productId, {
@@ -94,6 +92,7 @@ class ReviewForm extends React.Component {
             </div>
           </form>
           <button
+            type="button"
             className="popup-close-button"
             onClick={() => this.props.closePopup()}
           >

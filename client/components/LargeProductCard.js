@@ -2,7 +2,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import history from '../history'
-import {Link} from 'react-router-dom'
 import {ReviewForm} from './'
 import {setPopup, addToCart, incrementCartLength, getCartThunk} from '../store'
 
