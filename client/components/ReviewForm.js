@@ -41,7 +41,6 @@ class ReviewForm extends React.Component {
     const {stars, title, body} = this.state
     const {productId} = this.props
 
-    console.log(this.props)
     return (
       <div className="popup-outer-container">
         <div className="popup">

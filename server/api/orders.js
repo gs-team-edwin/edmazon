@@ -1,10 +1,11 @@
 const router = require('express').Router()
 const {Order, OrdersProducts, Product, Photo, User} = require('../db/models')
-var stripe = require('stripe')('sk_test_keFS67JeYwCUTOscsQgqorhH00FO37ypvX')
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
+var stripe = require('stripe')(process.env.STRIPE_KEY)
 const isAdmin = require('../middleware/isAdmin')
 const isLoggedIn = require('../middleware/isLoggedIn')
 const nodemailer = require('nodemailer')
-if (process.env.NODE_ENV !== 'production') require('../../secrets')
+
 module.exports = router
 
 // returns a single order with associated user
