@@ -7,11 +7,10 @@ const isLoggedIn = require('../middleware/isLoggedIn')
 module.exports = router
 
 // returns a single order with associated user
+// Do not need to rewrite to support anon users because anon users will never need to access it
 router.get('/:orderId', isLoggedIn, async (req, res, next) => {
   try {
     let orderId = req.params.orderId
-    // WILL ERROR OUT FOR ANON USERS WHEN MIDDLEWARE DISABLED
-    // todo
     let loggedInUser = req.user.id
     let loggedInUserType = req.user.userType
     // get the order's userId
@@ -53,17 +52,24 @@ router.put('/:orderId/status', isLoggedIn, isAdmin, async (req, res, next) => {
 // deleting products from carts, public
 router.delete('/:orderId/remove/:productId', async (req, res, next) => {
   try {
-    // WILL BREAK FOR ANON USERS
-    // todo
-    const userId = req.user.id
     const {productId, orderId} = req.params
 
-    // get the order's userId
+    // set our IDs
+    let userId
+    let sessionID
+    if (req.user) {
+      userId = req.user.id
+    } else {
+      sessionID = req.sessionID
+    }
+
+    // get the order's userId and sessionID
     const order = await Order.findByPk(orderId)
     const orderUserId = order.dataValues.userId
+    const orderSessionID = order.dataValues.sessionID
 
-    // if the logged-in user has access...
-    if (orderUserId === userId) {
+    // if the user has access...
+    if (orderUserId === userId || orderSessionID === sessionID) {
       // destroy the item
       await OrdersProducts.destroy({
         where: {
@@ -84,16 +90,29 @@ router.delete('/:orderId/remove/:productId', async (req, res, next) => {
 // adds a product to an existing order
 // orderId and productId send through req.params
 // quantity, purchaseprice, and userId sent through req.body
+// TODO security for this route
 router.post('/:orderId/add/:productId', async (req, res, next) => {
   try {
     const {orderId, productId} = req.params
-    const {quantity, purchasePrice, userId} = req.body
+    const {quantity, purchasePrice} = req.body
+
+    // set our IDs
+    let userId = null
+    let sessionID = null
+    if (req.user) {
+      userId = req.user.id
+    } else {
+      sessionID = req.sessionID
+    }
+
+    // todo remove purchaseprice here
     let newOrdersProducts = await OrdersProducts.create({
       orderId,
       productId,
       quantity,
       purchasePrice,
-      userId
+      userId,
+      sessionID
     })
     res.json(newOrdersProducts)
   } catch (err) {
@@ -104,17 +123,24 @@ router.post('/:orderId/add/:productId', async (req, res, next) => {
 // updating quantities from carts, public
 router.put('/:orderId/update/:productId', async (req, res, next) => {
   try {
-    // WILL BREAK FOR ANON USERS
-    // todo
-    const userId = req.user.id
     const {productId, orderId} = req.params
 
-    // get the order's userId
+    // set our IDs
+    let userId
+    let sessionID
+    if (req.user) {
+      userId = req.user.id
+    } else {
+      sessionID = req.sessionID
+    }
+
+    // get the order's userId and sessionID
     const order = await Order.findByPk(orderId)
     const orderUserId = order.dataValues.userId
+    const orderSessionID = order.dataValues.sessionID
 
     // if the logged-in user has access...
-    if (orderUserId === userId) {
+    if (orderUserId === userId || orderSessionID === sessionID) {
       // update the row
       await OrdersProducts.update(
         {quantity: req.body.quantity},
@@ -138,10 +164,19 @@ router.put('/:orderId/update/:productId', async (req, res, next) => {
 //creates a new order
 router.post('/createCartOrder', async (req, res, next) => {
   try {
-    let newCartOrder = await Order.create({
-      userId: req.body.userId,
-      status: 'cart'
-    })
+    let newCartOrder
+    if (req.user) {
+      newCartOrder = await Order.create({
+        userId: req.user.id,
+        status: 'cart'
+      })
+    } else {
+      newCartOrder = await Order.create({
+        sessionID: req.sessionID,
+        status: 'cart'
+      })
+    }
+
     res.json(newCartOrder)
   } catch (err) {
     console.log(err)

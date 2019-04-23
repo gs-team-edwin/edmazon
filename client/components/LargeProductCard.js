@@ -28,11 +28,7 @@ class LargeProductCard extends React.Component {
 
   submitHandler(evt) {
     evt.preventDefault()
-    this.props.addToCart(
-      this.props.product.id,
-      this.state.cartQuantity,
-      this.props.user.id
-    )
+    this.props.addToCart(this.props.product.id, this.state.cartQuantity)
     this.props.incrementCart()
   }
 
@@ -160,8 +156,8 @@ const mapDispatchToProps = dispatch => ({
   openReviewPopup() {
     dispatch(setPopup('review'))
   },
-  addToCart(productId, quantity, userId) {
-    dispatch(addToCart(productId, quantity, userId))
+  addToCart(productId, quantity) {
+    dispatch(addToCart(productId, quantity))
   },
   incrementCart() {
     dispatch(incrementCartLength())

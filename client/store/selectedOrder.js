@@ -59,7 +59,7 @@ export const removeCartItemThunk = (orderId, productId) => async dispatch => {
   }
 }
 
-export const addToCart = (productId, quantity, userId) => async dispatch => {
+export const addToCart = (productId, quantity) => async dispatch => {
   try {
     const res = await axios.get(`/api/cart`)
     const cartId = res.data
@@ -70,14 +70,11 @@ export const addToCart = (productId, quantity, userId) => async dispatch => {
       })
       history.push(`/cart`)
     } else {
-      let newCart = await axios.post(`/api/orders/createCartOrder`, {
-        userId: userId
-      })
+      let newCart = await axios.post(`/api/orders/createCartOrder`, {})
       let newCartId = newCart.data.id
       await axios.post(`/api/orders/${newCartId}/add/${productId}`, {
         quantity: quantity,
-        purchasePrice: null,
-        userId: userId
+        purchasePrice: null
       })
       history.push(`/cart`)
     }
