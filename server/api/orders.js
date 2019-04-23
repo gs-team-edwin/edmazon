@@ -8,16 +8,29 @@ module.exports = router
 
 // returns a single order with associated user
 // Do not need to rewrite to support anon users because anon users will never need to access it
-router.get('/:orderId', isLoggedIn, async (req, res, next) => {
+router.get('/:orderId', async (req, res, next) => {
   try {
     let orderId = req.params.orderId
-    let loggedInUser = req.user.id
-    let loggedInUserType = req.user.userType
+    // set our IDs
+    let loggedInUserId
+    let loggedInUserType
+    let sessionID
+    if (req.user) {
+      loggedInUserId = req.user.id
+      loggedInUserType = req.user.userType
+    } else {
+      sessionID = req.sessionID
+    }
     // get the order's userId
     const order = await Order.findByPk(orderId)
     const orderUserId = order.dataValues.userId
+    const orderSessionID = order.dataValues.sessionID
 
-    if (loggedInUser === orderUserId || loggedInUserType === 'admin') {
+    if (
+      loggedInUserId === orderUserId ||
+      loggedInUserType === 'admin' ||
+      sessionID === orderSessionID
+    ) {
       const order = await Order.findOne({
         where: {
           id: orderId
