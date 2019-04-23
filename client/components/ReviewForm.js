@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Redirect} from 'react-router'
 import {writeReview, closePopup} from '../store'
 //update order History with addreses
 
