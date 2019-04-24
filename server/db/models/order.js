@@ -45,7 +45,7 @@ const Order = db.define('order', {
   state: {
     type: Sequelize.STRING
   },
-  Country: {
+  country: {
     type: Sequelize.STRING
   },
   zip: {
@@ -53,7 +53,7 @@ const Order = db.define('order', {
   },
   telephone: {
     type: Sequelize.STRING
-  },
+  }
 })
 
 module.exports = Order

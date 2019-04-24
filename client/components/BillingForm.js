@@ -14,7 +14,7 @@ class BillingForm extends React.Component {
       company: '',
       city: '',
       state: '',
-      Country: '',
+      country: '',
       zip: '',
       telephone: ''
     }
