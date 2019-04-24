@@ -261,9 +261,14 @@ router.put('/:id', async (req, res, next) => {
         pass: process.env.GMAIL_PASSWORD
       }
     })
+    let email = 'jkurinsky@gmail.com'
+    if (req.user) {
+      email = req.user.email
+    }
+
     var mailOptions = {
       from: 'edmazon.prime@gmail.com',
-      to: 'jkurinsky@gmail.com',
+      to: email,
       subject: 'Your order is processing',
       text: 'Your edmazon order is processing, thanks for your business'
     }

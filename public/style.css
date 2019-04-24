@@ -173,6 +173,12 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-right: 10px;
+}
+.form-item-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .popup-form-button {
   color: var(--dark-color);
@@ -213,6 +219,47 @@ button {
 .popup label {
   font-size: 14pt;
   margin-top: 10px;
+}
+.popup input.bigger {
+  width: 400px;
+  background-color: var(--light-color);
+  font-size: 12pt;
+  height: 31px;
+  border-radius: 5px 5px 5px 5px;
+  border: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 3px;
+  border: 1px solid var(--dark-accent-color);
+}
+.popup textarea {
+  width: 400px;
+  height: 100px;
+  background-color: var(--light-color);
+  font-size: 12pt;
+  border-radius: 5px 5px 5px 5px;
+  border: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 3px;
+  border: 1px solid var(--dark-accent-color);
+}
+.checkout-button-container {
+  margin: 10px;
+}
+.category-selector-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.category-selector-label {
+  font-size: 16px;
+}
+.category-selector-label input {
+}
+.popup input.form-checkbox {
+  width: 20px;
+  height: 20px;
 }
 
 /* product card */
@@ -390,7 +437,7 @@ button {
   flex-direction: column;
   align-items: center;
 }
-.admin-button-box button {
+.admin-button-box > button {
   color: var(--dark-color);
   margin: 5px;
   padding: 8px;
@@ -721,11 +768,10 @@ button {
 
 .carousel-img {
   position: relative;
-  height: 200px;
+  height: 300px;
   float: center;
   padding: 1px;
-  border: 1px solid grey;
-  background-color: orange;
+  border: 2px solid grey;
   margin-top: 20px;
   margin-bottom: 10px;
 }

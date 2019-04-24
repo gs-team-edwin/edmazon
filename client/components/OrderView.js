@@ -77,21 +77,28 @@ class orderView extends React.Component {
                   <div>YOU SAVED: ${parseFloat(subtotal / 4).toFixed(2)}</div>
                 </div>
                 {status !== 'cart' && (
-                  <div className="order-body-info-block">
-                    <div>
-                      <div className="">Shipping Address:</div>
-                      <p>
-                        {this.props.order.firstName} {this.props.order.lastName}
-                      </p>
-                      <p>{this.props.order.address1}</p>
-                      <p>{this.props.order.address2}</p>
-                      <p>{this.props.order.company}</p>
-                      <p>
-                        {this.props.order.city}, {this.props.order.state}{' '}
-                        {this.props.order.zip}
-                      </p>
-                      <p>{this.props.order.Country}</p>
-                      <p>{this.props.order.telephone}</p>
+                  <div>
+                    <div className="order-body-info-block">
+                      <div>
+                        <div>SHIPPING ADDRESS:</div>
+                        <div>
+                          {this.props.order.firstName}{' '}
+                          {this.props.order.lastName}
+                        </div>
+                        <div>{this.props.order.address1}</div>
+                        <div>{this.props.order.address2}</div>
+                        <div>{this.props.order.company}</div>
+                        <div>
+                          {this.props.order.city}, {this.props.order.state}{' '}
+                          {this.props.order.zip}
+                        </div>
+                        <div>{this.props.order.country}</div>
+                        <div>{this.props.order.telephone}</div>
+                      </div>
+                    </div>
+                    <div className="order-body-info-block">
+                      <div>TRACKING NUMBER:</div>
+                      <div>{this.props.order.tracking}</div>
                     </div>
                   </div>
                 )}

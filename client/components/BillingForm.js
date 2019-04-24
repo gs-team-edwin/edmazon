@@ -14,7 +14,7 @@ class BillingForm extends React.Component {
       company: '',
       city: '',
       state: '',
-      Country: '',
+      country: '',
       zip: '',
       telephone: ''
     }
@@ -24,7 +24,6 @@ class BillingForm extends React.Component {
   async onToken(token) {
     await this.props.payForProducts(this.props.orderId, token, this.state)
     this.props.closePopup()
-    // await this.props.confirmOrder(this.props.orderId, this.state)
   }
 
   handleChange = event => {
@@ -38,60 +37,93 @@ class BillingForm extends React.Component {
       <div className="popup-outer-container">
         <div className="popup">
           <form onSubmit={this.handleSubmit}>
-            <h1>Shipping and Billing Address</h1>
-            <div>
-              <label htmlFor="name">First Name</label>
-              <input
-                type="text"
-                name="firstName"
-                onChange={this.handleChange}
-              />
-              <label htmlFor="name">Last Name</label>
-              <input type="text" name="lastName" onChange={this.handleChange} />
+            <h4>Shipping Address</h4>
+            <div className="form-item-row">
+              <div className="form-item">
+                <label htmlFor="name">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-item">
+                <label htmlFor="name">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+            <div className="form-item-row">
+              <div className="form-item">
+                <label>Address</label>
+                <input
+                  type="text"
+                  name="address1"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-item">
+                <label>Address 2</label>
+                <input
+                  type="text"
+                  name="address2"
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+            <div className="form-item-row">
+              <div className="form-item">
+                <label>Company</label>
+                <input
+                  type="text"
+                  name="company"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-item">
+                <label>City</label>
+                <input type="text" name="city" onChange={this.handleChange} />
+              </div>
+            </div>
+
+            <div className="form-item-row">
+              <div className="form-item">
+                <label>State</label>
+                <input type="text" name="state" onChange={this.handleChange} />
+              </div>
+              <div className="form-item" />
+              <div className="form-item">
+                <label>Zip</label>
+                <input type="text" name="zip" onChange={this.handleChange} />
+              </div>
             </div>
             <div>
-              <label htmlFor="adress">Address</label>
-              <input type="text" name="address1" onChange={this.handleChange} />
-            </div>
-            <div>
-              <label htmlFor="adress">Address</label>
-              <input type="text" name="address2" onChange={this.handleChange} />
-            </div>
-            <div>
-              <label htmlFor="adress">Company</label>
-              <input type="text" name="company" onChange={this.handleChange} />
-            </div>
-            <div>
-              <label htmlFor="adress">City</label>
-              <input type="text" name="city" onChange={this.handleChange} />
-              <label htmlFor="adress">State</label>
-              <input type="text" name="state" onChange={this.handleChange} />
-            </div>
-            <div>
-              <label htmlFor="adress">Country</label>
-              <input type="text" name="country" onChange={this.handleChange} />
-              <label htmlFor="adress">Zip</label>
-              <input type="text" name="zip" onChange={this.handleChange} />
-            </div>
-            <div>
-              <label htmlFor="adress">Telephone</label>
-              <input
-                type="text"
-                name="telephone"
-                onChange={this.handleChange}
-              />
-            </div>
-            <div>
-              <div />
+              <div className="form-item">
+                <label htmlFor="adress">Telephone</label>
+                <input
+                  type="text"
+                  name="telephone"
+                  onChange={this.handleChange}
+                />
+              </div>
             </div>
           </form>
-          <StripeCheckout
-            token={this.onToken}
-            stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
-            amount={subTotal}
-          />
+          <div className="checkout-button-container">
+            <StripeCheckout
+              token={this.onToken}
+              stripeKey="pk_test_HooeFoS7quAixEoIaZpFxvas00lGh0PGd8"
+              amount={subTotal}
+            />
+          </div>
 
-          <button type="button" onClick={() => this.props.closePopup()}>
+          <button
+            className="popup-close-button"
+            type="button"
+            onClick={() => this.props.closePopup()}
+          >
             Cancel
           </button>
         </div>

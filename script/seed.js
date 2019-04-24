@@ -79,9 +79,15 @@ function userInfoFactory(N) {
     const resetPassword = getRandomInteger(10) === 0
     usersArr.push({email, password, userType: 'user', resetPassword})
   }
+  // set the first user to admin
   usersArr[0].email = 'admin@admin.com'
   usersArr[0].userType = 'admin'
-  usersArr[0].resetPassword = false // set the first user to admin
+  usersArr[0].resetPassword = false
+
+  // set the second user to admin
+  usersArr[1].email = 'user@user.com'
+  usersArr[1].userType = 'user'
+  usersArr[1].resetPassword = false
   return usersArr
 }
 
@@ -291,12 +297,33 @@ function orderFactory(N) {
       tracking = faker.random.uuid()
     }
 
+    const firstName = faker.name.firstName()
+    const lastName = faker.name.lastName()
+    const address1 = faker.address.streetAddress()
+    const address2 = faker.address.secondaryAddress()
+    const company = faker.company.companyName()
+    const city = faker.address.city()
+    const state = faker.address.state()
+    const zip = faker.address.zipCode()
+    const country = faker.address.country()
+    const telephone = faker.phone.phoneNumber()
+
     orders.push({
       userId,
       sessionId,
       status,
       tracking,
-      checkoutDate
+      checkoutDate,
+      firstName,
+      lastName,
+      address1,
+      address2,
+      company,
+      city,
+      country,
+      state,
+      zip,
+      telephone
     })
   }
 
