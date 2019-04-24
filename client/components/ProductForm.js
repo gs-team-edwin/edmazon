@@ -14,12 +14,13 @@ class productForm extends Component {
     if (this.props.title) {
       title = this.props.title
       description = this.props.description
-      price = this.props.price
+      price = (this.props.price / 100).toFixed(2)
       quantityOnHand = this.props.quantityOnHand
       photo = ''
-      categories = this.props.categories
-        .map(category => category.name)
-        .join(', ')
+      categories = this.props.globalCategories.map(category => ({
+        id: category.id,
+        checked: false
+      }))
     } else {
       title = ''
       description = ''
@@ -37,12 +38,14 @@ class productForm extends Component {
   }
 
   render() {
+    console.log('this.state.categories', this.state.categories)
+    console.log('this.props.categories', this.props.categories)
     return (
       <div className="popup-outer-container">
         <div className="popup">
           <form onSubmit={this.props.handleSubmit} name={name}>
             <div className="form-item">
-              <small>Title</small>
+              <label>Title</label>
               <input
                 className="bigger"
                 onChange={evt => this.handleChange(evt)}
@@ -52,7 +55,7 @@ class productForm extends Component {
               />
             </div>
             <div className="form-item">
-              <small>Description</small>
+              <label>Description</label>
               <textarea
                 className="bigger"
                 onChange={evt => this.handleChange(evt)}
@@ -63,7 +66,7 @@ class productForm extends Component {
             </div>
             <div className="form-item-row">
               <div className="form-item">
-                <small>Price</small>
+                <label>Price (Float, 2 places)</label>
                 <input
                   className=""
                   onChange={evt => this.handleChange(evt)}
@@ -73,7 +76,7 @@ class productForm extends Component {
                 />
               </div>
               <div className="form-item">
-                <small>Quantity</small>
+                <label>Quantity</label>
                 <input
                   className=""
                   onChange={evt => this.handleChange(evt)}
@@ -84,7 +87,7 @@ class productForm extends Component {
               </div>
             </div>
             <div className="form-item">
-              <small>New Photo URL</small>
+              <label>New Photo URL</label>
               <input
                 className="bigger"
                 onChange={evt => this.handleChange(evt)}
@@ -93,16 +96,19 @@ class productForm extends Component {
                 type="text"
               />
             </div>
-            <div className="form-item">
-              <small>Categories</small>
-              <input
-                className="bigger"
-                onChange={evt => this.handleChange(evt)}
-                name="categories"
-                value={this.state.categories}
-                type="text"
-              />
+            <div className="form-item-checkboxes">
+              {this.props.categories.map(category => {
+                return (
+                  <div key={category.id} className="category-selector-row">
+                    <span className="category-selector-label">
+                      {category.name}
+                    </span>
+                    <input type="checkbox" className="form-checkbox" />
+                  </div>
+                )
+              })}
             </div>
+
             <div className="form-item">
               <button className="popup-form-button" type="submit">
                 Submit
@@ -122,6 +128,12 @@ class productForm extends Component {
   }
 }
 
+const mapState = state => {
+  return {
+    globalCategories: state.categories
+  }
+}
+
 const mapDispatch = dispatch => {
   return {
     closePopup: () => {
@@ -130,4 +142,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(null, mapDispatch)(productForm)
+export default connect(mapState, mapDispatch)(productForm)

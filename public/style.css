@@ -247,6 +247,20 @@ button {
 .checkout-button-container {
   margin: 10px;
 }
+.category-selector-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.category-selector-label {
+  font-size: 16px;
+}
+.category-selector-label input {
+}
+.popup input.form-checkbox {
+  width: 20px;
+  height: 20px;
+}
 
 /* product card */
 .product-container {
@@ -423,7 +437,7 @@ button {
   flex-direction: column;
   align-items: center;
 }
-.admin-button-box button {
+.admin-button-box > button {
   color: var(--dark-color);
   margin: 5px;
   padding: 8px;
