@@ -1,0 +1,82 @@
+PRESENTATION
+
+SECTION 1 - DEMO
+
+Intro
+  Edmazon sells DVDs of programming courses from Fullstack's greatest teaching fellow
+
+  We got through pretty much all of the requirements with a couple of bugs still to squash
+
+  We won't go through everything
+
+Unauthorized User features
+  Homepage
+  Pagination on all products
+  Viewing by category
+  Searching
+  Single product view
+  Seeing different photos
+  Adding to cart
+  Removing from cart
+  Changing quantities in cart
+Logged in users
+  Combining carts upon logging in
+  Past orders
+  Showing the historical purchase price if product was on sale
+  Writing reviews
+  Checkout
+Admin users
+  Editing product (category edit is broken)
+  Admin menu
+  Adding product (same as edit)
+  Manage orders
+    Can see all orders and filter
+    Can view an inidivudal order
+    Can change its status
+  Managing users
+    Can set users as admin or not
+    Can delete users
+    Can see a user's orders
+    Can require a user to reset password
+      (Demo this for user@user.com)
+  Reset password prompt
+
+SECTION 2 - WALK THROUGH CODE
+
+  BARRY explain order model
+  THOMAS - Cleanest architecture
+    Quality of the seed file
+    the orders seed function makes sure the data in the table is properly constrained by our rules
+    THOMAS - Best test
+  JON - proud of popups. proud of route security
+  JON - most technical debt is in the index.js in server/auth for combining carts
+
+SECTION 3 - SINGLE SMALL FEATURE
+  Password reset for users
+
+SECTION 4 - HIGH LEVEL TAKEAWAYS
+  Success
+    Stand ups great for delegation
+    refactoring components
+
+  Collaboration
+    Barry and Jon did a lot of unnecessary bikeshedding at beginning
+    Premature optimization
+    Should have waited to have some of those disccussions
+      Example: getters and setters on prices
+      Jon "won" and Barry wrote them, but then jon forgot to use them...
+
+    Overcorrect
+
+  Architecture
+    Planned out the DB, but never planned API routes or strucutre of the redux store
+    Lack of correct mapping between the API routes, redux store, and front end routes
+
+  Investments that paid off
+    Seed file & test specs
+    Models
+    Popup
+
+  Overplanned
+    Jonathan on the stars :)
+

@@ -43,7 +43,6 @@ function titleCase(phrase) {
     .map(titleCaseWord)
     .join(' ')
 }
-
 // shuffle array using fisher-yates
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i -= 1) {
@@ -147,7 +146,6 @@ function productInfoFactory(N) {
       'OCaml',
       'Ruby',
       'Visual Basic',
-      'Brainfuck',
       'Go',
       '.NET',
       'RegEx',
