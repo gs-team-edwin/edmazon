@@ -173,6 +173,12 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-right: 10px;
+}
+.form-item-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .popup-form-button {
   color: var(--dark-color);
@@ -213,6 +219,33 @@ button {
 .popup label {
   font-size: 14pt;
   margin-top: 10px;
+}
+.popup input.bigger {
+  width: 400px;
+  background-color: var(--light-color);
+  font-size: 12pt;
+  height: 31px;
+  border-radius: 5px 5px 5px 5px;
+  border: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 3px;
+  border: 1px solid var(--dark-accent-color);
+}
+.popup textarea {
+  width: 400px;
+  height: 100px;
+  background-color: var(--light-color);
+  font-size: 12pt;
+  border-radius: 5px 5px 5px 5px;
+  border: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 3px;
+  border: 1px solid var(--dark-accent-color);
+}
+.checkout-button-container {
+  margin: 10px;
 }
 
 /* product card */

@@ -44,6 +44,7 @@ class productForm extends Component {
             <div className="form-item">
               <small>Title</small>
               <input
+                className="bigger"
                 onChange={evt => this.handleChange(evt)}
                 name="title"
                 value={this.state.title}
@@ -52,34 +53,40 @@ class productForm extends Component {
             </div>
             <div className="form-item">
               <small>Description</small>
-              <input
+              <textarea
+                className="bigger"
                 onChange={evt => this.handleChange(evt)}
                 name="description"
                 value={this.state.description}
                 type="text"
               />
             </div>
-            <div className="form-item">
-              <small>Price</small>
-              <input
-                onChange={evt => this.handleChange(evt)}
-                name="price"
-                value={this.state.price}
-                type="text"
-              />
+            <div className="form-item-row">
+              <div className="form-item">
+                <small>Price</small>
+                <input
+                  className=""
+                  onChange={evt => this.handleChange(evt)}
+                  name="price"
+                  value={this.state.price}
+                  type="number"
+                />
+              </div>
+              <div className="form-item">
+                <small>Quantity</small>
+                <input
+                  className=""
+                  onChange={evt => this.handleChange(evt)}
+                  name="quantityOnHand"
+                  value={this.state.quantityOnHand}
+                  type="number"
+                />
+              </div>
             </div>
             <div className="form-item">
-              <small>Quantity</small>
+              <small>New Photo URL</small>
               <input
-                onChange={evt => this.handleChange(evt)}
-                name="quantityOnHand"
-                value={this.state.quantityOnHand}
-                type="text"
-              />
-            </div>
-            <div className="form-item">
-              <small>Add Photo</small>
-              <input
+                className="bigger"
                 onChange={evt => this.handleChange(evt)}
                 name="photo"
                 value={this.state.photo}
@@ -89,6 +96,7 @@ class productForm extends Component {
             <div className="form-item">
               <small>Categories</small>
               <input
+                className="bigger"
                 onChange={evt => this.handleChange(evt)}
                 name="categories"
                 value={this.state.categories}
@@ -96,7 +104,7 @@ class productForm extends Component {
               />
             </div>
             <div className="form-item">
-              <button className="admin-button" type="submit">
+              <button className="popup-form-button" type="submit">
                 Submit
               </button>
             </div>
