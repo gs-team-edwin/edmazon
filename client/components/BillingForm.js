@@ -24,7 +24,6 @@ class BillingForm extends React.Component {
   async onToken(token) {
     await this.props.payForProducts(this.props.orderId, token, this.state)
     this.props.closePopup()
-    // await this.props.confirmOrder(this.props.orderId, this.state)
   }
 
   handleChange = event => {
@@ -38,7 +37,7 @@ class BillingForm extends React.Component {
       <div className="popup-outer-container">
         <div className="popup">
           <form onSubmit={this.handleSubmit}>
-            <h1>Shipping and Billing Address</h1>
+            <h4>Shipping Address</h4>
             <div>
               <label htmlFor="name">First Name</label>
               <input
@@ -50,27 +49,27 @@ class BillingForm extends React.Component {
               <input type="text" name="lastName" onChange={this.handleChange} />
             </div>
             <div>
-              <label htmlFor="adress">Address</label>
+              <label>Address</label>
               <input type="text" name="address1" onChange={this.handleChange} />
             </div>
             <div>
-              <label htmlFor="adress">Address</label>
+              <label>Address 2</label>
               <input type="text" name="address2" onChange={this.handleChange} />
             </div>
             <div>
-              <label htmlFor="adress">Company</label>
+              <label>Company</label>
               <input type="text" name="company" onChange={this.handleChange} />
             </div>
             <div>
-              <label htmlFor="adress">City</label>
+              <label>City</label>
               <input type="text" name="city" onChange={this.handleChange} />
-              <label htmlFor="adress">State</label>
+              <label>State</label>
               <input type="text" name="state" onChange={this.handleChange} />
             </div>
             <div>
-              <label htmlFor="adress">Country</label>
+              <label>Country</label>
               <input type="text" name="country" onChange={this.handleChange} />
-              <label htmlFor="adress">Zip</label>
+              <label>Zip</label>
               <input type="text" name="zip" onChange={this.handleChange} />
             </div>
             <div>
@@ -81,9 +80,6 @@ class BillingForm extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div>
-              <div />
-            </div>
           </form>
           <StripeCheckout
             token={this.onToken}
@@ -91,7 +87,11 @@ class BillingForm extends React.Component {
             amount={subTotal}
           />
 
-          <button type="button" onClick={() => this.props.closePopup()}>
+          <button
+            className="popup-close-button"
+            type="button"
+            onClick={() => this.props.closePopup()}
+          >
             Cancel
           </button>
         </div>
