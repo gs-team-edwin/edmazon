@@ -20,24 +20,46 @@ class EditProduct extends Component {
     const photo = evt.target.photo.value
     //const categories = evt.target.categories.value
     const product = this.props.product
-    this.props.editProduct({title: title, description: description, price: price, quantityOnHand: quantityOnHand, photo: photo, product: product})
+    this.props.editProduct({
+      title: title,
+      description: description,
+      price: price,
+      quantityOnHand: quantityOnHand,
+      photo: photo,
+      product: product
+    })
     this.props.closePopup()
   }
   render() {
-    let {title, description, price, quantityOnHand, photo, categories} = this.props.product
+    let {
+      title,
+      description,
+      price,
+      quantityOnHand,
+      photo,
+      categories
+    } = this.props.product
     return (
       <div>
-        <ProductForm handleSubmit = {this.handleSubmit} title={title} description={description} price={price} quantityOnHand={quantityOnHand} photo={photo} categories={categories} />
+        <ProductForm
+          handleSubmit={this.handleSubmit}
+          title={title}
+          description={description}
+          price={price}
+          quantityOnHand={quantityOnHand}
+          photo={photo}
+          categories={categories}
+        />
       </div>
     )
   }
 }
 
 const mapState = state => {
-    return {
-      selectedProduct: state.selectedProduct,
-    }
+  return {
+    selectedProduct: state.selectedProduct
   }
+}
 
 const mapDispatch = dispatch => {
   return {
