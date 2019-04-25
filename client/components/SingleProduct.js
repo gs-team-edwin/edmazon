@@ -40,7 +40,7 @@ const mapStateToProps = state => {
 
 const mapDispatch = dispatch => {
   return {
-    gotSingleProduct: input => dispatch(getSingleProduct(input))
+    gotSingleProduct: productId => dispatch(getSingleProduct(productId))
   }
 }
 
