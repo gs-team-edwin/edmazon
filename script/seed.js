@@ -18,7 +18,7 @@ const faker = require('faker')
  *      GLOBAL CONSTANTS
  ***********************************/
 
-const N = 1000
+const N = 100
 const PHOTO_COUNT = 3
 const CATEGORY_COUNT = 5
 
@@ -360,13 +360,13 @@ function productCategoryFactory(N, CATEGORY_COUNT) {
   for (let i = 0; i < N; i++) {
     // make sure every product is in a category
     const productId = i + 1
-    let categoryId = i % CATEGORY_COUNT + 1
+    let categoryId = (i % CATEGORY_COUNT) + 1
     productCategoryArr.push({productId, categoryId})
 
     // randomly add 1 more category to some products
     const numberToAdd = getRandomInteger(4) + 1
     for (let x = 0; x < numberToAdd; x++) {
-      categoryId = (categoryId + 1) % CATEGORY_COUNT + 1
+      categoryId = ((categoryId + 1) % CATEGORY_COUNT) + 1
       productCategoryArr.push({productId, categoryId})
     }
   }
@@ -393,7 +393,7 @@ async function ordersProductsFactory(N) {
     for (let x = 0; x < numberOfProducts; x++) {
       // set up the easy stuff
       const orderId = i + 1
-      productId = (productId + 1) % N + 1 // make sure we don't duplicate products
+      productId = ((productId + 1) % N) + 1 // make sure we don't duplicate products
       const quantity = getRandomInteger(5) + 1
 
       // get the purchased status for this order
@@ -428,7 +428,7 @@ function photosProductsFactory(N, PHOTO_COUNT) {
     let numExtraPhotosToAdd = getRandomInteger(3) + 1
     for (let x = 0; x < numExtraPhotosToAdd; x += 1) {
       const productId = i + 1
-      photoId = (photoId + 1) % PHOTO_COUNT + 1
+      photoId = ((photoId + 1) % PHOTO_COUNT) + 1
       photosProductsArr.push({photoId, productId})
     }
   }
