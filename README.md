@@ -7,9 +7,9 @@ Edmazon is a fully functioning sample ecommerce site. The site can be found live
 
 # Dependencies
 
--[React](https://reactjs.org/docs) - Framework
--[Stripe](https://stripe.com/docs) - Payment processing
--[Passport](http://www.passportjs.org/docs/) - Authetication integration with Google accounts
+- [React](https://reactjs.org/docs) - Framework
+- [Stripe](https://stripe.com/docs) - Payment processing
+- [Passport](http://www.passportjs.org/docs/) - Authetication integration with Google accounts
 
 
 # Setup
